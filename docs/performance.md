@@ -172,3 +172,25 @@ Validation includes 48 ILU cases, 72 existing sphere comparisons, 24 additional
 mixed-element/reflection/adaptive/multiple-frequency comparisons, and four
 benchmark resource/cleanup guard tests. Full measurements and source hashes are
 in [the D-stage record](../benchmarks/parallel-d-2026-10-12.json).
+
+
+## Follow-up: parallel T assembly
+
+T-matrix and incident T-vector assembly now assign each cluster its own CSR
+block. Gaussian-rule scratch is thread-local and reset for each cluster;
+within-cluster element and integration order are unchanged. Each cluster's
+final address is verified after assembly.
+
+Against the preceding D-assembly version:
+
+| Frequency | Parallel D | Parallel D + T | Whole-job improvement | Samples per variant |
+| --- | ---: | ---: | ---: | ---: |
+| 4 kHz | 47.82 s | 46.21 s | 3.4% | 3, median |
+| 24 kHz | 834.79 s | 732.39 s | 12.3% | 1 |
+
+All field bytes and convergence records matched, including the 48 ILU,
+72 sphere, and 24 extended regression comparisons. High-frequency whole-job
+times varied between runs of the same control binary; these stage measurements
+remain single-run observations pending the final three-pair comparison.
+See [the T-stage record](../benchmarks/parallel-t-2026-10-12.json) for phase times,
+source hashes, and all samples.

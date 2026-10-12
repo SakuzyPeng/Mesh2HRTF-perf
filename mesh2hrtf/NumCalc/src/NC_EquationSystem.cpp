@@ -83,7 +83,7 @@ thread_local int Ifcrh3;
 double Gama3;
 Complex zBta3;
 const int GauFMBOrd3 = 2;
-double csiFMgau[GauFMBOrd3*GauFMBOrd3], etaFMgau[GauFMBOrd3*GauFMBOrd3], weiFMgau[GauFMBOrd3*GauFMBOrd3];
+thread_local double csiFMgau[GauFMBOrd3*GauFMBOrd3], etaFMgau[GauFMBOrd3*GauFMBOrd3], weiFMgau[GauFMBOrd3*GauFMBOrd3];
 extern bool adapt_fmmlength_;
 
 // the main program for seting up the equation system
@@ -717,47 +717,37 @@ void NC_BuildNforSLFMM
 // compute the T-matrix and the T-vector for ML-FMM
 void NC_BuildTforMLFMM
 (
-	ofstream& NCout
- )
+    ofstream& NCout
+)
 {
-    int i, j, k, nelj, irownu, ientry, iadrek = 0, ndofi, inod0 = 0, idfs, ncldofi, jdifdar;
-    double *cencli;
-    int ifvcj, nfmgp;
-    
-    int nrf_cl, rfa_cl, nlv, nPoSphe, nClustL, nrowT;
-    double dfa_cl;
-    bool mir_cl;
-    Vector<bool> rfdi_cl(NDIM);
-    
-    ElCluster *clustArraLn;
-    Complex *zTvcLn, *zTmxLn;
-    int *irowTmxLn;
-    
-    // contribution of the element to the T-vector and the T-matrix
-    Vector<Complex> TVele(clulevarry[0].nPoinSpheLv), TMele(clulevarry[0].nPoinSpheLv);
-    
-    // loop over cluster levels
-    for(nlv=0; nlv<numClusterLevels_; nlv++)
+    for(int nlv=0; nlv<numClusterLevels_; ++nlv)
     {
-        // assign the parameters and arrays
-        nPoSphe = clulevarry[nlv].nPoinSpheLv;
-        nClustL = clulevarry[nlv].nClustSLv;
-        nrowT = nPoSphe*nClustL;
-        clustArraLn = clulevarry[nlv].ClastArLv;
-        zTvcLn = tmtxlev[nlv].zTvcLv;
-        zTmxLn = tmtxlev[nlv].zTmxLv;
-        irowTmxLn = tmtxlev[nlv].irowTmxLv;
-        
-        // initialize the T-vector
-        if(boolComputeTVector_) for(i=0; i<nrowT; i++) zTvcLn[i].set(0.0, 0.0);
-        
-        // initialize the T-matrix
-        for(i=0; i<irowTmxLn[nrowT]; i++) zTmxLn[i].set(0.0, 0.0);
-        
-        // loop over clusters of the current level
-        irownu = ientry = 0;
-        for(i=0; i<nClustL; i++)
+        const int nPoSphe = clulevarry[nlv].nPoinSpheLv;
+        const int nClustL = clulevarry[nlv].nClustSLv;
+        ElCluster* clustArraLn = clulevarry[nlv].ClastArLv;
+        Complex* zTvcLn = tmtxlev[nlv].zTvcLv;
+        Complex* zTmxLn = tmtxlev[nlv].zTmxLv;
+        int* irowTmxLn = tmtxlev[nlv].irowTmxLv;
+        int bad_address = -1;
+#pragma omp parallel if(omp_get_max_threads()>1)
         {
+            int j, k, nelj, iadrek, ndofi, inod0, idfs, ncldofi, jdifdar;
+            int ifvcj, nfmgp, nrf_cl, rfa_cl;
+            double* cencli;
+            double dfa_cl;
+            bool mir_cl;
+            Vector<bool> rfdi_cl(NDIM);
+            Vector<Complex> TVele(clulevarry[0].nPoinSpheLv), TMele(clulevarry[0].nPoinSpheLv);
+#pragma omp for schedule(dynamic,1)
+            for(int i=0; i<nClustL; ++i)
+            {
+                const int irownu = i*nPoSphe;
+                const int ientry = irowTmxLn[irownu];
+                if(boolComputeTVector_)
+                    for(k=0; k<nPoSphe; ++k) zTvcLn[irownu+k].set(0.0, 0.0);
+                for(k=ientry; k<irowTmxLn[irownu+nPoSphe]; ++k) zTmxLn[k].set(0.0, 0.0);
+            inod0 = 0;
+            iadrek = ientry - 1;
             // cluster parameters
             idfs = clustArraLn[i].NDOFsPeEl;
             nrf_cl = clustArraLn[i].nuref;
@@ -838,17 +828,17 @@ void NC_BuildTforMLFMM
                     if(ifvcj) zTvcLn[irownu + k] += TVele[k];
                 }
             } // end of loop J
-            irownu += nPoSphe;
-            ientry += nPoSphe*ncldofi;
-        } // end of loop I
-        
-        if(irowTmxLn[nrowT] != iadrek + 1)
-        {
-            NC_Error_Exit_2(NCout, "iadrek + 1 must be equal to irowTmxLn[nrowT]!",
-                            "irowTmxLn[nrowT] = ", irowTmxLn[nrowT],
-                            "iadrek = ", iadrek);
+
+                if(irowTmxLn[irownu+nPoSphe] != iadrek+1)
+                {
+#pragma omp critical(MradmTAddressError)
+                    { if(bad_address < 0) bad_address = i; }
+                }
+            }
         }
-    } // end of loop NLV
+        if(bad_address >= 0)
+            NC_Error_Exit_1(NCout, "Invalid cluster block in T matrix CSR layout", "cluster = ", bad_address);
+    }
 }
 
 // compute the D-matrices for ML-FMM  (see eq. (18), (26) in [1])
