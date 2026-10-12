@@ -275,3 +275,22 @@ workspace/partition changes are not in the default solver.
 [Measurements and validation](../benchmarks/spmv-reuse-2026-10-12.json) and a
 [reproduction patch against `1e086b2`](../benchmarks/experiments/spmv-reuse.patch)
 are retained as experiment records.
+
+
+## SpMV experiment: all-level transposed T layout (not adopted)
+
+The second experiment copied each level's T vector into direction-major order
+and used the cluster neighbor lists in D multiplication, preserving the exact
+per-row arithmetic order. Transpose work was included in the measured SpMV time.
+All 48/72/24 regressions and full-head output/convergence comparisons passed.
+
+At 4 kHz the whole-job median changed from 43.20 s to 44.40 s (2.8% slower).
+At 24 kHz the single comparison changed from 683.62 s to 667.32 s (2.4% faster),
+with a 3.5% reduction in combined preconditioner/SpMV time. The whole-job gain
+fell below the 3% threshold. Coarsest-level D multiplication benefited, while
+finer-level work and copying offset some of that improvement; a coarse-only
+refinement is tested separately.
+
+[Measurements and validation](../benchmarks/spmv-all-level-layout-2026-10-12.json)
+and a [reproduction patch](../benchmarks/experiments/spmv-all-level-layout.patch)
+are retained. This all-level layout is not in the default solver.
