@@ -1,0 +1,195 @@
+--- a/mesh2hrtf/NumCalc/src/NC_CommonFunctions.cpp
++++ b/mesh2hrtf/NumCalc/src/NC_CommonFunctions.cpp
+@@ -19,13 +19,13 @@
+ static double mradm_row_work[64][128]={},mradm_row_wait[64][128]={};
+ static unsigned mradm_row_samples[64][128]={};
+ struct MradmThreadPhase {
+-    int stage,thread;double begin;
+-    explicit MradmThreadPhase(int s):stage(s),thread(omp_get_thread_num()),begin(omp_get_wtime()){}
++    int stage,thread;bool sampling;double begin;
++    explicit MradmThreadPhase(int s):stage(s),thread(omp_get_thread_num()),sampling(mradm_matvec_calls>=1 && mradm_matvec_calls<25),begin(sampling?omp_get_wtime():0.){}
+     void finish(){
+-        const double work_end=omp_get_wtime();
++        const double work_end=sampling?omp_get_wtime():0.;
+ #pragma omp barrier
+-        const double barrier_end=omp_get_wtime();
+-        if(mradm_matvec_calls>=1 && mradm_matvec_calls<25 && stage<64 && thread<128){
++        const double barrier_end=sampling?omp_get_wtime():0.;
++        if(sampling && stage<64 && thread<128){
+             mradm_row_work[stage][thread]+=work_end-begin;
+             mradm_row_wait[stage][thread]+=barrier_end-work_end;
+             ++mradm_row_samples[stage][thread];
+@@ -41,8 +41,13 @@
+ static MradmThreadReport mradm_thread_report;
+ 
+ #include <utility>
+-static std::pair<int,int> mradm_balanced_rows(int rows,const int* offsets,const int* extra=nullptr){
++struct MradmRowSpan {
++    int threads = 0;
++    std::pair<int,int> rows;
++};
++static std::pair<int,int> mradm_balanced_rows(MradmRowSpan* cached,int rows,const int* offsets,const int* extra=nullptr){
+     const int thread=omp_get_thread_num(),threads=omp_get_num_threads();
++    if(cached && cached->threads == threads) return cached->rows;
+     auto prefix=[&](int row)->long long{return static_cast<long long>(offsets[row])+(extra?static_cast<long long>(extra[row]):0LL);};
+     const long long base=prefix(0),total=prefix(rows)-base;
+     auto boundary=[&](int t)->int{
+@@ -52,7 +57,9 @@
+         while(low<high){const int mid=low+(high-low)/2;if(prefix(mid)<target)low=mid+1;else high=mid;}
+         return low;
+     };
+-    return std::make_pair(boundary(thread),boundary(thread+1));
++    const auto result = std::make_pair(boundary(thread),boundary(thread+1));
++    if(cached) { cached->rows = result; cached->threads = threads; }
++    return result;
+ }
+ 
+ 
+@@ -84,8 +91,24 @@
+ 
+ 
+ 
++// Scratch is owned by one CGS solve and never survives a frequency change.
++struct MradmMatvecWorkspace {
++    int width;
++    Vector<Complex> ztmp, zvc_t, zvc_d;
++    std::vector<MradmRowSpan> partitions;
++    MradmMatvecWorkspace() : width(std::max(1, omp_get_max_threads())),
++        ztmp(numRowsOfCoefficientMatrix_),
++        zvc_t(methodFMM_ == 1 ? numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_ : 0),
++        zvc_d(methodFMM_ == 1 ? dmtxlev[0].nRowsD : 0),
++        partitions((4+3*std::max(1, numClusterLevels_))*width) {}
++    MradmRowSpan* partition(int stage) {
++        const int thread = omp_get_thread_num();
++        return thread < width ? &partitions[stage*width+thread] : nullptr;
++    }
++};
++
+ //  Local functions
+-void NC_MatrixVectorMultiplication(Vector<Complex>&, Vector<Complex>&);
++void NC_MatrixVectorMultiplication(Vector<Complex>&, Vector<Complex>&, MradmMatvecWorkspace&);
+ void NC_ComputeScalingVector(ofstream&);
+ void NC_IncompleteLUDecomposition(ofstream&);
+ void NC_DeleteIncompleteLUMatrices();
+@@ -1126,6 +1149,7 @@
+ 	ofstream& NCout
+ )
+ {
++    MradmMatvecWorkspace workspace;
+ 	Vector<Complex> zX_j(numRowsOfCoefficientMatrix_), zR_0(numRowsOfCoefficientMatrix_), zR_j(numRowsOfCoefficientMatrix_), zP_j(numRowsOfCoefficientMatrix_), zV_j(numRowsOfCoefficientMatrix_),
+ 		zQ_j(numRowsOfCoefficientMatrix_), zU_j(numRowsOfCoefficientMatrix_), zUQ_j(numRowsOfCoefficientMatrix_), zAUQ_j(numRowsOfCoefficientMatrix_);
+ 	int i, j;
+@@ -1154,7 +1178,7 @@
+ 	  zX_j[j].set(0.0,0.0);
+ 	}
+ 
+-	NC_MatrixVectorMultiplication(zX_j, zV_j);
++	NC_MatrixVectorMultiplication(zX_j, zV_j, workspace);
+ 
+ 	//see if the ILU-preconditioning matrix is almost singular
+ 	if(!methodPreconditioner_)
+@@ -1183,7 +1207,7 @@
+ 
+ 	for(j=0; j<=niter_max_; j++)
+ 	{
+-		NC_MatrixVectorMultiplication(zP_j, zV_j);
++		NC_MatrixVectorMultiplication(zP_j, zV_j, workspace);
+ 
+ 		if(j==0) {zrjr0 = zR_j*zR_0;} else {zrjr0 = zrjr1;}
+ 		zalph = zrjr0/(zV_j*zR_0);
+@@ -1191,7 +1215,7 @@
+ 		for(i=0; i<numRowsOfCoefficientMatrix_; i++) zQ_j[i] = zU_j[i] - zalph*zV_j[i];
+ 		zUQ_j = zU_j + zQ_j;
+ 
+-		NC_MatrixVectorMultiplication(zUQ_j, zAUQ_j);
++		NC_MatrixVectorMultiplication(zUQ_j, zAUQ_j, workspace);
+ 
+ 		dwk1 = 0;
+ 		for(i=0; i<numRowsOfCoefficientMatrix_; i++)
+@@ -1268,11 +1292,11 @@
+ // compute the product of the coefficient matrix and a vector
+ // Replacement for the existing function only. Per-row summation order,
+ // preconditioning, CGS reductions and FMM level order remain unchanged.
+-void NC_MatrixVectorMultiplication(Vector<Complex>& zmultvect,Vector<Complex>& zresuvect)
++void NC_MatrixVectorMultiplication(Vector<Complex>& zmultvect,Vector<Complex>& zresuvect, MradmMatvecWorkspace& workspace)
+ {
+     const auto begin=std::chrono::steady_clock::now();
+     int i,j,k,ilv;
+-    Vector<Complex> ztmp(numRowsOfCoefficientMatrix_);
++    Vector<Complex>& ztmp = workspace.ztmp;
+     switch(methodPreconditioner_) {
+     case 0:NC_IncompleteLUForBack(NCout,zmultvect,ztmp);break;
+     case 1:
+@@ -1291,7 +1315,8 @@
+         }
+         break;
+     case 1: {
+-        Vector<Complex> zvc_t(numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_),zvc_d(dmtxlev[0].nRowsD);
++        Vector<Complex>& zvc_t = workspace.zvc_t;
++        Vector<Complex>& zvc_d = workspace.zvc_d;
+ #ifdef MRADM_ENABLE_OMP
+ #pragma omp parallel if(omp_get_max_threads()>1) private(i,j)
+ #endif
+@@ -1300,7 +1325,7 @@
+ #pragma omp master
+             {mradm_seen_threads=omp_get_num_threads();}
+ { MradmThreadPhase mradm_phase(0);
+-const auto mradm_span=mradm_balanced_rows(numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_,irowtmtx);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(0),numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_,irowtmtx);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP
+@@ -1318,7 +1343,7 @@
+ 
+ #ifdef MRADM_ENABLE_OMP
+ { MradmThreadPhase mradm_phase(1);
+-const auto mradm_span=mradm_balanced_rows(dmtxlev[0].nRowsD,dmtxlev[0].irowDmxLv);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(1),dmtxlev[0].nRowsD,dmtxlev[0].irowDmxLv);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP
+@@ -1337,7 +1362,7 @@
+ 
+ #ifdef MRADM_ENABLE_OMP
+ { MradmThreadPhase mradm_phase(2);
+-const auto mradm_span=mradm_balanced_rows(numRowsOfCoefficientMatrix_,irownea,irowsmtx);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(2),numRowsOfCoefficientMatrix_,irownea,irowsmtx);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP
+@@ -1366,7 +1391,7 @@
+ #pragma omp master
+             {mradm_seen_threads=omp_get_num_threads();}
+ { MradmThreadPhase mradm_phase(3);
+-const auto mradm_span=mradm_balanced_rows(numRowsOfCoefficientMatrix_,irownea);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(3),numRowsOfCoefficientMatrix_,irownea);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP
+@@ -1385,7 +1410,7 @@
+             for(ilv=0;ilv<numClusterLevels_;ilv++) {
+ #ifdef MRADM_ENABLE_OMP
+ { MradmThreadPhase mradm_phase(4+3*ilv);
+-const auto mradm_span=mradm_balanced_rows(clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv,tmtxlev[ilv].irowTmxLv);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(4+3*ilv),clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv,tmtxlev[ilv].irowTmxLv);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP
+@@ -1404,7 +1429,7 @@
+ 
+ #ifdef MRADM_ENABLE_OMP
+ { MradmThreadPhase mradm_phase(5+3*ilv);
+-const auto mradm_span=mradm_balanced_rows(dmtxlev[ilv].nRowsD,dmtxlev[ilv].irowDmxLv);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(5+3*ilv),dmtxlev[ilv].nRowsD,dmtxlev[ilv].irowDmxLv);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP
+@@ -1423,7 +1448,7 @@
+ 
+ #ifdef MRADM_ENABLE_OMP
+ { MradmThreadPhase mradm_phase(6+3*ilv);
+-const auto mradm_span=mradm_balanced_rows(numRowsOfCoefficientMatrix_,smtxlev[ilv].irowSmxLv);
++const auto mradm_span=mradm_balanced_rows(workspace.partition(6+3*ilv),numRowsOfCoefficientMatrix_,smtxlev[ilv].irowSmxLv);
+ #endif
+ 
+ #ifdef MRADM_ENABLE_OMP

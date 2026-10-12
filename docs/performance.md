@@ -257,3 +257,21 @@ allocator policy is changed by this fork.
 The benchmark helper exposes `--malloc-arenas` for isolated comparisons and
 records the requested value. Five resource/environment guard tests passed.
 Full data is in [the throughput record](../benchmarks/throughput-2026-10-12.json).
+
+
+## SpMV experiment: scratch and partition reuse (not adopted)
+
+A per-CGS workspace reused the preconditioner scratch vector, SLFMM work vectors,
+and row partitions; timer reads stopped after the sampling window while required
+barriers remained. All 48/72/24 regression cases and full-head field/convergence
+comparisons passed.
+
+The 4 kHz whole-job median changed from 42.60 s to 44.20 s (3.8% slower).
+The single 24 kHz comparison changed from 683.79 s to 679.16 s (0.7% faster).
+Combined preconditioner/SpMV time was essentially unchanged at 4 kHz and improved
+by only 0.9% at 24 kHz. This does not meet the 3% adoption threshold, so the
+workspace/partition changes are not in the default solver.
+
+[Measurements and validation](../benchmarks/spmv-reuse-2026-10-12.json) and a
+[reproduction patch against `1e086b2`](../benchmarks/experiments/spmv-reuse.patch)
+are retained as experiment records.
