@@ -14,12 +14,15 @@ Set ``OMP_NUM_THREADS`` explicitly when running NumCalc. The default HRTF build
 writes ``pEvalGrid``, ``pBoundary``, and ``vBoundary`` and omits ``vEvalGrid``.
 Rebuild with ``EVALUATION_VELOCITY=1`` when evaluation velocity is required.
 
-A sequential single-process 4 kHz head-mesh test improved from 366.10 s for the
-instrumented serial reference to 50.59 s with the combined eight-thread build.
-This includes algorithmic improvements and omitted velocity work. See
-`build options, measurements, and limitations <docs/performance.md>`_ and the
-`reproducible synthetic checks <tests/performance/README.md>`_. Whole-band
-throughput has not yet been measured.
+The accepted optimizations include parallel D/T assembly, parallel
+postprocessing, and a coarsest-level matrix-vector layout. In three paired
+eight-thread runs per frequency against the first performance release
+(``9b386dc``), median wall time changed from 51.03 s to
+44.00 s at 4 kHz and 915.66 s to
+627.50 s at 24 kHz. Pressure and boundary output bytes
+were identical. See `measurements, build options, and limitations
+<docs/performance.md>`_ and the `reproducible checks
+<tests/performance/README.md>`_. Whole-band throughput has not yet been measured.
 
 The original Mesh2HRTF overview and references follow.
 

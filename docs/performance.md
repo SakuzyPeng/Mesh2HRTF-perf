@@ -319,3 +319,32 @@ iteration counts, and residuals matched. Final repeated validation against
 
 [The coarse-layout record](../benchmarks/spmv-coarse-layout-2026-10-12.json)
 contains the source hashes, every timing sample, and numerical checks.
+
+
+## Final validation against the first performance release
+
+The accepted default implementation contains parallel D assembly, parallel T
+assembly and postprocessing T vectors, and the coarsest-level SpMV layout.
+Scratch/partition reuse and the all-level layout remain experiment records.
+
+Final control/candidate runs were interleaved on the same host with eight-thread
+affinity and identical compiler flags, inputs, and output mode. Each frequency
+was measured three times per version. Compared with `9b386dc`:
+
+| Frequency | Baseline median | Final median | Whole-job improvement |
+| --- | ---: | ---: | ---: |
+| 4 kHz | 51.03 s | 44.00 s | 13.8% |
+| 24 kHz | 915.66 s | 627.50 s | 31.5% |
+
+All twelve full-head runs retained identical pressure/boundary output bytes,
+iteration counts, and residuals. The final GCC build also passed 48 ILU inputs,
+144 sphere comparisons, and 48 extended comparisons across 1, 8, 16, and 32
+threads, including both evaluation-output modes. Five benchmark resource and
+environment guard tests passed. The EUPL-1.2 license is unchanged.
+
+[Final measurements, source hashes, and validation](../benchmarks/final-validation-2026-10-12.json)
+include every sample and the observed range. Process/thread throughput above
+was measured on the preceding assembly/post-T version; the final coarsest SpMV
+layout was not used to repeat that entire configuration sweep. Whole-band
+production remains paused, so no whole-band throughput or completion-time claim
+is made here.
