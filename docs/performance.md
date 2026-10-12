@@ -294,3 +294,28 @@ refinement is tested separately.
 [Measurements and validation](../benchmarks/spmv-all-level-layout-2026-10-12.json)
 and a [reproduction patch](../benchmarks/experiments/spmv-all-level-layout.patch)
 are retained. This all-level layout is not in the default solver.
+
+
+## Adopted SpMV refinement: coarsest-level T layout
+
+The default solver now uses the direction-major T copy only at the coarsest
+MLFMM level. Fine levels retain their original CSR reads. A workspace owned by
+one CGS solve holds the copy, so dimensions and addresses are refreshed for
+every frequency. Each row still traverses its original neighbor order; the
+producer/consumer barriers remain intact. This does not include the rejected
+scratch-vector or row-partition cache experiment.
+
+| Frequency | Parallel assembly/post-T control | Coarse-only layout | Whole-job change | Samples per variant |
+| --- | ---: | ---: | ---: | ---: |
+| 4 kHz | 42.60 s | 43.40 s | 1.9% slower | 3, median |
+| 24 kHz | 678.53 s | 630.99 s | 7.0% faster | 1 |
+
+Combined preconditioner/SpMV time fell from 22.34 s to 21.51 s at 4 kHz and
+479.98 s to 432.24 s at 24 kHz, including the transpose. The high-frequency
+whole-job gain exceeds 3%, with the low-frequency regression below 5%, meeting
+the predefined stage gate. All 48/72/24 regressions, pressure/boundary bytes,
+iteration counts, and residuals matched. Final repeated validation against
+`9b386dc` follows separately.
+
+[The coarse-layout record](../benchmarks/spmv-coarse-layout-2026-10-12.json)
+contains the source hashes, every timing sample, and numerical checks.

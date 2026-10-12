@@ -84,8 +84,19 @@ static std::pair<int,int> mradm_balanced_rows(int rows,const int* offsets,const 
 
 
 
+static int mradm_transpose_capacity()
+{
+    return methodFMM_ == 3 && numClusterLevels_ > 0 ? tmtxlev[0].nRowsT : 0;
+}
+
+// Scratch is owned by one CGS solve and never survives a frequency change.
+struct MradmMatvecWorkspace {
+    Vector<Complex> transposed_t;
+    MradmMatvecWorkspace() : transposed_t(mradm_transpose_capacity()) {}
+};
+
 //  Local functions
-void NC_MatrixVectorMultiplication(Vector<Complex>&, Vector<Complex>&);
+void NC_MatrixVectorMultiplication(Vector<Complex>&, Vector<Complex>&, MradmMatvecWorkspace&);
 void NC_ComputeScalingVector(ofstream&);
 void NC_IncompleteLUDecomposition(ofstream&);
 void NC_DeleteIncompleteLUMatrices();
@@ -1126,6 +1137,7 @@ void NC_IterativeSolverCGS
 	ofstream& NCout
 )
 {
+    MradmMatvecWorkspace workspace;
 	Vector<Complex> zX_j(numRowsOfCoefficientMatrix_), zR_0(numRowsOfCoefficientMatrix_), zR_j(numRowsOfCoefficientMatrix_), zP_j(numRowsOfCoefficientMatrix_), zV_j(numRowsOfCoefficientMatrix_),
 		zQ_j(numRowsOfCoefficientMatrix_), zU_j(numRowsOfCoefficientMatrix_), zUQ_j(numRowsOfCoefficientMatrix_), zAUQ_j(numRowsOfCoefficientMatrix_);
 	int i, j;
@@ -1154,7 +1166,7 @@ BeginCGS:
 	  zX_j[j].set(0.0,0.0);
 	}
 
-	NC_MatrixVectorMultiplication(zX_j, zV_j);
+	NC_MatrixVectorMultiplication(zX_j, zV_j, workspace);
 
 	//see if the ILU-preconditioning matrix is almost singular
 	if(!methodPreconditioner_)
@@ -1183,7 +1195,7 @@ BeginCGS:
 
 	for(j=0; j<=niter_max_; j++)
 	{
-		NC_MatrixVectorMultiplication(zP_j, zV_j);
+		NC_MatrixVectorMultiplication(zP_j, zV_j, workspace);
 
 		if(j==0) {zrjr0 = zR_j*zR_0;} else {zrjr0 = zrjr1;}
 		zalph = zrjr0/(zV_j*zR_0);
@@ -1191,7 +1203,7 @@ BeginCGS:
 		for(i=0; i<numRowsOfCoefficientMatrix_; i++) zQ_j[i] = zU_j[i] - zalph*zV_j[i];
 		zUQ_j = zU_j + zQ_j;
 
-		NC_MatrixVectorMultiplication(zUQ_j, zAUQ_j);
+		NC_MatrixVectorMultiplication(zUQ_j, zAUQ_j, workspace);
 
 		dwk1 = 0;
 		for(i=0; i<numRowsOfCoefficientMatrix_; i++)
@@ -1268,7 +1280,7 @@ DirectCGS:
 // compute the product of the coefficient matrix and a vector
 // Replacement for the existing function only. Per-row summation order,
 // preconditioning, CGS reductions and FMM level order remain unchanged.
-void NC_MatrixVectorMultiplication(Vector<Complex>& zmultvect,Vector<Complex>& zresuvect)
+void NC_MatrixVectorMultiplication(Vector<Complex>& zmultvect,Vector<Complex>& zresuvect, MradmMatvecWorkspace& workspace)
 {
     const auto begin=std::chrono::steady_clock::now();
     int i,j,k,ilv;
@@ -1402,6 +1414,25 @@ for(i=0;i<clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv;i++)
  mradm_phase.finish(); }
 #endif
 
+                // Copy values only; coefficient multiplication and every row's
+                // accumulation retain their original order. The T phase above
+                // and this worksharing barrier establish producer/consumer order.
+                if(ilv == 0) {
+                    const int points = clulevarry[ilv].nPoinSpheLv;
+                    const int clusters = clulevarry[ilv].nClustSLv;
+#ifdef MRADM_ENABLE_OMP
+                    MradmThreadPhase transpose_phase(32+ilv);
+#pragma omp for schedule(static) nowait
+#endif
+                    for(int direction=0; direction<points; ++direction)
+                        for(int cluster=0; cluster<clusters; ++cluster)
+                            workspace.transposed_t[direction*clusters+cluster] =
+                                clulevarry[ilv].zwkT[cluster*points+direction];
+#ifdef MRADM_ENABLE_OMP
+                    transpose_phase.finish();
+#endif
+                }
+
 #ifdef MRADM_ENABLE_OMP
 { MradmThreadPhase mradm_phase(5+3*ilv);
 const auto mradm_span=mradm_balanced_rows(dmtxlev[ilv].nRowsD,dmtxlev[ilv].irowDmxLv);
@@ -1414,8 +1445,19 @@ for(i=0;i<dmtxlev[ilv].nRowsD;i++)
 #endif
  {
                     clulevarry[ilv].zwkS[i].set(0.0,0.0);
-                    for(j=dmtxlev[ilv].irowDmxLv[i];j<dmtxlev[ilv].irowDmxLv[i+1];j++)
-                        clulevarry[ilv].zwkS[i]+=dmtxlev[ilv].zDmxLv[j]*clulevarry[ilv].zwkT[dmtxlev[ilv].jcolDmxLv[j]];
+                    if(ilv == 0) {
+                        const int points = clulevarry[ilv].nPoinSpheLv;
+                        const int cluster = i/points;
+                        const int direction = i%points;
+                        const int* neighbors = clulevarry[ilv].ClastArLv[cluster].NumsFanClus;
+                        const int begin = dmtxlev[ilv].irowDmxLv[i];
+                        const int offset = direction*clulevarry[ilv].nClustSLv;
+                        for(j=begin;j<dmtxlev[ilv].irowDmxLv[i+1];j++)
+                            clulevarry[ilv].zwkS[i]+=dmtxlev[ilv].zDmxLv[j]*workspace.transposed_t[offset+neighbors[j-begin]];
+                    } else {
+                        for(j=dmtxlev[ilv].irowDmxLv[i];j<dmtxlev[ilv].irowDmxLv[i+1];j++)
+                            clulevarry[ilv].zwkS[i]+=dmtxlev[ilv].zDmxLv[j]*clulevarry[ilv].zwkT[dmtxlev[ilv].jcolDmxLv[j]];
+                    }
                 }
 #ifdef MRADM_ENABLE_OMP
  mradm_phase.finish(); }
