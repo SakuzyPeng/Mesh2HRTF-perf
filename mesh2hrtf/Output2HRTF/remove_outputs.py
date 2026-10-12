@@ -2,6 +2,8 @@ import os
 import shutil
 import glob
 
+# Modified for Mesh2HRTF-perf on 2026-10-12; inherited EUPL-1.2 license.
+# Pressure-only NumCalc builds intentionally omit evaluation-grid velocity.
 
 def remove_outputs(paths, boundary=False, grid=False,
                    hrtf=False, vtk=False,
@@ -79,7 +81,10 @@ def remove_outputs(paths, boundary=False, grid=False,
                 for nc in numcalc:
                     for be in glob.glob(os.path.join(nc, "be.out", "be.*")):
                         os.remove(os.path.join(be, "pEvalGrid"))
-                        os.remove(os.path.join(be, "vEvalGrid"))
+                        try:
+                            os.remove(os.path.join(be, "vEvalGrid"))
+                        except FileNotFoundError:
+                            pass
 
             # data in Output2HRTF ---------------------------------------------
             if has_output:

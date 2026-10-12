@@ -1,3 +1,28 @@
+Mesh2HRTF-perf
+==============
+
+Performance fork of `Any2HRTF/Mesh2HRTF v1.3.0 <https://github.com/Any2HRTF/Mesh2HRTF/tree/v1.3.0>`_,
+with sparse ILU setup, OpenMP matrix-vector multiplication and near assembly,
+and parallel HRTF pressure postprocessing. The upstream **EUPL-1.2** license and
+copyright notices are retained. Modifications are dated **2026-10-12**.
+
+**Build (validated on Linux with GCC/OpenMP):**::
+
+    make -C mesh2hrtf/NumCalc/src -j8
+
+Set ``OMP_NUM_THREADS`` explicitly when running NumCalc. The default HRTF build
+writes ``pEvalGrid``, ``pBoundary``, and ``vBoundary`` and omits ``vEvalGrid``.
+Rebuild with ``EVALUATION_VELOCITY=1`` when evaluation velocity is required.
+
+A sequential single-process 4 kHz head-mesh test improved from 366.10 s for the
+instrumented serial reference to 50.59 s with the combined eight-thread build.
+This includes algorithmic improvements and omitted velocity work. See
+`build options, measurements, and limitations <docs/performance.md>`_ and the
+`reproducible synthetic checks <tests/performance/README.md>`_. Whole-band
+throughput has not yet been measured.
+
+The original Mesh2HRTF overview and references follow.
+
 Mesh2HRTF
 =========
 

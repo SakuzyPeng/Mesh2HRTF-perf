@@ -1,3 +1,15 @@
+// Modified for Mesh2HRTF-perf on 2026-10-12: sparse ILU and OpenMP
+// acceleration, with pressure-only HRTF postprocessing.
+// Original authorship is retained below. License: EUPL-1.2 (LICENSE.txt).
+
+#include <chrono>
+#include <cstdio>
+#include <omp.h>
+struct MradmRegionTimer {
+    const char* name;std::chrono::steady_clock::time_point start;
+    explicit MradmRegionTimer(const char* n):name(n),start(std::chrono::steady_clock::now()){}
+    ~MradmRegionTimer(){std::fprintf(stderr,"MRADM_REGION %s seconds %.9f\n",name,std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count());}
+};
 /*===========================================================================*\
  *                                                                            *
  *  File name:      NC_EquationSystem.cpp                                     *
@@ -54,20 +66,20 @@ double NC_FreqCurveInterpolation(ofstream&, int&);
 
 
 // global variables or constants
-int Ifadmii_3;
-Complex Admia3, Admib3, Zbvi03;
-Vector<double> Sourpoi3(NDIM);
-Vector<int> Souradr3(2);
-int Ibvj_03, Ifadmj3, Inoj3;
-Vector<int> Jdofaddr3(20); //MORDER2D*2
-Vector<double> Centej3(NDIM), Norvcj3(NDIM*(NNODPE + 1));
-Vector<Complex> Admj3(2);
-Vector<Complex> Zbvj03(NNODPE);
-Matrix<double> Crdej3(NNODPE, NDIM);
-int Ibvi03;
-Vector<double> Norvci3(NDIM*(NNODPE + 1));
-Vector<Complex> Zrsintel(6);
-int Ifcrh3;
+thread_local int Ifadmii_3;
+thread_local Complex Admia3, Admib3, Zbvi03;
+thread_local Vector<double> Sourpoi3(NDIM);
+thread_local Vector<int> Souradr3(2);
+thread_local int Ibvj_03, Ifadmj3, Inoj3;
+thread_local Vector<int> Jdofaddr3(20); //MORDER2D*2
+thread_local Vector<double> Centej3(NDIM), Norvcj3(NDIM*(NNODPE + 1));
+thread_local Vector<Complex> Admj3(2);
+thread_local Vector<Complex> Zbvj03(NNODPE);
+thread_local Matrix<double> Crdej3(NNODPE, NDIM);
+thread_local int Ibvi03;
+thread_local Vector<double> Norvci3(NDIM*(NNODPE + 1));
+thread_local Vector<Complex> Zrsintel(6);
+thread_local int Ifcrh3;
 double Gama3;
 Complex zBta3;
 const int GauFMBOrd3 = 2;
@@ -312,24 +324,24 @@ void NC_BuildSystemFMBEM
     {
         case 1: // SLFMBEM
             // compute the near field coefficient matrix
-            NC_BuildNforSLFMM(NCout);
+            { MradmRegionTimer timer("assembly_N"); NC_BuildNforSLFMM(NCout); }
             
             // compute the coordinates and weights of integration points on the unit sphere
             NC_ComputeUnitVectorOnUnitSphere(NCout, numIntegrationPointsThetaDirection_, numIntegrationPointsPhiDirection_, weisphe, uvcsphe);
             
             // compute the D-matrix or D-matrices
-            NC_BuildDforSLFMM(NCout);
+            { MradmRegionTimer timer("assembly_D"); NC_BuildDforSLFMM(NCout); }
             
             // compute the T-matrix and the T-vector
-            NC_BuildTforSLFMM(NCout);
+            { MradmRegionTimer timer("assembly_T"); NC_BuildTforSLFMM(NCout); }
             
             // compute the S-matrix
-            NC_BuildSforSLFMM(NCout);
+            { MradmRegionTimer timer("assembly_S"); NC_BuildSforSLFMM(NCout); }
             
             break;
         case 3: // DMLFMBEM
             // compute the near field coefficient matrix
-            NC_BuildNforMLFMM(NCout);
+            { MradmRegionTimer timer("assembly_N"); NC_BuildNforMLFMM(NCout); }
             
             // compute the coordinates and weights of integration points on the unit sphere
             for(nlv=0; nlv<numClusterLevels_; nlv++)
@@ -339,16 +351,16 @@ void NC_BuildSystemFMBEM
             }
             
             // compute the D-matrices
-            NC_BuildDforMLFMM(NCout);
+            { MradmRegionTimer timer("assembly_D"); NC_BuildDforMLFMM(NCout); }
             
             //weisphe = clulevarry[nlevtop_].weisphe;
             //uvcsphe = clulevarry[nlevtop_].uvcsphe;
             
             // compute the T-matrices the T-vectors
-            NC_BuildTforMLFMM(NCout);
+            { MradmRegionTimer timer("assembly_T"); NC_BuildTforMLFMM(NCout); }
             
             // compute the S-matrices
-            NC_BuildSforMLFMM(NCout);
+            { MradmRegionTimer timer("assembly_S"); NC_BuildSforMLFMM(NCout); }
     }
     
     // compute the contribution of the T-vector to the right hand side vector ({r} += [S]*[D]*{t})
@@ -357,10 +369,10 @@ void NC_BuildSystemFMBEM
         switch(methodFMM_)
         {
             case 1: // SLFMBEM
-                NC_RHSvecTofSLFMM(NCout);
+                { MradmRegionTimer timer("assembly_rhs"); NC_RHSvecTofSLFMM(NCout); }
                 break;
             case 3: // DMLFMBEM
-                NC_RHSvecTofMLFMM(NCout);
+                { MradmRegionTimer timer("assembly_rhs"); NC_RHSvecTofMLFMM(NCout); }
                 break;
         }
     }
@@ -613,14 +625,17 @@ void NC_BuildNforSLFMM
 	ofstream& NCout
  )
 {
+
+    for(int zero=0;zero<irownea[numRowsOfCoefficientMatrix_];++zero)zcoefl[zero].set(0.0,0.0);
+#pragma omp parallel if(omp_get_max_threads()>1)
+    {
+
     int i, ic, ie, iel, k, k1, nori_clu;
     Vector<bool> bneacluso(numOriginalClusters_);
     Vector<int> iadreclu(numOriginalClusters_);
     
-    // initialize the near field coefficient matrix
-    for(i=0; i<irownea[numRowsOfCoefficientMatrix_]; i++) zcoefl[i].set(0.0, 0.0);
-    
     // loop over source clusters
+    #pragma omp for schedule(dynamic,1)
     for(ic=0; ic<numOriginalClusters_; ic++)
     {
         // compute the array indicating if an original cluster is a near field cluster
@@ -694,7 +709,10 @@ void NC_BuildNforSLFMM
             }
         } // end of loop IE
     } // end of loop IC
+
+    }
 }
+
 
 // compute the T-matrix and the T-vector for ML-FMM
 void NC_BuildTforMLFMM
@@ -995,14 +1013,17 @@ void NC_BuildNforMLFMM
 	ofstream& NCout
  )
 {
+
+    for(int zero=0;zero<irownea[numRowsOfCoefficientMatrix_];++zero)zcoefl[zero].set(0.0,0.0);
+#pragma omp parallel if(omp_get_max_threads()>1)
+    {
+
     int i, ic, ie, iel, k, k1, nori_clu;
     Vector<bool> bneacluso(numOriginalClusters_);
     Vector<int> iadreclu(numOriginalClusters_);
     
-    // initialize the near field coefficient matrix
-    for(i=0; i<irownea[numRowsOfCoefficientMatrix_]; i++) zcoefl[i].set(0.0, 0.0);
-    
     // loop over source clusters of the current level
+    #pragma omp for schedule(dynamic,1)
     for(ic=0; ic<clulevarry[nlevtop_].nClustOLv; ic++)
     {
         // compute the array indicating if an original cluster is a near field cluster
@@ -1075,7 +1096,10 @@ void NC_BuildNforMLFMM
             }
         } // end of loop IE
     } // end of loop IC
+
+    }
 }
+
 
 // compute the contribution of the T-Vector to the right hand side vector (SLFMBEM)  (see eq. (25) in [1])
 void NC_RHSvecTofSLFMM

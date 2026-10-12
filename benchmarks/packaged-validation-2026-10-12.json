@@ -1,0 +1,1101 @@
+{
+  "passed": true,
+  "reference_commit": "e45d0436a6fbeca3db13828cbae23ca109225be3",
+  "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0",
+  "ilu": {
+    "passed": true,
+    "cases": [
+      {
+        "size": 7,
+        "method": 0,
+        "degree": 0
+      },
+      {
+        "size": 7,
+        "method": 0,
+        "degree": 1
+      },
+      {
+        "size": 7,
+        "method": 0,
+        "degree": 2
+      },
+      {
+        "size": 7,
+        "method": 0,
+        "degree": 3
+      },
+      {
+        "size": 7,
+        "method": 1,
+        "degree": 0
+      },
+      {
+        "size": 7,
+        "method": 1,
+        "degree": 1
+      },
+      {
+        "size": 7,
+        "method": 1,
+        "degree": 2
+      },
+      {
+        "size": 7,
+        "method": 1,
+        "degree": 3
+      },
+      {
+        "size": 7,
+        "method": 3,
+        "degree": 0
+      },
+      {
+        "size": 7,
+        "method": 3,
+        "degree": 1
+      },
+      {
+        "size": 7,
+        "method": 3,
+        "degree": 2
+      },
+      {
+        "size": 7,
+        "method": 3,
+        "degree": 3
+      },
+      {
+        "size": 31,
+        "method": 0,
+        "degree": 0
+      },
+      {
+        "size": 31,
+        "method": 0,
+        "degree": 1
+      },
+      {
+        "size": 31,
+        "method": 0,
+        "degree": 2
+      },
+      {
+        "size": 31,
+        "method": 0,
+        "degree": 3
+      },
+      {
+        "size": 31,
+        "method": 1,
+        "degree": 0
+      },
+      {
+        "size": 31,
+        "method": 1,
+        "degree": 1
+      },
+      {
+        "size": 31,
+        "method": 1,
+        "degree": 2
+      },
+      {
+        "size": 31,
+        "method": 1,
+        "degree": 3
+      },
+      {
+        "size": 31,
+        "method": 3,
+        "degree": 0
+      },
+      {
+        "size": 31,
+        "method": 3,
+        "degree": 1
+      },
+      {
+        "size": 31,
+        "method": 3,
+        "degree": 2
+      },
+      {
+        "size": 31,
+        "method": 3,
+        "degree": 3
+      },
+      {
+        "size": 97,
+        "method": 0,
+        "degree": 0
+      },
+      {
+        "size": 97,
+        "method": 0,
+        "degree": 1
+      },
+      {
+        "size": 97,
+        "method": 0,
+        "degree": 2
+      },
+      {
+        "size": 97,
+        "method": 0,
+        "degree": 3
+      },
+      {
+        "size": 97,
+        "method": 1,
+        "degree": 0
+      },
+      {
+        "size": 97,
+        "method": 1,
+        "degree": 1
+      },
+      {
+        "size": 97,
+        "method": 1,
+        "degree": 2
+      },
+      {
+        "size": 97,
+        "method": 1,
+        "degree": 3
+      },
+      {
+        "size": 97,
+        "method": 3,
+        "degree": 0
+      },
+      {
+        "size": 97,
+        "method": 3,
+        "degree": 1
+      },
+      {
+        "size": 97,
+        "method": 3,
+        "degree": 2
+      },
+      {
+        "size": 97,
+        "method": 3,
+        "degree": 3
+      },
+      {
+        "size": 257,
+        "method": 0,
+        "degree": 0
+      },
+      {
+        "size": 257,
+        "method": 0,
+        "degree": 1
+      },
+      {
+        "size": 257,
+        "method": 0,
+        "degree": 2
+      },
+      {
+        "size": 257,
+        "method": 0,
+        "degree": 3
+      },
+      {
+        "size": 257,
+        "method": 1,
+        "degree": 0
+      },
+      {
+        "size": 257,
+        "method": 1,
+        "degree": 1
+      },
+      {
+        "size": 257,
+        "method": 1,
+        "degree": 2
+      },
+      {
+        "size": 257,
+        "method": 1,
+        "degree": 3
+      },
+      {
+        "size": 257,
+        "method": 3,
+        "degree": 0
+      },
+      {
+        "size": 257,
+        "method": 3,
+        "degree": 1
+      },
+      {
+        "size": 257,
+        "method": 3,
+        "degree": 2
+      },
+      {
+        "size": 257,
+        "method": 3,
+        "degree": 3
+      }
+    ],
+    "output_sha256": "999d85a3d4f207b3a0cd68d6f020272654b3476cbae6f729c3f4194cc0f30d07"
+  },
+  "spheres": [
+    {
+      "case": "m0-r0.12-rigid",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-rigid",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-rigid",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-rigid",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-positive",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-positive",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-positive",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-positive",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-negative",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-negative",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-negative",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r0.12-negative",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-rigid",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-rigid",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-rigid",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-rigid",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-positive",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-positive",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-positive",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-positive",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-negative",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-negative",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-negative",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m0-r1.5-negative",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": null
+    },
+    {
+      "case": "m1-r0.12-rigid",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-rigid",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-rigid",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-rigid",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-positive",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-positive",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-positive",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-positive",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-negative",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-negative",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-negative",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r0.12-negative",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m1-r1.5-rigid",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-rigid",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-rigid",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-rigid",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-positive",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-positive",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-positive",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-positive",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-negative",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-negative",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-negative",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m1-r1.5-negative",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r0.12-rigid",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-rigid",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-rigid",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-rigid",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-positive",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-positive",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-positive",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-positive",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-negative",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-negative",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-negative",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r0.12-negative",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 6
+    },
+    {
+      "case": "m4-r1.5-rigid",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-rigid",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-rigid",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-rigid",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-positive",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-positive",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-positive",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-positive",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-negative",
+      "mode": "pressure",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-negative",
+      "mode": "pressure",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-negative",
+      "mode": "velocity",
+      "threads": 1,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    },
+    {
+      "case": "m4-r1.5-negative",
+      "mode": "velocity",
+      "threads": 8,
+      "fields_byte_identical": [
+        "pEvalGrid",
+        "pBoundary",
+        "vBoundary",
+        "vEvalGrid"
+      ],
+      "near_pairs": 0
+    }
+  ],
+  "pressure_only_cleanup": true,
+  "tested_source_sha256": {
+    "NC_3dFunctions.cpp": "1b58d18c8ec33988aade95f996c5d38c7a538d2cc7d7cc4250635c40567d297b",
+    "NC_Addresses.cpp": "733788dc1d02b8e38279cbe33d2f5ef55a5f2bce0cbce090efef57d8252942ce",
+    "NC_CommonFunctions.cpp": "e8957c0a26aa25294ffe17155fcd1a979d67cb7df4ae53d761438fadb4c6cd2e",
+    "NC_EquationSystem.cpp": "9a4aac42e965c8c319fd922521c7cb351723aca89c2066efa8c5e3936aa73959",
+    "NC_Input.cpp": "89d57beb8ca95fa1484464d0e0f6e5e9f24709352eb198300f485fbcea7e22e4",
+    "NC_Main.cpp": "25917723ad3f42988e17545731a110035e4bab4208b5a31a57bcfb32233596c8",
+    "NC_PostProcessing.cpp": "f6fe1a6aaa3df18a16220390ce03d822575f64bfa154effc5eb71e978cd2f5a7"
+  },
+  "packaged_source_sha256": {
+    "NC_3dFunctions.cpp": "1b58d18c8ec33988aade95f996c5d38c7a538d2cc7d7cc4250635c40567d297b",
+    "NC_Addresses.cpp": "733788dc1d02b8e38279cbe33d2f5ef55a5f2bce0cbce090efef57d8252942ce",
+    "NC_CommonFunctions.cpp": "d9c78dc74b3a461459528ea18fcd28c0f94804b25f1a61021766e18711585aa3",
+    "NC_EquationSystem.cpp": "9a4aac42e965c8c319fd922521c7cb351723aca89c2066efa8c5e3936aa73959",
+    "NC_Input.cpp": "89d57beb8ca95fa1484464d0e0f6e5e9f24709352eb198300f485fbcea7e22e4",
+    "NC_Main.cpp": "25917723ad3f42988e17545731a110035e4bab4208b5a31a57bcfb32233596c8",
+    "NC_PostProcessing.cpp": "2bba5612f1c19bf4d6742a3d4f42f8249b347dcd8ddbcc92eb7de0552f716ea2"
+  },
+  "post_test_change": "Trailing whitespace removed from added C++ lines only; all whitespace-delimited tokens verified unchanged."
+}

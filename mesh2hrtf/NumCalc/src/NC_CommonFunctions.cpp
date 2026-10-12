@@ -1,3 +1,61 @@
+// Modified for Mesh2HRTF-perf on 2026-10-12: sparse ILU and OpenMP
+// acceleration, with pressure-only HRTF postprocessing.
+// Original authorship is retained below. License: EUPL-1.2 (LICENSE.txt).
+
+#include <omp.h>
+#include <chrono>
+#include <cstdio>
+static double mradm_precond_seconds=0.,mradm_spmv_seconds=0.;
+static unsigned long long mradm_matvec_calls=0;
+static int mradm_seen_threads=1;
+struct MradmPerfStatistics {
+    MradmPerfStatistics(){(void)omp_get_max_threads();}
+    ~MradmPerfStatistics(){std::fprintf(stderr,"MRADM_PERF calls %llu precond_s %.9f spmv_s %.9f threads %d\n",mradm_matvec_calls,mradm_precond_seconds,mradm_spmv_seconds,mradm_seen_threads);}
+};
+static MradmPerfStatistics mradm_perf_statistics;
+
+#include <vector>
+#include <algorithm>
+static double mradm_row_work[64][128]={},mradm_row_wait[64][128]={};
+static unsigned mradm_row_samples[64][128]={};
+struct MradmThreadPhase {
+    int stage,thread;double begin;
+    explicit MradmThreadPhase(int s):stage(s),thread(omp_get_thread_num()),begin(omp_get_wtime()){}
+    void finish(){
+        const double work_end=omp_get_wtime();
+#pragma omp barrier
+        const double barrier_end=omp_get_wtime();
+        if(mradm_matvec_calls>=1 && mradm_matvec_calls<25 && stage<64 && thread<128){
+            mradm_row_work[stage][thread]+=work_end-begin;
+            mradm_row_wait[stage][thread]+=barrier_end-work_end;
+            ++mradm_row_samples[stage][thread];
+        }
+    }
+};
+struct MradmThreadReport {
+    ~MradmThreadReport(){
+        for(int s=0;s<64;++s)for(int t=0;t<128;++t)if(mradm_row_samples[s][t])
+            std::fprintf(stderr,"MRADM_ROW stage %d thread %d work_s %.9f wait_s %.9f samples %u\n",s,t,mradm_row_work[s][t],mradm_row_wait[s][t],mradm_row_samples[s][t]);
+    }
+};
+static MradmThreadReport mradm_thread_report;
+
+#include <utility>
+static std::pair<int,int> mradm_balanced_rows(int rows,const int* offsets,const int* extra=nullptr){
+    const int thread=omp_get_thread_num(),threads=omp_get_num_threads();
+    auto prefix=[&](int row)->long long{return static_cast<long long>(offsets[row])+(extra?static_cast<long long>(extra[row]):0LL);};
+    const long long base=prefix(0),total=prefix(rows)-base;
+    auto boundary=[&](int t)->int{
+        if(t==0)return 0;if(t==threads)return rows;
+        const long long target=base+total*t/threads;
+        int low=0,high=rows;
+        while(low<high){const int mid=low+(high-low)/2;if(prefix(mid)<target)low=mid+1;else high=mid;}
+        return low;
+    };
+    return std::make_pair(boundary(thread),boundary(thread+1));
+}
+
+
 /*===========================================================================*\
  *                                                                            *
  *  File name:      NC_CommonFunctions.cpp                                    *
@@ -1208,115 +1266,189 @@ DirectCGS:
 }
 
 // compute the product of the coefficient matrix and a vector
-void NC_MatrixVectorMultiplication
-(
-	Vector<Complex>& zmultvect,		//I: multiplier vector
-	Vector<Complex>& zresuvect      //O: result vector
-)
+// Replacement for the existing function only. Per-row summation order,
+// preconditioning, CGS reductions and FMM level order remain unchanged.
+void NC_MatrixVectorMultiplication(Vector<Complex>& zmultvect,Vector<Complex>& zresuvect)
 {
-	int i, j, k, ilv;
-	Vector<Complex> ztmp(numRowsOfCoefficientMatrix_);
+    const auto begin=std::chrono::steady_clock::now();
+    int i,j,k,ilv;
+    Vector<Complex> ztmp(numRowsOfCoefficientMatrix_);
+    switch(methodPreconditioner_) {
+    case 0:NC_IncompleteLUForBack(NCout,zmultvect,ztmp);break;
+    case 1:
+        for(i=0;i<numRowsOfCoefficientMatrix_;i++)ztmp[i]=zmultvect[i]*dscaling[i];
+        break;
+    case 2:ztmp=zmultvect;break;
+    }
+    const auto product_begin=std::chrono::steady_clock::now();
+    switch(methodFMM_) {
+    case 0:
+        k=0;
+        for(i=0;i<numRowsOfCoefficientMatrix_;i++) {
+            zresuvect[i].set(0.0,0.0);
+            for(j=0;j<numRowsOfCoefficientMatrix_;j++)zresuvect[i]+=zcoefl[k+j]*ztmp[j];
+            k+=numRowsOfCoefficientMatrix_;
+        }
+        break;
+    case 1: {
+        Vector<Complex> zvc_t(numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_),zvc_d(dmtxlev[0].nRowsD);
+#ifdef MRADM_ENABLE_OMP
+#pragma omp parallel if(omp_get_max_threads()>1) private(i,j)
+#endif
+        {
+#ifdef MRADM_ENABLE_OMP
+#pragma omp master
+            {mradm_seen_threads=omp_get_num_threads();}
+{ MradmThreadPhase mradm_phase(0);
+const auto mradm_span=mradm_balanced_rows(numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_,irowtmtx);
+#endif
 
-	// prconditioning
-	switch(methodPreconditioner_)
-	{
-	case 0: // ILU
-		NC_IncompleteLUForBack(NCout, zmultvect, ztmp);
-		break;
-	case 1: // scaling
-		for(i=0; i<numRowsOfCoefficientMatrix_; i++) ztmp[i] = zmultvect[i]*dscaling[i];
-		break;
-	case 2: // no preconditioning
-		ztmp = zmultvect;
-		break;
-	}
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_;i++)
+#endif
+ {
+                zvc_t[i].set(0.0,0.0);
+                for(j=irowtmtx[i];j<irowtmtx[i+1];j++)zvc_t[i]+=ztmtx[j]*ztmp[jcoltmtx[j]];
+            }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
 
-	// compute the product
-	switch(methodFMM_)
-	{
-	case 0: // TBEM
-		k = 0;
-		for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-		{
-			zresuvect[i].set(0.0, 0.0);
-			for(j=0; j<numRowsOfCoefficientMatrix_; j++) zresuvect[i] += zcoefl[k + j]*ztmp[j];
-			k += numRowsOfCoefficientMatrix_;
-		}
-		break;
+#ifdef MRADM_ENABLE_OMP
+{ MradmThreadPhase mradm_phase(1);
+const auto mradm_span=mradm_balanced_rows(dmtxlev[0].nRowsD,dmtxlev[0].irowDmxLv);
+#endif
 
-	case 1: // SLFMBEM
-		{
-			Vector<Complex> zvc_t(numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_), zvc_d(dmtxlev[0].nRowsD);
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<dmtxlev[0].nRowsD;i++)
+#endif
+ {
+                zvc_d[i].set(0.0,0.0);
+                for(j=dmtxlev[0].irowDmxLv[i];j<dmtxlev[0].irowDmxLv[i+1];j++)
+                    zvc_d[i]+=dmtxlev[0].zDmxLv[j]*zvc_t[dmtxlev[0].jcolDmxLv[j]];
+            }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
 
-			for(i=0; i<numIntegrationPointsUnitSphere_*numOriginalReflectedClusters_; i++)
-			{
-				zvc_t[i].set(0.0, 0.0);
-				for(j=irowtmtx[i]; j<irowtmtx[i + 1]; j++)
-					zvc_t[i] += ztmtx[j]*ztmp[jcoltmtx[j]];
-			}
+#ifdef MRADM_ENABLE_OMP
+{ MradmThreadPhase mradm_phase(2);
+const auto mradm_span=mradm_balanced_rows(numRowsOfCoefficientMatrix_,irownea,irowsmtx);
+#endif
 
-			for(i=0; i<dmtxlev[0].nRowsD; i++)
-			{
-				zvc_d[i].set(0.0, 0.0);
-				for(j=dmtxlev[0].irowDmxLv[i]; j<dmtxlev[0].irowDmxLv[i + 1]; j++)
-					zvc_d[i] += dmtxlev[0].zDmxLv[j]*zvc_t[dmtxlev[0].jcolDmxLv[j]];
-			}
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<numRowsOfCoefficientMatrix_;i++)
+#endif
+ {
+                zresuvect[i].set(0.0,0.0);
+                for(j=irownea[i];j<irownea[i+1];j++)zresuvect[i]+=zcoefl[j]*ztmp[jcolnea[j]];
+                for(j=irowsmtx[i];j<irowsmtx[i+1];j++)zresuvect[i]+=zsmtx[j]*zvc_d[jcolsmtx[j]];
+            }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
 
-			for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-			{
-				zresuvect[i].set(0.0, 0.0);
+        }
+        break;
+    }
+    case 3:
+#ifdef MRADM_ENABLE_OMP
+#pragma omp parallel if(omp_get_max_threads()>1) private(i,j,ilv)
+#endif
+        {
+#ifdef MRADM_ENABLE_OMP
+#pragma omp master
+            {mradm_seen_threads=omp_get_num_threads();}
+{ MradmThreadPhase mradm_phase(3);
+const auto mradm_span=mradm_balanced_rows(numRowsOfCoefficientMatrix_,irownea);
+#endif
 
-				// contribution of the near field matrix
-				for(j=irownea[i]; j<irownea[i + 1]; j++)
-					zresuvect[i] += zcoefl[j]*ztmp[jcolnea[j]];
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<numRowsOfCoefficientMatrix_;i++)
+#endif
+ {
+                zresuvect[i].set(0.0,0.0);
+                for(j=irownea[i];j<irownea[i+1];j++)zresuvect[i]+=zcoefl[j]*ztmp[jcolnea[j]];
+            }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
 
-				// contribution of the far field matrix
-				for(j=irowsmtx[i]; j<irowsmtx[i + 1]; j++)
-					zresuvect[i] += zsmtx[j]*zvc_d[jcolsmtx[j]];
-			}
-		}
-		break;
-	case 3: // DMLFMBEM
-		// contribution of the near fields
-		for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-		{
-			zresuvect[i].set(0.0, 0.0);
-			for(j=irownea[i]; j<irownea[i + 1]; j++)
-				zresuvect[i] += zcoefl[j]*ztmp[jcolnea[j]];
-		}
+            for(ilv=0;ilv<numClusterLevels_;ilv++) {
+#ifdef MRADM_ENABLE_OMP
+{ MradmThreadPhase mradm_phase(4+3*ilv);
+const auto mradm_span=mradm_balanced_rows(clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv,tmtxlev[ilv].irowTmxLv);
+#endif
 
-		// contributions of the far fields
-		for(ilv=0; ilv<numClusterLevels_; ilv++)
-		{
-			// compute the T-vector t = T*vect
-			for(i=0; i<clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv; i++)
-			{
-				clulevarry[ilv].zwkT[i].set(0.0, 0.0);
-				for(j=tmtxlev[ilv].irowTmxLv[i]; j<tmtxlev[ilv].irowTmxLv[i + 1]; j++)
-					clulevarry[ilv].zwkT[i] +=
-					tmtxlev[ilv].zTmxLv[j]*ztmp[tmtxlev[ilv].jcolTmxLv[j]];
-			}
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv;i++)
+#endif
+ {
+                    clulevarry[ilv].zwkT[i].set(0.0,0.0);
+                    for(j=tmtxlev[ilv].irowTmxLv[i];j<tmtxlev[ilv].irowTmxLv[i+1];j++)
+                        clulevarry[ilv].zwkT[i]+=tmtxlev[ilv].zTmxLv[j]*ztmp[tmtxlev[ilv].jcolTmxLv[j]];
+                }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
 
-			// compute the S-vectors s = D*t
-			for(i=0; i<dmtxlev[ilv].nRowsD; i++)
-			{
-				clulevarry[ilv].zwkS[i].set(0.0, 0.0);
-				for(j=dmtxlev[ilv].irowDmxLv[i]; j<dmtxlev[ilv].irowDmxLv[i+1]; j++)
-					clulevarry[ilv].zwkS[i] +=
-					dmtxlev[ilv].zDmxLv[j]*clulevarry[ilv].zwkT[dmtxlev[ilv].jcolDmxLv[j]];
-			}
+#ifdef MRADM_ENABLE_OMP
+{ MradmThreadPhase mradm_phase(5+3*ilv);
+const auto mradm_span=mradm_balanced_rows(dmtxlev[ilv].nRowsD,dmtxlev[ilv].irowDmxLv);
+#endif
 
-			// contributions to the result vector: resu += S*s
-			for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-			{
-				for(j=smtxlev[ilv].irowSmxLv[i]; j<smtxlev[ilv].irowSmxLv[i + 1]; j++)
-					zresuvect[i] +=
-					smtxlev[ilv].zSmxLv[j]*clulevarry[ilv].zwkS[smtxlev[ilv].jcolSmxLv[j]];
-			}
-		} // end of loop ILV
-		break;
-	}
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<dmtxlev[ilv].nRowsD;i++)
+#endif
+ {
+                    clulevarry[ilv].zwkS[i].set(0.0,0.0);
+                    for(j=dmtxlev[ilv].irowDmxLv[i];j<dmtxlev[ilv].irowDmxLv[i+1];j++)
+                        clulevarry[ilv].zwkS[i]+=dmtxlev[ilv].zDmxLv[j]*clulevarry[ilv].zwkT[dmtxlev[ilv].jcolDmxLv[j]];
+                }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
+
+#ifdef MRADM_ENABLE_OMP
+{ MradmThreadPhase mradm_phase(6+3*ilv);
+const auto mradm_span=mradm_balanced_rows(numRowsOfCoefficientMatrix_,smtxlev[ilv].irowSmxLv);
+#endif
+
+#ifdef MRADM_ENABLE_OMP
+for(i=mradm_span.first;i<mradm_span.second;i++)
+#else
+for(i=0;i<numRowsOfCoefficientMatrix_;i++)
+#endif
+ {
+                    for(j=smtxlev[ilv].irowSmxLv[i];j<smtxlev[ilv].irowSmxLv[i+1];j++)
+                        zresuvect[i]+=smtxlev[ilv].zSmxLv[j]*clulevarry[ilv].zwkS[smtxlev[ilv].jcolSmxLv[j]];
+                }
+#ifdef MRADM_ENABLE_OMP
+ mradm_phase.finish(); }
+#endif
+
+            }
+        }
+        break;
+    }
+    const auto end=std::chrono::steady_clock::now();
+    mradm_precond_seconds+=std::chrono::duration<double>(product_begin-begin).count();
+    mradm_spmv_seconds+=std::chrono::duration<double>(end-product_begin).count();
+    ++mradm_matvec_calls;
 }
+
 
 // compute the scaling vector
 void NC_ComputeScalingVector
@@ -1364,6 +1496,14 @@ void NC_IncompleteLUDecomposition
 	double threshfac; // threshold factor
 	double dwk, dw1;
 	Vector<bool> Mirow(numRowsOfCoefficientMatrix_), Micol(numRowsOfCoefficientMatrix_), Mkvct(numRowsOfCoefficientMatrix_);
+
+    auto mradm_ilu_stamp=std::chrono::steady_clock::now();
+    auto mradm_ilu_phase=[&](const char* name){
+        const auto now=std::chrono::steady_clock::now();
+        std::fprintf(stderr,"MRADM_ILU phase %s seconds %.9f rows %d selected %d\n",name,std::chrono::duration<double>(now-mradm_ilu_stamp).count(),numRowsOfCoefficientMatrix_,n_trues);
+        mradm_ilu_stamp=now;
+    };
+
 
 	if(methodFMM_ == 0) { // TRBEM
 		if(scanningDegreeLU_ == 0) {
@@ -1462,6 +1602,7 @@ void NC_IncompleteLUDecomposition
 		break;
 	}
 
+	mradm_ilu_phase("scaling");
 	Vector<int> jcol_tru(n_trues), nrow_tru(numRowsOfCoefficientMatrix_ + 1), irow_tru(n_trues),
 		ncol_tru(numRowsOfCoefficientMatrix_ + 1);
 
@@ -1497,165 +1638,123 @@ void NC_IncompleteLUDecomposition
 		break;
 	}
 
-	// compute the arrays NCOL_TRU and IROW_TRUE
-	kl = 0;
-	for(j=0; j<numRowsOfCoefficientMatrix_; j++) // loop over columns
-	{
-		ncol_tru[j] = kl;
-		for(i=0; i<numRowsOfCoefficientMatrix_; i++) // loop over rows
-		{
-			for(k=nrow_tru[i]; k<nrow_tru[i+1]; k++)
-			{
-				if(jcol_tru[k] == j)
-				{
-					irow_tru[kl++] = i;
-					break;
-				}
-			}
-		}
-	}
-	ncol_tru[numRowsOfCoefficientMatrix_] = kl;
+	mradm_ilu_phase("row_pattern");
 
-	// generate the L-matrix (stored by rows) and the U-matrix (stored by columns)
-	nunzL = nunzU = 0;
-	for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-	{
-		for(j=0; j<=i; j++) Mirow[j] = Micol[j] = false;
-		for(j=nrow_tru[i]; j<nrow_tru[i+1]; j++) Mirow[jcol_tru[j]] = true;
-		for(j=ncol_tru[i]; j<ncol_tru[i+1]; j++) Micol[irow_tru[j]] = true;
+    // Stable CSR-to-CSC counting transpose. Deduplicate within each row to
+    // reproduce the original column scan's first-match-and-break behavior.
+    std::vector<int> seen(numRowsOfCoefficientMatrix_,-1),cursor(numRowsOfCoefficientMatrix_);
+    for(j=0;j<=numRowsOfCoefficientMatrix_;++j)ncol_tru[j]=0;
+    for(i=0;i<numRowsOfCoefficientMatrix_;++i)
+        for(k=nrow_tru[i];k<nrow_tru[i+1];++k){
+            j=jcol_tru[k];
+            if(seen[j]!=i){++ncol_tru[j+1];seen[j]=i;}
+        }
+    for(j=0;j<numRowsOfCoefficientMatrix_;++j){ncol_tru[j+1]+=ncol_tru[j];cursor[j]=ncol_tru[j];}
+    std::fill(seen.begin(),seen.end(),-1);
+    for(i=0;i<numRowsOfCoefficientMatrix_;++i)
+        for(k=nrow_tru[i];k<nrow_tru[i+1];++k){
+            j=jcol_tru[k];
+            if(seen[j]!=i){irow_tru[cursor[j]++]=i;seen[j]=i;}
+        }
 
-		for(j=0; j<=i; j++) if(Mirow[j]) nunzL++;
-		for(j=0; j<i; j++) if(Micol[j]) nunzU++;
-	}
-	nL_colnu = new int[nunzL];
-	nL_firnu = new int[numRowsOfCoefficientMatrix_ + 1];
-	nU_rownu = new int[nunzU];
-	nU_firnu = new int[numRowsOfCoefficientMatrix_ + 1];
-	zL_incom = new Complex[nunzL];
-	zU_incom = new Complex[nunzU];
+    mradm_ilu_phase("transpose");
 
-	kl = ku = 0;
-	for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-	{
-		for(j=0; j<=i; j++) Mirow[j] = Micol[j] = false;
-		for(j=nrow_tru[i]; j<nrow_tru[i+1]; j++) Mirow[jcol_tru[j]] = true;
-		for(j=ncol_tru[i]; j<ncol_tru[i+1]; j++) Micol[irow_tru[j]] = true;
+    // Original boolean scans emitted unique indices in ascending order.
+    // Build that identical ordering once, instead of scanning every column.
+    std::vector<int> sorted_rows(numRowsOfCoefficientMatrix_+1),sorted_columns;
+    sorted_columns.reserve(n_trues);
+    for(i=0;i<numRowsOfCoefficientMatrix_;++i){
+        sorted_rows[i]=static_cast<int>(sorted_columns.size());
+        for(j=nrow_tru[i];j<nrow_tru[i+1];++j)sorted_columns.push_back(jcol_tru[j]);
+        auto begin=sorted_columns.begin()+sorted_rows[i];
+        std::sort(begin,sorted_columns.end());
+        sorted_columns.erase(std::unique(begin,sorted_columns.end()),sorted_columns.end());
+    }
+    sorted_rows[numRowsOfCoefficientMatrix_]=static_cast<int>(sorted_columns.size());
+    nL_firnu=new int[numRowsOfCoefficientMatrix_+1];nU_firnu=new int[numRowsOfCoefficientMatrix_+1];
+    nL_firnu[0]=nU_firnu[0]=0;
+    for(i=0;i<numRowsOfCoefficientMatrix_;++i){
+        const int* begin=sorted_columns.data()+sorted_rows[i];
+        const int* end=sorted_columns.data()+sorted_rows[i+1];
+        nL_firnu[i+1]=nL_firnu[i]+static_cast<int>(std::upper_bound(begin,end,i)-begin);
+        const int* cbeg=&irow_tru[0]+ncol_tru[i];
+        const int* cend=&irow_tru[0]+ncol_tru[i+1];
+        nU_firnu[i+1]=nU_firnu[i]+static_cast<int>(std::lower_bound(cbeg,cend,i)-cbeg);
+    }
+    nunzL=nL_firnu[numRowsOfCoefficientMatrix_];nunzU=nU_firnu[numRowsOfCoefficientMatrix_];
+    nL_colnu=new int[nunzL];nU_rownu=new int[nunzU];
+    zL_incom=new Complex[nunzL];zU_incom=new Complex[nunzU];
+    for(i=0;i<numRowsOfCoefficientMatrix_;++i){
+        kl=nL_firnu[i];
+        for(j=sorted_rows[i];j<sorted_rows[i+1]&&sorted_columns[j]<=i;++j)nL_colnu[kl++]=sorted_columns[j];
+        ku=nU_firnu[i];
+        for(j=ncol_tru[i];j<ncol_tru[i+1]&&irow_tru[j]<i;++j)nU_rownu[ku++]=irow_tru[j];
+    }
 
-		nL_firnu[i] = kl;
-		for(j=0; j<=i; j++) if(Mirow[j]) nL_colnu[kl++] = j;
+    mradm_ilu_phase("lu_pattern");
 
-		nU_firnu[i] = ku;
-		for(j=0; j<i; j++) if(Micol[j]) nU_rownu[ku++] = j;
-	}
-	nL_firnu[numRowsOfCoefficientMatrix_] = kl;
-	nU_firnu[numRowsOfCoefficientMatrix_] = ku;
+    if(methodFMM_==0){
+        for(i=0;i<numRowsOfCoefficientMatrix_;++i){
+            for(j=nL_firnu[i];j<nL_firnu[i+1];++j)zL_incom[j]=zcoefl[i*numRowsOfCoefficientMatrix_+nL_colnu[j]];
+            for(j=nU_firnu[i];j<nU_firnu[i+1];++j)zU_incom[j]=zcoefl[nU_rownu[j]*numRowsOfCoefficientMatrix_+i];
+        }
+    }else{
+        std::vector<int> position(numRowsOfCoefficientMatrix_,-1);
+        for(i=0;i<numRowsOfCoefficientMatrix_;++i){
+            for(k=irownea[i];k<irownea[i+1];++k)if(position[jcolnea[k]]<0)position[jcolnea[k]]=k;
+            for(j=nL_firnu[i];j<nL_firnu[i+1];++j){
+                k=position[nL_colnu[j]];
+                if(k<0)NC_Error_Exit_0(NCout,"Missing lower entry in sparse ILU pattern");
+                zL_incom[j]=zcoefl[k];
+            }
+            for(j=sorted_rows[i];j<sorted_rows[i+1];++j){
+                const int col=sorted_columns[j];if(col<=i)continue;
+                int* begin=nU_rownu+nU_firnu[col];int* end=nU_rownu+nU_firnu[col+1];
+                int* found=std::lower_bound(begin,end,i);
+                if(found==end||*found!=i||position[col]<0)NC_Error_Exit_0(NCout,"Missing upper entry in sparse ILU pattern");
+                zU_incom[found-nU_rownu]=zcoefl[position[col]];
+            }
+            for(k=irownea[i];k<irownea[i+1];++k)position[jcolnea[k]]=-1;
+        }
+    }
 
-	// compute the L- and U-matrices
-	switch(methodFMM_)
-	{
-	case 0: // TBEM
-		k = 0;
-		for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-		{
-			for(j=nL_firnu[i]; j<nL_firnu[i + 1]; j++) zL_incom[j] = zcoefl[k + nL_colnu[j]];
+    mradm_ilu_phase("value_gather");
 
-			for(j=nU_firnu[i]; j<nU_firnu[i + 1]; j++)
-				zU_incom[j] = zcoefl[nU_rownu[j]*numRowsOfCoefficientMatrix_ + i];
-			k += numRowsOfCoefficientMatrix_;
-		}
-		break;
-	case 1: // SLFMBEM
-	case 3: // DMLFMBEM
-		for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-		{
-			for(j=nL_firnu[i]; j<nL_firnu[i + 1]; j++)
-			{
-				for(k=irownea[i]; k<irownea[i + 1]; k++) if(jcolnea[k] == nL_colnu[j])
-				{
-					kl = k;
-					break;
-				}
-				zL_incom[j] = zcoefl[kl];
-			}
+    // Same pivot order and increasing-m subtraction order as the original
+    // masked dense scans; intersect the sorted L-row and U-column directly.
+    for(i=0;i<numRowsOfCoefficientMatrix_;++i){
+        for(int entry=ncol_tru[i];entry<ncol_tru[i+1];++entry){
+            k=irow_tru[entry];if(k<i)continue;
+            int* begin=nL_colnu+nL_firnu[k];int* end=nL_colnu+nL_firnu[k+1];
+            int* found=std::lower_bound(begin,end,i);
+            if(found==end||*found!=i)NC_Error_Exit_0(NCout,"Missing lower pivot in sparse ILU");
+            j1=static_cast<int>(found-nL_colnu);
+            int left=nL_firnu[k],upper=nU_firnu[i];
+            while(left<nL_firnu[k+1]&&nL_colnu[left]<i&&upper<nU_firnu[i+1]){
+                const int lm=nL_colnu[left],um=nU_rownu[upper];
+                if(lm==um){zL_incom[j1]-=zL_incom[left]*zU_incom[upper];++left;++upper;}
+                else if(lm<um)++left;
+                else ++upper;
+            }
+        }
+        for(int entry=sorted_rows[i];entry<sorted_rows[i+1];++entry){
+            k=sorted_columns[entry];if(k<=i)continue;
+            int* begin=nU_rownu+nU_firnu[k];int* end=nU_rownu+nU_firnu[k+1];
+            int* found=std::lower_bound(begin,end,i);
+            if(found==end||*found!=i)NC_Error_Exit_0(NCout,"Missing upper pivot in sparse ILU");
+            j1=static_cast<int>(found-nU_rownu);
+            int left=nL_firnu[i],upper=nU_firnu[k];
+            while(left<nL_firnu[i+1]&&nL_colnu[left]<i&&upper<nU_firnu[k+1]&&nU_rownu[upper]<i){
+                const int lm=nL_colnu[left],um=nU_rownu[upper];
+                if(lm==um){zU_incom[j1]-=zL_incom[left]*zU_incom[upper];++left;++upper;}
+                else if(lm<um)++left;
+                else ++upper;
+            }
+            zU_incom[j1]/=zL_incom[nL_firnu[i+1]-1];
+        }
+    }
 
-			for(j=nU_firnu[i]; j<nU_firnu[i + 1]; j++)
-			{
-				for(k=irownea[nU_rownu[j]]; k<irownea[nU_rownu[j] + 1]; k++)
-				if(jcolnea[k] == i)
-				{
-					ku = k;
-					break;
-				}
-				zU_incom[j] = zcoefl[ku];
-			}
-		} // end of loop I
-		break;
-	}
-
-	// incomplete LU decomposition
-	for(i=0; i<numRowsOfCoefficientMatrix_; i++)
-	{
-		for(j=0; j<numRowsOfCoefficientMatrix_; j++) Mirow[j] = Micol[j] = false;
-		for(j=nrow_tru[i]; j<nrow_tru[i+1]; j++) Mirow[jcol_tru[j]] = true;
-		for(j=ncol_tru[i]; j<ncol_tru[i+1]; j++) Micol[irow_tru[j]] = true;
-
-		for(k=i; k<numRowsOfCoefficientMatrix_; k++)
-		{
-			if(!Micol[k]) continue;
-
-			for(j=nL_firnu[k]; j<nL_firnu[k + 1]; j++)
-			{
-				if(nL_colnu[j] == i)
-				{
-					j1 = j;
-					break;
-				}
-			}
-
-			for(j=0; j<numRowsOfCoefficientMatrix_; j++) Mkvct[j] = false;
-			for(j=nrow_tru[k]; j<nrow_tru[k+1]; j++) Mkvct[jcol_tru[j]] = true;
-
-			ml = mu = 0;
-			for(m=0; m<i; m++)
-			{
-				if(Mkvct[m] && Micol[m])
-				{
-					zL_incom[j1] -= zL_incom[nL_firnu[k] + ml]*zU_incom[nU_firnu[i] + mu];
-				}
-				if(Mkvct[m]) ml++;
-				if(Micol[m]) mu++;
-			}
-		}
-
-		for(k=i+1; k<numRowsOfCoefficientMatrix_; k++)
-		{
-			if(!Mirow[k]) continue;
-
-			for(j=nU_firnu[k]; j<nU_firnu[k + 1]; j++)
-			{
-				if(nU_rownu[j] == i)
-				{
-					j1 = j;
-					break;
-				}
-			}
-
-			for(j=0; j<numRowsOfCoefficientMatrix_; j++) Mkvct[j] = false;
-			for(j=ncol_tru[k]; j<ncol_tru[k+1]; j++) Mkvct[irow_tru[j]] = true;
-
-			ml = mu = 0;
-			for(m=0; m<i; m++)
-			{
-				if(Mirow[m] && Mkvct[m])
-				{
-					zU_incom[j1] -= zL_incom[nL_firnu[i] + ml]*zU_incom[nU_firnu[k] + mu];
-				}
-				if(Mirow[m]) ml++;
-				if(Mkvct[m]) mu++;
-			}
-			zU_incom[j1] /= zL_incom[nL_firnu[i + 1] - 1];
-		}
-	} // end of loop I
+    mradm_ilu_phase("factorization");
 }
 
 // destroy the incomplete L- and U-matrices

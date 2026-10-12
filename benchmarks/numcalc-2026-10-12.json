@@ -1,0 +1,117 @@
+{
+  "date_utc": "2026-10-12",
+  "upstream_commit": "e45d0436a6fbeca3db13828cbae23ca109225be3",
+  "cpu": "Intel Xeon Platinum 8352V",
+  "compiler": "GCC 11.4.0",
+  "optimization_flags": [
+    "-O2",
+    "-DNDEBUG"
+  ],
+  "openmp_threads": [
+    1,
+    8
+  ],
+  "mesh_triangles": 69270,
+  "source_count": 1,
+  "material": "complex skin RLC admittance",
+  "runs_per_configuration": 1,
+  "four_khz_conditions": "Sequential isolated single-process runs with the same eight-CPU affinity set.",
+  "twenty_four_khz_conditions": "Optimized run isolated; original historical run used concurrent frequency jobs. No matched-condition speedup is claimed.",
+  "historical_original_24khz_wall_seconds": 4766.123556792736,
+  "rows": [
+    {
+      "configuration": "serial_instrumented_control",
+      "frequency_hz": 4000,
+      "threads": 1,
+      "wall_seconds": 366.09751665592194,
+      "peak_rss_gib": 3.0885238647460938,
+      "iterations": 201,
+      "matrix_vector_seconds": 131.093385872,
+      "residual": 2.66821e-10,
+      "pressure_matches_original": true
+    },
+    {
+      "configuration": "sparse_ilu_balanced_8",
+      "frequency_hz": 4000,
+      "threads": 8,
+      "wall_seconds": 120.19623644649982,
+      "peak_rss_gib": 3.094562530517578,
+      "iterations": 201,
+      "residual": 2.66821e-10,
+      "matrix_vector_seconds": 20.965278291,
+      "pressure_matches_original": true
+    },
+    {
+      "configuration": "combined_1",
+      "frequency_hz": 4000,
+      "threads": 1,
+      "wall_seconds": 227.89773058891296,
+      "peak_rss_gib": 3.0944786071777344,
+      "iterations": 201,
+      "residual": 2.66821e-10,
+      "matrix_vector_seconds": 131.702735126,
+      "regions_seconds": {
+        "assembly_N": 70.908595621,
+        "assembly_D": 2.902589775,
+        "assembly_T": 3.188827496,
+        "assembly_S": 0.58758456,
+        "assembly_rhs": 0.155172073,
+        "post_T": 2.147997519,
+        "post_boundary": 0.072155606,
+        "post_evaluation": 7.385170375
+      },
+      "evaluation_velocity_output": false,
+      "pressure_matches_original": true
+    },
+    {
+      "configuration": "combined_8",
+      "frequency_hz": 4000,
+      "threads": 8,
+      "wall_seconds": 50.59131009876728,
+      "peak_rss_gib": 3.094715118408203,
+      "iterations": 201,
+      "residual": 2.66821e-10,
+      "matrix_vector_seconds": 20.856793847,
+      "regions_seconds": {
+        "assembly_N": 9.892470058,
+        "assembly_D": 2.95595043,
+        "assembly_T": 3.262891413,
+        "assembly_S": 0.678768449,
+        "assembly_rhs": 0.263684607,
+        "post_T": 2.152511055,
+        "post_boundary": 0.072994189,
+        "post_evaluation": 1.002817659
+      },
+      "evaluation_velocity_output": false,
+      "pressure_matches_original": true
+    },
+    {
+      "configuration": "combined_8_24khz",
+      "frequency_hz": 24000,
+      "threads": 8,
+      "wall_seconds": 908.0797525793314,
+      "peak_rss_gib": 24.310047149658203,
+      "iterations": 501,
+      "residual": 5.77474e-10,
+      "matrix_vector_seconds": 467.945582535,
+      "regions_seconds": {
+        "assembly_N": 10.420941309,
+        "assembly_D": 157.093441903,
+        "assembly_T": 54.91379351,
+        "assembly_S": 10.801907822,
+        "assembly_rhs": 4.20519224,
+        "post_T": 56.257690242,
+        "post_boundary": 0.081600538,
+        "post_evaluation": 117.351957001
+      },
+      "evaluation_velocity_output": false,
+      "pressure_matches_original": true
+    }
+  ],
+  "experimental_source_sha256": {
+    "NC_CommonFunctions.cpp": "5cca35b0d084e6f8cf66bc01299392613ddf8695a7a60d5d036b29492cf4dd12",
+    "NC_EquationSystem.cpp": "859d3b2922f19cde3706c73863b12117d7eeb680adf68398634d4e98a0771552",
+    "NC_PostProcessing.cpp": "5da18a1f1237044764c3ba9e831da55c694f7b8e6a80da2a02b026607714f211"
+  },
+  "note": "Experimental-source hashes precede packaging notices, configurable velocity output, and stale-file handling; see tests/performance for packaged-source checks."
+}

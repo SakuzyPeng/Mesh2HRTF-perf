@@ -1,3 +1,20 @@
+// Modified for Mesh2HRTF-perf on 2026-10-12: sparse ILU and OpenMP
+// acceleration, with pressure-only HRTF postprocessing.
+// Original authorship is retained below. License: EUPL-1.2 (LICENSE.txt).
+#ifndef NUMCALC_EVALUATION_VELOCITY
+#define NUMCALC_EVALUATION_VELOCITY 0
+#endif
+static const bool mradm_pressure_only = NUMCALC_EVALUATION_VELOCITY == 0;
+
+#include <chrono>
+#include <cstdio>
+#include <cerrno>
+#include <omp.h>
+struct MradmRegionTimer {
+    const char* name;std::chrono::steady_clock::time_point start;
+    explicit MradmRegionTimer(const char* n):name(n),start(std::chrono::steady_clock::now()){}
+    ~MradmRegionTimer(){std::fprintf(stderr,"MRADM_REGION %s seconds %.9f\n",name,std::chrono::duration<double>(std::chrono::steady_clock::now()-start).count());}
+};
 /*===========================================================================*\
  *                                                                            *
  *  File name:      NC_PostProcessing.cpp                                     *
@@ -77,6 +94,8 @@ void NC_PostProcessing
 	ofstream& NCout
 )
 {
+ std::fprintf(stderr,"MRADM_OUTPUT evaluation_pressure_only %d\n", mradm_pressure_only ? 1 : 0);
+
 	Matrix<Complex> cVpotele(numElements_, 2), cVeloele(numElements_, NNODPE*2), cVeloelo(numElements_, NNODPE);
 	Matrix<double> rEninele(numElements_, NNODPE*2);
 
@@ -107,21 +126,21 @@ void NC_PostProcessing
 		{
 		case 1: // SLFMBEM
 			zT_vc = new Complex[numOriginalReflectedClusters_*numIntegrationPointsUnitSphere_];
-			NC_ComputeTvecSLFMM(NCout);
+			{ MradmRegionTimer timer("post_T"); NC_ComputeTvecSLFMM(NCout); }
 			break;
 		case 3: // DMLFMBEM
-			NC_ComputeTvecMLFMM(NCout);
+			{ MradmRegionTimer timer("post_T"); NC_ComputeTvecMLFMM(NCout); }
 			break;
 		}
 	}
 
 	// compute and output the results at the boundary elements
-	NC_WriteResultsObjectMesh(NCout, cVpotele, cVeloele, cVeloelo, rEninele);
+	{ MradmRegionTimer timer("post_boundary"); NC_WriteResultsObjectMesh(NCout, cVpotele, cVeloele, cVeloelo, rEninele); }
 
 	// compute and output the results at nodes of the evaluation mesh
 	if(numNodesOfEvaluationMesh_ > 0)
     {
-        NC_WriteResultsEvaluationGrid(NCout, cVpotele, cVeloele);
+        { MradmRegionTimer timer("post_evaluation"); NC_WriteResultsEvaluationGrid(NCout, cVpotele, cVeloele); }
     }
 
 	// destroy the T-vector
@@ -232,7 +251,7 @@ void NC_ComputeTvecMLFMM
     Vector<Complex> zTele(clulevarry[0].nPoinSpheLv);
     
     // compute the T-vectors
-    for(ilv=0; ilv<numClusterLevels_; ilv++)
+    for(ilv=0; ilv<numClusterLevels_ && ilv<1; ilv++)
     {
         // defines
         clusArray = clulevarry[ilv].ClastArLv;
@@ -592,18 +611,25 @@ void NC_WriteResultsEvaluationGrid
      vector, thus the particle velocity is a vector of dimension 3
   */
 	Complex zfacsourel, zquelinten, zprefree;
-    FILE *lu_pEvalGrid, *lu_vEvalGrid;
+    FILE *lu_pEvalGrid, *lu_vEvalGrid=nullptr;
 
     // open files
     sprintf(Dfname_3d, "be.out/be.%d/pEvalGrid",  currentFrequency_ + 1);
     lu_pEvalGrid = fopen(Dfname_3d, "w");
     if(!lu_pEvalGrid) NC_Error_Exit_1(NCout,  "Can not open the file ", Dfname_3d);
-    sprintf(Dfname_3d, "be.out/be.%d/vEvalGrid",  currentFrequency_ + 1);
-    lu_vEvalGrid = fopen(Dfname_3d, "w");
-    if(!lu_vEvalGrid) NC_Error_Exit_1(NCout,  "Can not open the file ", Dfname_3d);
+    sprintf(Dfname_3d, "be.out/be.%d/vEvalGrid", currentFrequency_ + 1);
+    if(mradm_pressure_only) {
+        // Do not leave velocities from an earlier full-output run beside new pressures.
+        if(std::remove(Dfname_3d) != 0 && errno != ENOENT)
+            NC_Error_Exit_1(NCout, "Can not remove stale evaluation velocity file ", Dfname_3d);
+    } else {
+        lu_vEvalGrid = fopen(Dfname_3d, "w");
+        if(!lu_vEvalGrid) NC_Error_Exit_1(NCout, "Can not open the file ", Dfname_3d);
+    }
+
     
     fprintf(lu_pEvalGrid, "%s\n", versionNumber_.c_str());
-    fprintf(lu_vEvalGrid, "%s\n", versionNumber_.c_str());
+    if(!mradm_pressure_only) fprintf(lu_vEvalGrid, "%s\n", versionNumber_.c_str());
 
 	// local variables and arrays
 	int inp, i, j, ndip, idip;
@@ -643,9 +669,9 @@ void NC_WriteResultsEvaluationGrid
 			ndip = nuinnode[inp];
 			for(i=0; i<NDIM; i++) crdip[i] = nodesCoordinates[ndip][i];
 
-			z1 = NC_ContributionIncidentWaves(NCout, crdip, Zvelopoi_3d, 1);
+			z1 = NC_ContributionIncidentWaves(NCout, crdip, Zvelopoi_3d, mradm_pressure_only?0:1);
 			zprint[inp] += z1;
-			for(j=0; j<NDIM; j++) zveint(inp, j) += Zvelopoi_3d[j];
+			if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveint(inp, j) += Zvelopoi_3d[j];
 		}
 	}
 	else // TBEM
@@ -663,9 +689,9 @@ void NC_WriteResultsEvaluationGrid
 			// contribution of the incident waves
 			if(numIncidentPlaneWaves_ || numPointSources_) 
 			{
-				z1 = NC_ContributionIncidentWaves(NCout, crdip, Zvelopoi_3d, 1);
+				z1 = NC_ContributionIncidentWaves(NCout, crdip, Zvelopoi_3d, mradm_pressure_only?0:1);
 				zprint[inp] += z1;
-				for(j=0; j<NDIM; j++) zveint(inp, j) += Zvelopoi_3d[j];
+				if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveint(inp, j) += Zvelopoi_3d[j];
 			}
 		} // end of loop INP
 	} // end of ELSE
@@ -685,7 +711,8 @@ void NC_WriteResultsEvaluationGrid
 
 	int ngrp = 0;
     if(numNodesOfEvaluationMesh_ > 0) ngrp = 1;
-    fprintf(lu_vEvalGrid, "%5d\n", ngrp);
+    if(!mradm_pressure_only){
+fprintf(lu_vEvalGrid, "%5d\n", ngrp);
 
 	if(numNodesOfEvaluationMesh_ > 0)
 	{
@@ -726,7 +753,9 @@ void NC_WriteResultsEvaluationGrid
 	    
 	} // end of loop INP
     
-	fprintf(lu_pEvalGrid, "%5d\n", ngrp);
+
+}
+fprintf(lu_pEvalGrid, "%5d\n", ngrp);
 	if(numNodesOfEvaluationMesh_ > 0)
 	  {
 	    fprintf(lu_pEvalGrid, "%5d %5d\n", nugrinme, numNodesOfEvaluationMesh_);
@@ -749,7 +778,8 @@ void NC_WriteResultsEvaluationGrid
 	} // end of loop INP
 
 	// loop over nodes of the evaluation mesh
-	for(inp=0; inp<numNodesOfEvaluationMesh_; inp++)
+	if(!mradm_pressure_only){
+for(inp=0; inp<numNodesOfEvaluationMesh_; inp++)
 	{
 		// external nodal number of the current node
 		ndip = extNumbersOfNodes[nuinnode[inp]];
@@ -765,11 +795,13 @@ void NC_WriteResultsEvaluationGrid
 			enresu += re1*re1;
 		}
 		enresu = sqrt(enresu);
-	} // end of loop INP
+	}
+}
+ // end of loop INP
 
 	// close the files
     fclose(lu_pEvalGrid);
-    fclose(lu_vEvalGrid);
+    if(!mradm_pressure_only) fclose(lu_vEvalGrid);
 }
 
 // compute the contributions of the incident waves to the velocity potential and the particle velocity at a given point
@@ -968,7 +1000,7 @@ void NC_ContributionTBEM
 				for(j=0; j<NDIM; j++) zveip[j].mul_r(Tao_);
 			}
 			zprint[inp] += zprip;
-			for(j=0; j<NDIM; j++) zveint(inp, j) += zveip[j]; 
+			if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveint(inp, j) += zveip[j];
 
 		} // end of loop KREF
 	} // end of loop IE
@@ -985,12 +1017,8 @@ void NC_ContributionFMM
 	Matrix<Complex>& zveint			// O: velocity at the internal points
 )
 {
-	// local variables and arrays
-	int ie, i, j, inode, nsbe, jsb, ipc, ic, isum, k, ig, ipp, inp, ndip;
-	double areli, di0, dik, scprd, wavruim = waveNumbers_*harmonicTimeFactor_;
-	Complex zprip, zmun, zi, zk, *ztvcwork = nullptr;
-
-	switch(methodFMM_)
+    Complex* ztvcwork=nullptr;
+switch(methodFMM_)
 	{
 	case 1: // SLFMBEM
 		ztvcwork = zT_vc;
@@ -1015,6 +1043,17 @@ void NC_ContributionFMM
 		uvcsphe = clulevarry[0].uvcsphe;
 		break;
 	}
+    unsigned long long mradm_far_pairs=0,mradm_near_pairs=0;
+    int mradm_eval_threads=1;
+#pragma omp parallel if(omp_get_max_threads()>1) reduction(+:mradm_far_pairs,mradm_near_pairs)
+    {
+
+	// local variables and arrays
+	int ie, i, j, inode, nsbe, jsb, ipc, ic, isum, k, ig, ipp, inp, ndip;
+	double areli, di0, dik, scprd, wavruim = waveNumbers_*harmonicTimeFactor_;
+	Complex zprip, zmun, zi, zk;
+
+
 
 	Vector<double> csip(NNODPE), etap(NNODPE), dwk0(NDIM), Pm(numExpansionTerms_),
 		crdip(NDIM);
@@ -1039,8 +1078,12 @@ void NC_ContributionFMM
 	bool mir_cl;
 	Vector<bool> rfdi_cl(NDIM);
 
-    // loop over clusters of internal points
-	for(ipc=0; ipc<numInternalPointsClusters_; ipc++) {
+
+#pragma omp single
+        {mradm_eval_threads=omp_get_num_threads();}
+// loop over clusters of internal points
+	#pragma omp for schedule(dynamic,1)
+    for(ipc=0; ipc<numInternalPointsClusters_; ipc++) {
 	  // compute the array indicating if a cluster is located in the far field
 	  for(i=0; i<numOriginalReflectedClusters_; i++)
 	    {
@@ -1056,6 +1099,8 @@ void NC_ContributionFMM
 	    {
 	      if(iffarclus[ic]) // for a far field cluster using the FM-method
 		{
+ ++mradm_far_pairs;
+
 		  // difference between the two cluster centers
 		  for(j=0; j<NDIM; j++) dwk0[j] = ipcluarry[ipc].CoorCent[j] - 
 					  ClustArray[ic].CoorCent[j];
@@ -1105,21 +1150,26 @@ void NC_ContributionFMM
 			zi.set(cos(scprd), sin(scprd));
 			zi *= zdt_vct[j];
 			zprip += zi;
-			for(k=0; k<NDIM; k++)
+			if(!mradm_pressure_only){
+for(k=0; k<NDIM; k++)
 			  {
 			    dik = wavruim*uvcsphe[j][k];
 			    zk.set(-zi.im()*dik, zi.re()*dik);
 			    zveip[k] += zk;
 			  }
+}
+
 		      } // end of loop J
 		      
 		      // add ZPRIP and ZVEIP to the global arrays
 		      zprint[inp] += zprip;
-		      for(j=0; j<NDIM; j++) zveint(inp, j) += zveip[j];  
+		      if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveint(inp, j) += zveip[j];
 		    } // end of loop IPP
 		}
 	      else // for a near field cluster using the conventional method
 		{
+ ++mradm_near_pairs;
+
 		  // cluster parameters
 		  nrf_cl = ClustArray[ic].nuref;
 		  rfa_cl = ClustArray[ic].rffac;
@@ -1203,7 +1253,7 @@ void NC_ContributionFMM
 			      for(j=0; j<NDIM; j++) zveip[j].mul_r(Tao_);
 			    }
 			  zprint[inp] += zprip;
-			  for(j=0; j<NDIM; j++) zveint(inp, j) += zveip[j];
+			  if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveint(inp, j) += zveip[j];
 			      
 			} // end of loop IG
 		    } // end of loop IPP
@@ -1211,7 +1261,11 @@ void NC_ContributionFMM
 	      isum += numIntegrationPointsUnitSphere_;
 	    } // end of loop IC
 	} // end of loop IPC
+
+    }
+    std::fprintf(stderr,"MRADM_EVAL far_pairs %llu near_pairs %llu threads %d\n",mradm_far_pairs,mradm_near_pairs,mradm_eval_threads);
 }
+
 
 // perform the numerical integration over a subelemnt in order to compute its contributions to the potential and velocity at an internal point, return: contribution to the potential
 Complex NC_IntegrationTBEM
@@ -1289,18 +1343,21 @@ Complex NC_IntegrationTBEM
         zgikr = zgrfu*z1;
         
         drdnx = Scprod_dim3_(vect1p, elnorv);
-        z1.set(drdnx*(waveNumbers_*waveNumbers_ - 3.0/pleng/pleng),
+        if(!mradm_pressure_only){
+z1.set(drdnx*(waveNumbers_*waveNumbers_ - 3.0/pleng/pleng),
                wavruim*3.0*drdnx/pleng);
         zfac1 = zgrfu*z1;
         
         zfac2 = zgikr/(-pleng);
         
-        // the first order derivatives of the Green function
+
+}
+// the first order derivatives of the Green function
         zdgrdn = zgikr*drdnx;
-        for(j=0; j<NDIM; j++) zdgrdx[j] = zgikr*(-vect1p[j]);
+        if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zdgrdx[j] = zgikr*(-vect1p[j]);
         
         // the second derivatives of the Green function with respect to the normal direction and the coordinates of the source point
-        for(j=0; j<NDIM; j++) zdgdnx[j] = zfac1*vect1p[j] + zfac2*elnorv[j];
+        if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zdgdnx[j] = zfac1*vect1p[j] + zfac2*elnorv[j];
         
         // product of the Jacobian and the weight factor
         vjacwe = vjaco2*weih2;
@@ -1308,12 +1365,12 @@ Complex NC_IntegrationTBEM
         // compute the contributions of the current Gaussean point to the potential and velocity at the internal point
         z1 = zpotee*vjacwe;
         zprine += zdgrdn*z1;
-        for(j=0; j<NDIM; j++) zveine[j] += zdgdnx[j]*z1;
+        if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveine[j] += zdgdnx[j]*z1;
         if(ivi_d) for(i=0; i<inode; i++)
         {
             z1 = zveloe[i]*(vjacwe*shfunx[i]);
             zprine -= zgrfu*z1;
-            for(j=0; j<NDIM; j++) zveine[j] -= zdgrdx[j]*z1;
+            if(!mradm_pressure_only) for(j=0; j<NDIM; j++) zveine[j] -= zdgrdx[j]*z1;
         }
         
     } // end of loop IGP
