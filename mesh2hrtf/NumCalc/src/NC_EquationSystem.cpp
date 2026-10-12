@@ -857,24 +857,31 @@ void NC_BuildDforMLFMM
 	ofstream& NCout
  )
 {
-    int i, j, jcl, k, jgp, identry, ikjadre;
-    double dij, dkij, scprd;
-    Complex zmun, zi;
-    Vector<Complex> zH1m(clulevarry[0].nExpaTermLv), zdiat(clulevarry[0].nPoinSpheLv);
-    Vector<double> Pm(clulevarry[0].nExpaTermLv), disij(NDIM);
-    Complex *zwork_d;
-    int expalength, npointsphere;
-    expalength = clulevarry[0].nExpaTermLv;
-    npointsphere = clulevarry[0].nPoinSpheLv;
-    // loop over levels
+    // Each cluster owns a contiguous CSR block. Keep levels and the summation
+    // within each entry ordered exactly as in the serial implementation.
     for(int nlv=0; nlv<numClusterLevels_; nlv++)
     {
-        // array to be used to store the D-matrices
-        zwork_d = dmtxlev[nlv].zDmxLv;
-        
-        // loop over the original clusters
-        identry = 0; // address of first entry of the submatrices of the D-matrix that correspond to the cluster i
-        for(i=0; i<clulevarry[nlv].nClustOLv; i++) {
+        Complex* zwork_d = dmtxlev[nlv].zDmxLv;
+        const int points = clulevarry[nlv].nPoinSpheLv;
+        for(int i=0; i<clulevarry[nlv].nClustOLv; ++i)
+        {
+            const int begin = dmtxlev[nlv].irowDmxLv[i*points];
+            const int end = dmtxlev[nlv].irowDmxLv[(i+1)*points];
+            if(static_cast<long long>(end)-begin !=
+               static_cast<long long>(points)*clulevarry[nlv].ClastArLv[i].NumFanClus)
+                NC_Error_Exit_0(NCout, "Invalid cluster block in D matrix CSR layout");
+        }
+#pragma omp parallel if(omp_get_max_threads()>1)
+        {
+            int j, jcl, k, jgp, ikjadre;
+            double dij, dkij, scprd;
+            Complex zmun, zi;
+            Vector<Complex> zH1m(clulevarry[0].nExpaTermLv), zdiat(clulevarry[0].nPoinSpheLv);
+            Vector<double> Pm(clulevarry[0].nExpaTermLv), disij(NDIM);
+            int expalength = clulevarry[0].nExpaTermLv;
+#pragma omp for schedule(dynamic,1)
+            for(int i=0; i<clulevarry[nlv].nClustOLv; i++) {
+                const int identry = dmtxlev[nlv].irowDmxLv[i*points];
 	  // compute and store the nonzeros corresponding to the current cluster
 	  for(j=0; j<clulevarry[nlv].ClastArLv[i].NumFanClus; j++) {
 	    jcl = clulevarry[nlv].ClastArLv[i].NumsFanClus[j];
@@ -925,8 +932,8 @@ void NC_BuildDforMLFMM
                     zwork_d[ikjadre] = zdiat[k];
                 }
             } // end of loop J
-            identry += clulevarry[nlv].nPoinSpheLv*clulevarry[nlv].ClastArLv[i].NumFanClus;
-        } // end of loop I
+            } // end of loop I
+        } // end of parallel region
     } // end of loop NLV
 }
 

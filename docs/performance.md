@@ -145,3 +145,30 @@ Matching the reference verifies preservation on the tested inputs; it is not a
 general proof of numerical accuracy, mesh convergence, or thread safety for
 every boundary condition. No production full-band run has been completed with
 this fork yet.
+
+
+## Follow-up: parallel D assembly
+
+The D-matrix builder now obtains each cluster's destination block from its CSR
+row pointers and distributes clusters across OpenMP threads. Hankel, Legendre,
+and direction scratch are private to each worker; levels and within-entry
+summation order remain unchanged. CSR block sizes are checked before entering
+the parallel region.
+
+A new isolated comparison against commit `9b386dc` used the same GCC 11.4.0
+build settings, eight-CPU affinity, input, and output mode:
+
+| Frequency | Baseline | Parallel D | Whole-job improvement | Samples per variant |
+| --- | ---: | ---: | ---: | ---: |
+| 4 kHz | 50.63 s | 48.21 s | 4.8% | 3, median |
+| 24 kHz | 916.77 s | 776.99 s | 15.2% | 1 |
+
+The 4 kHz D-assembly median fell from 2.98 s to 0.39 s. All pressure and boundary
+files, iteration counts, and residuals matched the reference. The 24 kHz result
+is a single-run stage check; final repeated high-frequency validation follows
+after the remaining experiments.
+
+Validation includes 48 ILU cases, 72 existing sphere comparisons, 24 additional
+mixed-element/reflection/adaptive/multiple-frequency comparisons, and four
+benchmark resource/cleanup guard tests. Full measurements and source hashes are
+in [the D-stage record](../benchmarks/parallel-d-2026-10-12.json).

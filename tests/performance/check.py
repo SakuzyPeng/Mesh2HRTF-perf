@@ -12,7 +12,7 @@ import subprocess
 
 import numpy as np
 
-from sphere import sphere_mesh
+from sphere import sphere_mesh, mixed_mesh
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -120,13 +120,14 @@ def environment(threads):
                 OMP_PLACES="cores", OMP_WAIT_POLICY="PASSIVE")
 
 
-def sphere_case(folder, method, radius, beta):
+def sphere_case(folder, method, radius, beta, mixed=False, mirror=False, frequencies=(1000,)):
     folder.mkdir(parents=True)
-    vertices, faces = sphere_mesh()
+    vertices, faces = mixed_mesh() if mixed else sphere_mesh()
     directions, eval_faces = sphere_mesh(0)
+    offset_xyz = np.array([.3, 0, 0]) if mirror else np.zeros(3)
     for name, nodes, elements, offset, element_offset, attribute in (
-        ("ObjectMeshes", vertices * .1, faces, 0, 0, "0 0 0"),
-        ("EvaluationGrids", directions * radius, eval_faces, 100000, 200000, "2 0 1"),
+        ("ObjectMeshes", vertices * .1 + offset_xyz, faces, 0, 0, "0 0 0"),
+        ("EvaluationGrids", directions * radius + offset_xyz, eval_faces, 100000, 200000, "2 0 1"),
     ):
         dest = folder / name
         dest.mkdir()
@@ -134,7 +135,7 @@ def sphere_case(folder, method, radius, beta):
             f"{i+offset} {p[0]:.17e} {p[1]:.17e} {p[2]:.17e}\n"
             for i, p in enumerate(nodes)))
         (dest / "Elements.txt").write_text(str(len(elements)) + "\n" + "".join(
-            f"{i+element_offset} {p[0]+offset} {p[1]+offset} {p[2]+offset} {attribute}\n"
+            f"{i+element_offset} " + " ".join(str(int(j)+offset) for j in p) + f" {attribute}\n"
             for i, p in enumerate(elements)))
     text = f"""## Synthetic pulsating sphere regression
 Mesh2HRTF 1.3.0
@@ -143,13 +144,13 @@ Pulsating sphere with additive complex admittance
 ## Controlparameter I
 0 0 0 0 7 0
 ## Controlparameter II
-1 1 0.000001 0.00e+00 1 0 0
+1 {len(frequencies)} 0.000001 0.00e+00 1 0 0
 ## Load Frequency Curve
-0 2
+0 {len(frequencies)+1}
 0.000000 0.0 0.0
-0.000001 1000.0 0.0
+{"".join(f'{i*1e-6:.6f} {f:.17g} 0.0' + chr(10) for i, f in enumerate(frequencies, 1)).rstrip()}
 ## 1. Main Parameters I
-2 {len(faces)+len(eval_faces)} {len(vertices)+len(directions)} 0 0 2 1 {method} 0
+2 {len(faces)+len(eval_faces)} {len(vertices)+len(directions)} 0 {int(mirror)} 2 1 {method} 0
 ## 2. Main Parameters II
 0 0 0 0.0 -1 0 0
 ## 3. Main Parameters III
@@ -165,16 +166,29 @@ EvaluationGrids/Elements.txt
 BOUNDARY
 ELEM 0 TO {len(faces)-1} VELO 0.1 -1 0.0 -1
 """
+    if mirror:
+        text = text.replace("BOUNDARY\n", "SYMMETRY\n3 0 0\n0.0 0.0 0.0\nBOUNDARY\n")
     if beta:
         text += f"ELEM 0 TO {len(faces)-1} ADMI {beta.real} -1 {beta.imag} -1\n"
     (folder / "NC.inp").write_text(text + "RETU\nPOST PROCESS\nEND\n")
 
 
-def execute(binary, folder, threads):
-    run([str(binary), "-istart", "1", "-iend", "1", "-nitermax", "1000"],
+def execute(binary, folder, threads, steps=1, adaptive=False):
+    args = [str(binary), "-istart", "1", "-iend", str(steps), "-nitermax", "1000"]
+    if adaptive:
+        args.append("-adapt_fmmlength")
+    run(args,
         folder, folder / "stdout.log", env=environment(threads))
-    assert "End time:" in (folder / "NC1-1.out").read_text()
+    assert "End time:" in (folder / f"NC1-{steps}.out").read_text()
     return (folder / "stdout.log").read_text()
+
+
+def convergence(folder, steps=1):
+    pattern = r"CGS solver: number of iterations\s*=\s*(\d+), relative error\s*=\s*([0-9.eE+-]+)"
+    values = re.findall(pattern, (folder / f"NC1-{steps}.out").read_text())
+    assert len(values) == steps, "Missing convergence record"
+    assert all(np.isfinite(float(error)) and float(error) < 1e-9 for _, error in values)
+    return values
 
 
 def check_spheres(binaries, work, thread_counts):
@@ -200,6 +214,7 @@ def check_spheres(binaries, work, thread_counts):
                             stale.parent.mkdir(parents=True)
                             stale.write_text("stale evaluation velocity\n")
                         log = execute(binaries[mode], dest, threads)
+                        assert convergence(ref) == convergence(dest), (key, mode, threads)
                         fields = ["pEvalGrid", "pBoundary", "vBoundary"]
                         if mode == "velocity":
                             fields.append("vEvalGrid")
@@ -216,6 +231,37 @@ def check_spheres(binaries, work, thread_counts):
                                         "fields_byte_identical": fields,
                                         "near_pairs": int(match[2]) if match else None})
                 print("Sphere:", key, "passed", flush=True)
+    return results
+
+
+def check_extended(binaries, work, thread_counts):
+    """Exercise Gaussian-rule switching, reflected clusters and repeated solves."""
+    results = []
+    specs = [("mixed", True, False, (1000,)),
+             ("mirror", False, True, (1000,)),
+             ("multi", True, True, (1000, 4000, 1000))]
+    for label, mixed, mirror, frequencies in specs:
+        for adaptive in (False, True):
+            key = f"{label}-adaptive-{adaptive}"
+            ref = work / "extended" / key / "reference"
+            sphere_case(ref, 4, .12, .2+.15j, mixed, mirror, frequencies)
+            execute(binaries["reference"], ref, 1, len(frequencies), adaptive)
+            for mode in ("pressure", "velocity"):
+                for threads in thread_counts:
+                    dest = ref.parent / f"{mode}-{threads}"
+                    shutil.copytree(ref, dest, ignore=shutil.ignore_patterns("be.out", "*.out", "*.log"))
+                    execute(binaries[mode], dest, threads, len(frequencies), adaptive)
+                    fields = ["pEvalGrid", "pBoundary", "vBoundary"]
+                    if mode == "velocity":
+                        fields.append("vEvalGrid")
+                    for step in range(1, len(frequencies)+1):
+                        for field in fields:
+                            relative = f"be.out/be.{step}/{field}"
+                            assert (ref / relative).read_bytes() == (dest / relative).read_bytes(), (key, mode, threads, step, field)
+                    assert convergence(ref, len(frequencies)) == convergence(dest, len(frequencies))
+                    results.append({"case": key, "mode": mode, "threads": threads,
+                                    "frequencies": frequencies, "fields_byte_identical": fields})
+            print("Extended:", key, "passed", flush=True)
     return results
 
 
@@ -254,14 +300,16 @@ def main():
         binaries[name] = build(SOURCE, work / name, args.cxx, velocity)
     ilu = check_ilu(work / "reference", work / "pressure", work / "ilu", args.cxx)
     spheres = check_spheres(binaries, work, args.threads)
+    extended = check_extended(binaries, work, args.threads)
     check_cleanup(work)
     report = {"passed": True, "reference_commit": BASE,
               "compiler": subprocess.check_output([args.cxx, "--version"], text=True).splitlines()[0],
               "source_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                 for p in sorted(SOURCE.glob("NC_*.cpp"))},
-              "ilu": ilu, "spheres": spheres, "pressure_only_cleanup": True}
+              "ilu": ilu, "spheres": spheres, "extended": extended,
+              "pressure_only_cleanup": True}
     (work / "report.json").write_text(json.dumps(report, indent=2) + "\n")
-    print(f"PASS: 48 ILU cases, {len(spheres)} sphere comparisons, output cleanup", flush=True)
+    print(f"PASS: 48 ILU cases, {len(spheres)} sphere comparisons, {len(extended)} extended comparisons, output cleanup", flush=True)
 
 
 if __name__ == "__main__":

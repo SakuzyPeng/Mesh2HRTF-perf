@@ -30,6 +30,20 @@ Coverage:
   pressure-only builds must omit that file in fresh output directories.
 - The direct MLFMM near-evaluation cases must exercise the near integration
   path. OpenMP diagnostics must report the requested team size for FMM cases.
+- 24 additional comparisons cover mixed triangle/quadrilateral meshes,
+  reflected clusters, adaptive expansion on/off, and a 1/4/1 kHz sequence in
+  the same process. All cases also compare iteration counts and residuals.
+
+For bounded Linux timings, `benchmark.py` accepts a solver executable, an
+input-only project template, a reference `be.out/be.1` directory, and a fresh
+work directory. The template contains `NumCalc/source_1/NC.inp`; shared geometry
+may be symlinked. It supports `--processes`, `--threads`, and `--copies`, assigns
+disjoint CPU sets, checks field hashes and convergence, and writes `report.json`.
+Set `--expected-rss-gib` to reserve memory per process; the default total memory
+ceiling is 112 GiB. A `STOP` file in the work directory terminates only that
+benchmark's child processes. `--pause-control` can point to a campaign JSON file
+whose `allow_fullband` must remain false. The helper requires `psutil` and
+Linux `taskset`; it never changes the production campaign state.
 
 These are correctness checks, not speed benchmarks. They do not establish
 convergence of a particular head mesh or guarantee identical output across

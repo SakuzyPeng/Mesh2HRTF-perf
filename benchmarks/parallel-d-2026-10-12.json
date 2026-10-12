@@ -1,0 +1,814 @@
+{
+  "stage": "d",
+  "before": "base",
+  "after": "d",
+  "passed": true,
+  "medians_seconds": {
+    "4000": {
+      "base": 50.63021418452263,
+      "d": 48.21328450739384
+    },
+    "24000": {
+      "base": 916.7700465470552,
+      "d": 776.9897953271866
+    }
+  },
+  "improvement_fraction": {
+    "4000": 0.0477369040612835,
+    "24000": 0.1524703514761857
+  },
+  "high_frequency_samples_per_variant": 1,
+  "rows": [
+    {
+      "variant": "base",
+      "frequency_hz": 4000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "d145f4c4cbe7f59873cb45217f3542c4b642e5c58e2825fc066adda75e3c197b",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:10:58.114308+00:00",
+      "wall_seconds": 53.86200615763664,
+      "peak_total_memory_gib": 6.958038330078125,
+      "peak_combined_rss_gib": 3.0948638916015625,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 53.8399375975132,
+          "peak_rss_gib": 3.0948638916015625,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.82142228,
+            "assembly_D": 2.982229883,
+            "assembly_T": 3.346242399,
+            "assembly_S": 0.685542547,
+            "assembly_rhs": 0.20704091,
+            "post_T": 2.200505948,
+            "post_boundary": 0.080982163,
+            "post_evaluation": 0.980085989
+          },
+          "matrix_vector_seconds": 22.620793325,
+          "precondition_seconds": 1.893938937
+        }
+      ]
+    },
+    {
+      "variant": "d",
+      "frequency_hz": 4000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "7d22a6ca8b5a2562a14831118253b225d9adf61cb097a73f408ecddff2a9451b",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:11:51.988608+00:00",
+      "wall_seconds": 48.82982474565506,
+      "peak_total_memory_gib": 6.9628143310546875,
+      "peak_combined_rss_gib": 3.0948333740234375,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 48.81002135574818,
+          "peak_rss_gib": 3.0948333740234375,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.77856774,
+            "assembly_D": 0.388966573,
+            "assembly_T": 3.283059501,
+            "assembly_S": 0.679498556,
+            "assembly_rhs": 0.218580613,
+            "post_T": 2.178548934,
+            "post_boundary": 0.076578593,
+            "post_evaluation": 1.062981032
+          },
+          "matrix_vector_seconds": 20.559568184,
+          "precondition_seconds": 1.855246036
+        }
+      ]
+    },
+    {
+      "variant": "d",
+      "frequency_hz": 4000,
+      "repeat": 1,
+      "passed": true,
+      "solver_sha256": "7d22a6ca8b5a2562a14831118253b225d9adf61cb097a73f408ecddff2a9451b",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:12:40.830763+00:00",
+      "wall_seconds": 48.233530431985855,
+      "peak_total_memory_gib": 6.96795654296875,
+      "peak_combined_rss_gib": 3.0949745178222656,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 48.21328450739384,
+          "peak_rss_gib": 3.0949745178222656,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.079211426,
+            "assembly_D": 0.410040882,
+            "assembly_T": 3.316384374,
+            "assembly_S": 0.683649695,
+            "assembly_rhs": 0.223644492,
+            "post_T": 2.123987726,
+            "post_boundary": 0.073012537,
+            "post_evaluation": 0.94768923
+          },
+          "matrix_vector_seconds": 20.896222196,
+          "precondition_seconds": 1.861185379
+        }
+      ]
+    },
+    {
+      "variant": "base",
+      "frequency_hz": 4000,
+      "repeat": 1,
+      "passed": true,
+      "solver_sha256": "d145f4c4cbe7f59873cb45217f3542c4b642e5c58e2825fc066adda75e3c197b",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:13:29.077103+00:00",
+      "wall_seconds": 50.449634060263634,
+      "peak_total_memory_gib": 6.971782684326172,
+      "peak_combined_rss_gib": 3.0948219299316406,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 50.428407356143,
+          "peak_rss_gib": 3.0948219299316406,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.059367401,
+            "assembly_D": 2.984801413,
+            "assembly_T": 3.296226282,
+            "assembly_S": 0.683758387,
+            "assembly_rhs": 0.261814764,
+            "post_T": 2.143244284,
+            "post_boundary": 0.072956695,
+            "post_evaluation": 0.958026756
+          },
+          "matrix_vector_seconds": 20.736821239,
+          "precondition_seconds": 1.831751978
+        }
+      ]
+    },
+    {
+      "variant": "base",
+      "frequency_hz": 4000,
+      "repeat": 2,
+      "passed": true,
+      "solver_sha256": "d145f4c4cbe7f59873cb45217f3542c4b642e5c58e2825fc066adda75e3c197b",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:14:19.539159+00:00",
+      "wall_seconds": 50.65090088546276,
+      "peak_total_memory_gib": 6.9763946533203125,
+      "peak_combined_rss_gib": 3.0948638916015625,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 50.63021418452263,
+          "peak_rss_gib": 3.0948638916015625,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.012192627,
+            "assembly_D": 2.981672756,
+            "assembly_T": 3.309526715,
+            "assembly_S": 0.68310282,
+            "assembly_rhs": 0.262599623,
+            "post_T": 2.152085423,
+            "post_boundary": 0.072854541,
+            "post_evaluation": 0.954336803
+          },
+          "matrix_vector_seconds": 21.039795427,
+          "precondition_seconds": 1.884955015
+        }
+      ]
+    },
+    {
+      "variant": "d",
+      "frequency_hz": 4000,
+      "repeat": 2,
+      "passed": true,
+      "solver_sha256": "7d22a6ca8b5a2562a14831118253b225d9adf61cb097a73f408ecddff2a9451b",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:15:10.202562+00:00",
+      "wall_seconds": 48.03889545798302,
+      "peak_total_memory_gib": 6.996696472167969,
+      "peak_combined_rss_gib": 3.094818115234375,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 48.01826585829258,
+          "peak_rss_gib": 3.094818115234375,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.058767369,
+            "assembly_D": 0.386026246,
+            "assembly_T": 3.229923405,
+            "assembly_S": 0.674012744,
+            "assembly_rhs": 0.202064321,
+            "post_T": 2.200099281,
+            "post_boundary": 0.073037694,
+            "post_evaluation": 0.983578222
+          },
+          "matrix_vector_seconds": 20.768395099,
+          "precondition_seconds": 1.85676645
+        }
+      ]
+    },
+    {
+      "variant": "base",
+      "frequency_hz": 24000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "d145f4c4cbe7f59873cb45217f3542c4b642e5c58e2825fc066adda75e3c197b",
+      "input_sha256": "c851333edc0764c0fa41b2956b5c3f5d01143c3710729d7f65ad8b687b9744c9",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:15:58.255666+00:00",
+      "wall_seconds": 916.7905500233173,
+      "peak_total_memory_gib": 28.25353240966797,
+      "peak_combined_rss_gib": 24.310157775878906,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 916.7700465470552,
+          "peak_rss_gib": 24.310157775878906,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 501,
+          "residual": "5.77474e-10",
+          "fields_sha256": {
+            "pEvalGrid": "323f89aa90cfd079ff4323b3b999ee61089e3014a922c1adafba092db3b851e9",
+            "pBoundary": "7c2f07ec7543e7f7d2d853d6e86b028fc99665899fcdc198dd1f497e8d6e4d73",
+            "vBoundary": "079836b1561b94c2b5292a250ec7cd991085e870e374979196805edf5f629620"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.710475803,
+            "assembly_D": 159.027428154,
+            "assembly_T": 54.577858048,
+            "assembly_S": 11.068338205,
+            "assembly_rhs": 4.285465102,
+            "post_T": 57.367813908,
+            "post_boundary": 0.081975589,
+            "post_evaluation": 117.985822422
+          },
+          "matrix_vector_seconds": 472.30317621,
+          "precondition_seconds": 10.478870778
+        }
+      ]
+    },
+    {
+      "variant": "d",
+      "frequency_hz": 24000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "7d22a6ca8b5a2562a14831118253b225d9adf61cb097a73f408ecddff2a9451b",
+      "input_sha256": "c851333edc0764c0fa41b2956b5c3f5d01143c3710729d7f65ad8b687b9744c9",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T08:31:15.059528+00:00",
+      "wall_seconds": 777.009983792901,
+      "peak_total_memory_gib": 28.266780853271484,
+      "peak_combined_rss_gib": 24.310314178466797,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 776.9897953271866,
+          "peak_rss_gib": 24.310314178466797,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 501,
+          "residual": "5.77474e-10",
+          "fields_sha256": {
+            "pEvalGrid": "323f89aa90cfd079ff4323b3b999ee61089e3014a922c1adafba092db3b851e9",
+            "pBoundary": "7c2f07ec7543e7f7d2d853d6e86b028fc99665899fcdc198dd1f497e8d6e4d73",
+            "vBoundary": "079836b1561b94c2b5292a250ec7cd991085e870e374979196805edf5f629620"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.230669548,
+            "assembly_D": 20.333564801,
+            "assembly_T": 53.150462613,
+            "assembly_S": 10.782210382,
+            "assembly_rhs": 3.220393231,
+            "post_T": 61.859001634,
+            "post_boundary": 0.082913206,
+            "post_evaluation": 119.093650044
+          },
+          "matrix_vector_seconds": 468.921646891,
+          "precondition_seconds": 10.402233776
+        }
+      ]
+    }
+  ],
+  "reference_commit": "9b386dc8e55b9f12fe32a2d0422de7f3a7768bd6",
+  "compiler": "GCC 11.4.0",
+  "compiler_flags": [
+    "-std=c++11",
+    "-O2",
+    "-DNDEBUG",
+    "-fopenmp",
+    "-DMRADM_ENABLE_OMP",
+    "-DNUMCALC_EVALUATION_VELOCITY=0"
+  ],
+  "validation": {
+    "passed": true,
+    "ilu_cases": 48,
+    "sphere_comparisons": 72,
+    "extended": [
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      }
+    ],
+    "source_sha256": {
+      "NC_3dFunctions.cpp": "1b58d18c8ec33988aade95f996c5d38c7a538d2cc7d7cc4250635c40567d297b",
+      "NC_PostProcessing.cpp": "2bba5612f1c19bf4d6742a3d4f42f8249b347dcd8ddbcc92eb7de0552f716ea2",
+      "NC_EquationSystem.cpp": "6e0cfaaa4cc75ea548734c2f52eaaa9aa941d01251f9892f19826b17d1d7ed92",
+      "NC_Addresses.cpp": "733788dc1d02b8e38279cbe33d2f5ef55a5f2bce0cbce090efef57d8252942ce",
+      "NC_Input.cpp": "89d57beb8ca95fa1484464d0e0f6e5e9f24709352eb198300f485fbcea7e22e4",
+      "NC_CommonFunctions.cpp": "d9c78dc74b3a461459528ea18fcd28c0f94804b25f1a61021766e18711585aa3",
+      "NC_Main.cpp": "25917723ad3f42988e17545731a110035e4bab4208b5a31a57bcfb32233596c8"
+    },
+    "convergence_comparisons_passed": 96
+  }
+}
