@@ -194,3 +194,22 @@ times varied between runs of the same control binary; these stage measurements
 remain single-run observations pending the final three-pair comparison.
 See [the T-stage record](../benchmarks/parallel-t-2026-10-12.json) for phase times,
 source hashes, and all samples.
+
+
+## Follow-up: parallel postprocessing T vector
+
+The consumed coarsest T vector is now built by independent cluster tasks.
+Gaussian-rule scratch and element workspaces are private to each worker, while
+each cluster retains its element/integration accumulation order. Both pressure
+and velocity output modes passed all 48/72/24 regression comparisons.
+
+Against the preceding D + T assembly version:
+
+| Frequency | D + T assembly | Also parallel post-T | Whole-job improvement | Samples per variant |
+| --- | ---: | ---: | ---: | ---: |
+| 4 kHz | 46.00 s | 42.79 s | 7.0% | 3, median |
+| 24 kHz | 742.79 s | 682.21 s | 8.2% | 1 |
+
+The 24 kHz post-T region fell from 59.42 s to 8.28 s. Field bytes and convergence
+records remained identical. These are stage measurements, with final repeated
+validation still required. See [the post-T record](../benchmarks/parallel-post-t-2026-10-12.json).

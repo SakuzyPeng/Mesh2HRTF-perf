@@ -1,0 +1,6408 @@
+{
+  "stage": "post",
+  "before": "t",
+  "after": "post",
+  "passed": true,
+  "medians_seconds": {
+    "4000": {
+      "t": 45.99782031774521,
+      "post": 42.78516085445881
+    },
+    "24000": {
+      "t": 742.7854350656271,
+      "post": 682.2138898819685
+    }
+  },
+  "improvement_fraction": {
+    "4000": 0.06984373261806509,
+    "24000": 0.08154649017627402
+  },
+  "phase_medians_seconds": {
+    "4000": {
+      "t": 2.146786911,
+      "post": 0.339537054
+    },
+    "24000": {
+      "t": 59.416840079,
+      "post": 8.277761426
+    }
+  },
+  "phase_improvement_fraction": {
+    "4000": 0.841839424183074,
+    "24000": 0.8606832437572585
+  },
+  "high_frequency_samples_per_variant": 1,
+  "rows": [
+    {
+      "variant": "t",
+      "frequency_hz": 4000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "83e97dc16ad09521fe035c089bfb6ff4e2115d31319156910a9d10da5af64200",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:17:03.367010+00:00",
+      "wall_seconds": 46.019242614507675,
+      "peak_total_memory_gib": 7.119060516357422,
+      "peak_combined_rss_gib": 3.0948486328125,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 45.99782031774521,
+          "peak_rss_gib": 3.0948486328125,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.43320151,
+            "assembly_D": 0.435153797,
+            "assembly_T": 0.458037305,
+            "assembly_S": 0.669412551,
+            "assembly_rhs": 0.202384095,
+            "post_T": 2.142257439,
+            "post_boundary": 0.075352278,
+            "post_evaluation": 0.956274503
+          },
+          "matrix_vector_seconds": 20.523717433,
+          "precondition_seconds": 1.841416851,
+          "matvec_calls": 405,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.425750434,
+              "wait_seconds": 0.007471815,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.425421387,
+              "wait_seconds": 0.008452624,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.422079548,
+              "wait_seconds": 0.012795061,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.419855922,
+              "wait_seconds": 0.014860496,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.424714297,
+              "wait_seconds": 0.009705007,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.424216866,
+              "wait_seconds": 0.010691375,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.425654873,
+              "wait_seconds": 0.00931336,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.423287794,
+              "wait_seconds": 0.011245236,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 0.081623629,
+              "wait_seconds": 0.003435567,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 0.082072958,
+              "wait_seconds": 0.00245358,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 0.081133336,
+              "wait_seconds": 0.001849979,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 0.080501392,
+              "wait_seconds": 0.002749935,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 0.080524012,
+              "wait_seconds": 0.003445491,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 0.080973551,
+              "wait_seconds": 0.002258077,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 0.080845207,
+              "wait_seconds": 0.002083495,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 0.080775306,
+              "wait_seconds": 0.002831176,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 0.115645885,
+              "wait_seconds": 0.002016276,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 0.115983829,
+              "wait_seconds": 0.000512585,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 0.113188252,
+              "wait_seconds": 0.004362151,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 0.113224834,
+              "wait_seconds": 0.004109696,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 0.115135893,
+              "wait_seconds": 0.001812801,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 0.114136592,
+              "wait_seconds": 0.002947196,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 0.112766773,
+              "wait_seconds": 0.004543245,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 0.111977518,
+              "wait_seconds": 0.005087018,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 0.080380455,
+              "wait_seconds": 0.001090243,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 0.080746636,
+              "wait_seconds": 0.001410097,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 0.080322668,
+              "wait_seconds": 0.001311198,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 0.08003743,
+              "wait_seconds": 0.001694947,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 0.080592915,
+              "wait_seconds": 0.001084566,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 0.080594271,
+              "wait_seconds": 0.001225486,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 0.079485357,
+              "wait_seconds": 0.002329662,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 0.079997629,
+              "wait_seconds": 0.001832962,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.065580621,
+              "wait_seconds": 0.001061201,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.065503463,
+              "wait_seconds": 0.001241684,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.065107182,
+              "wait_seconds": 0.001830786,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.064611435,
+              "wait_seconds": 0.00234136,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.064937219,
+              "wait_seconds": 0.00215663,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.065538824,
+              "wait_seconds": 0.001390547,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.064694554,
+              "wait_seconds": 0.002261028,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.064250901,
+              "wait_seconds": 0.002690434,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.043044403,
+              "wait_seconds": 0.000639603,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.043082565,
+              "wait_seconds": 0.000550196,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.042595834,
+              "wait_seconds": 0.001060575,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.042878866,
+              "wait_seconds": 0.000776425,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.043204293,
+              "wait_seconds": 0.000277236,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.042572379,
+              "wait_seconds": 0.001089603,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.042935833,
+              "wait_seconds": 0.00071764,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.042652249,
+              "wait_seconds": 0.001000538,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.064731196,
+              "wait_seconds": 0.000632852,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.064552277,
+              "wait_seconds": 0.00065513,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.063182279,
+              "wait_seconds": 0.0021718,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.063317984,
+              "wait_seconds": 0.002031997,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.063987672,
+              "wait_seconds": 0.001425013,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.063483492,
+              "wait_seconds": 0.001880467,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.063613266,
+              "wait_seconds": 0.001738742,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.063530549,
+              "wait_seconds": 0.001832336,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.067242607,
+              "wait_seconds": 0.001243234,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.068219081,
+              "wait_seconds": 0.000319317,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.066975072,
+              "wait_seconds": 0.001504242,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.066593111,
+              "wait_seconds": 0.001876414,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.066478506,
+              "wait_seconds": 0.001977459,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.067124039,
+              "wait_seconds": 0.001337573,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.066965774,
+              "wait_seconds": 0.001515925,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.06591627,
+              "wait_seconds": 0.002547875,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.181207687,
+              "wait_seconds": 0.002204493,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.182865068,
+              "wait_seconds": 0.000363141,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.179868564,
+              "wait_seconds": 0.003338665,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.180747077,
+              "wait_seconds": 0.002584592,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 0.181630522,
+              "wait_seconds": 0.001521111,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.181254297,
+              "wait_seconds": 0.002241403,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.179399163,
+              "wait_seconds": 0.003736109,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.179885924,
+              "wait_seconds": 0.003263533,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.068457842,
+              "wait_seconds": 0.000335798,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.067535102,
+              "wait_seconds": 0.002996251,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.066138655,
+              "wait_seconds": 0.002904162,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.067212492,
+              "wait_seconds": 0.001816317,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.06826441,
+              "wait_seconds": 0.000832111,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.066198468,
+              "wait_seconds": 0.002567455,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.067343146,
+              "wait_seconds": 0.001785502,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.066841498,
+              "wait_seconds": 0.002277732,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "post",
+      "frequency_hz": 4000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "8438c026894fd29ce7673f98c7c58a70b2a037be759d2072b73c7f138184651a",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:17:49.399073+00:00",
+      "wall_seconds": 42.80512595176697,
+      "peak_total_memory_gib": 7.123802185058594,
+      "peak_combined_rss_gib": 3.0950698852539062,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 42.78516085445881,
+          "peak_rss_gib": 3.0950698852539062,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.324445623,
+            "assembly_D": 0.39028251,
+            "assembly_T": 0.437788908,
+            "assembly_S": 0.664964617,
+            "assembly_rhs": 0.202736755,
+            "post_T": 0.328605134,
+            "post_boundary": 0.084402134,
+            "post_evaluation": 0.975385298
+          },
+          "matrix_vector_seconds": 20.285484611,
+          "precondition_seconds": 1.817874346,
+          "matvec_calls": 405,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.410674945,
+              "wait_seconds": 0.009031773,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.411470577,
+              "wait_seconds": 0.009284601,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.410729334,
+              "wait_seconds": 0.011106044,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.409232944,
+              "wait_seconds": 0.012598842,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.412402511,
+              "wait_seconds": 0.008265957,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.412490398,
+              "wait_seconds": 0.008666307,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.411883891,
+              "wait_seconds": 0.009482265,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.411079749,
+              "wait_seconds": 0.010466501,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 0.079632431,
+              "wait_seconds": 0.003040314,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 0.079086959,
+              "wait_seconds": 0.002136812,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 0.078756541,
+              "wait_seconds": 0.001355276,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 0.078367725,
+              "wait_seconds": 0.001514614,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 0.078518644,
+              "wait_seconds": 0.003146484,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 0.079046607,
+              "wait_seconds": 0.002194688,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 0.078501463,
+              "wait_seconds": 0.002265766,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 0.078744978,
+              "wait_seconds": 0.001678884,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 0.115648106,
+              "wait_seconds": 0.000652954,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 0.114154041,
+              "wait_seconds": 0.001925215,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 0.112760812,
+              "wait_seconds": 0.003815651,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 0.112226069,
+              "wait_seconds": 0.004586771,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 0.11424531,
+              "wait_seconds": 0.002160668,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 0.112888217,
+              "wait_seconds": 0.003253862,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 0.111824319,
+              "wait_seconds": 0.004566908,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 0.111062467,
+              "wait_seconds": 0.005484909,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 0.080712289,
+              "wait_seconds": 0.001669571,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 0.080735803,
+              "wait_seconds": 0.001563311,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 0.080379337,
+              "wait_seconds": 0.001838967,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 0.079656288,
+              "wait_seconds": 0.002448052,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 0.080996796,
+              "wait_seconds": 0.000792176,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 0.07984215,
+              "wait_seconds": 0.002242371,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 0.079164416,
+              "wait_seconds": 0.002934635,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 0.079817876,
+              "wait_seconds": 0.002294049,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.064178079,
+              "wait_seconds": 0.000371158,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.06368652,
+              "wait_seconds": 0.001148805,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.063095838,
+              "wait_seconds": 0.001698524,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.06291616,
+              "wait_seconds": 0.001997486,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.063594699,
+              "wait_seconds": 0.001558587,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.063928664,
+              "wait_seconds": 0.000990734,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.063410372,
+              "wait_seconds": 0.001507983,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.062322736,
+              "wait_seconds": 0.002577543,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.041712165,
+              "wait_seconds": 0.001072153,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.041969791,
+              "wait_seconds": 0.000624672,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.041813701,
+              "wait_seconds": 0.000875354,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.041569576,
+              "wait_seconds": 0.001113594,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.042152345,
+              "wait_seconds": 0.00029473,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.041902423,
+              "wait_seconds": 0.000780895,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.041643128,
+              "wait_seconds": 0.001042798,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.041569695,
+              "wait_seconds": 0.001122832,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.064242154,
+              "wait_seconds": 0.000673294,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.063466415,
+              "wait_seconds": 0.001394838,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.062951505,
+              "wait_seconds": 0.001908198,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.062966883,
+              "wait_seconds": 0.001899511,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.063533038,
+              "wait_seconds": 0.001354277,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.063052833,
+              "wait_seconds": 0.001813039,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.063340977,
+              "wait_seconds": 0.001524299,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.063104078,
+              "wait_seconds": 0.001775861,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.066184551,
+              "wait_seconds": 0.00044778,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.066441551,
+              "wait_seconds": 0.00032039,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.065313786,
+              "wait_seconds": 0.001507908,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.064740539,
+              "wait_seconds": 0.002070516,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.065112412,
+              "wait_seconds": 0.001788288,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.065366358,
+              "wait_seconds": 0.001457632,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.065469116,
+              "wait_seconds": 0.00135766,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.06456539,
+              "wait_seconds": 0.002237812,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.177997202,
+              "wait_seconds": 0.001564428,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.178781226,
+              "wait_seconds": 0.000550494,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.177456141,
+              "wait_seconds": 0.001785859,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.177405089,
+              "wait_seconds": 0.001856059,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 0.178253084,
+              "wait_seconds": 0.000908762,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.177897677,
+              "wait_seconds": 0.001505509,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.176826447,
+              "wait_seconds": 0.002409816,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.176667854,
+              "wait_seconds": 0.002584353,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.067479566,
+              "wait_seconds": 0.000565439,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.06693016,
+              "wait_seconds": 0.001946673,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.065806031,
+              "wait_seconds": 0.002629265,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.066231176,
+              "wait_seconds": 0.002092525,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.067497268,
+              "wait_seconds": 0.00093171,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.065547958,
+              "wait_seconds": 0.002701387,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.06715861,
+              "wait_seconds": 0.001165479,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.066499829,
+              "wait_seconds": 0.001970083,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "post",
+      "frequency_hz": 4000,
+      "repeat": 1,
+      "passed": true,
+      "solver_sha256": "8438c026894fd29ce7673f98c7c58a70b2a037be759d2072b73c7f138184651a",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:18:32.217804+00:00",
+      "wall_seconds": 42.41109588742256,
+      "peak_total_memory_gib": 7.128425598144531,
+      "peak_combined_rss_gib": 3.0949668884277344,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 42.38915538787842,
+          "peak_rss_gib": 3.0949668884277344,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 9.667391838,
+            "assembly_D": 0.39232935,
+            "assembly_T": 0.438657985,
+            "assembly_S": 0.670508845,
+            "assembly_rhs": 0.164129886,
+            "post_T": 0.339537054,
+            "post_boundary": 0.083059107,
+            "post_evaluation": 1.006925316
+          },
+          "matrix_vector_seconds": 20.590323667,
+          "precondition_seconds": 1.849227482,
+          "matvec_calls": 405,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.426572338,
+              "wait_seconds": 0.002360508,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.425216019,
+              "wait_seconds": 0.005258054,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.423638493,
+              "wait_seconds": 0.007244319,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.422156081,
+              "wait_seconds": 0.009028107,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.425526083,
+              "wait_seconds": 0.005183384,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.423717752,
+              "wait_seconds": 0.007267013,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.415977731,
+              "wait_seconds": 0.014818355,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.414046854,
+              "wait_seconds": 0.016948909,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 0.081651568,
+              "wait_seconds": 0.004033446,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 0.081608891,
+              "wait_seconds": 0.001948446,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 0.080687881,
+              "wait_seconds": 0.002816662,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 0.080734968,
+              "wait_seconds": 0.002061918,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 0.080845803,
+              "wait_seconds": 0.002848879,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 0.081306458,
+              "wait_seconds": 0.002135336,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 0.081527129,
+              "wait_seconds": 0.002011433,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 0.081356779,
+              "wait_seconds": 0.001547113,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 0.1191369,
+              "wait_seconds": 0.000864416,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 0.11546962,
+              "wait_seconds": 0.00440827,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 0.113768712,
+              "wait_seconds": 0.006122306,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 0.11300981,
+              "wait_seconds": 0.007270604,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 0.115612432,
+              "wait_seconds": 0.004342005,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 0.114179537,
+              "wait_seconds": 0.005755797,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 0.113277107,
+              "wait_seconds": 0.006771252,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 0.112504557,
+              "wait_seconds": 0.007950932,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 0.081170574,
+              "wait_seconds": 0.001159564,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 0.080215588,
+              "wait_seconds": 0.002093643,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 0.08021909,
+              "wait_seconds": 0.002199531,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 0.080367565,
+              "wait_seconds": 0.002068937,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 0.080728233,
+              "wait_seconds": 0.001451477,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 0.080546156,
+              "wait_seconds": 0.001798913,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 0.079919294,
+              "wait_seconds": 0.002521217,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 0.080032095,
+              "wait_seconds": 0.002225578,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.065634891,
+              "wait_seconds": 0.000467658,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.065359622,
+              "wait_seconds": 0.00083071,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.064965248,
+              "wait_seconds": 0.001224354,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.064344361,
+              "wait_seconds": 0.001827255,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.065211654,
+              "wait_seconds": 0.001130804,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.065582797,
+              "wait_seconds": 0.000593752,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.06463705,
+              "wait_seconds": 0.001423568,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.064145997,
+              "wait_seconds": 0.002030373,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.042575106,
+              "wait_seconds": 0.000821367,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.042624518,
+              "wait_seconds": 0.000777021,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.042348251,
+              "wait_seconds": 0.001065165,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.042319119,
+              "wait_seconds": 0.001103744,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.042997316,
+              "wait_seconds": 0.000223115,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.042207375,
+              "wait_seconds": 0.00120981,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.042420179,
+              "wait_seconds": 0.000995204,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.04273501,
+              "wait_seconds": 0.000687525,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.064518511,
+              "wait_seconds": 0.001247033,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.064576522,
+              "wait_seconds": 0.000858992,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.063425303,
+              "wait_seconds": 0.002023295,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.063491702,
+              "wait_seconds": 0.001957253,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.064659595,
+              "wait_seconds": 0.000819623,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.063859746,
+              "wait_seconds": 0.001600698,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.063561291,
+              "wait_seconds": 0.001892135,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.063698351,
+              "wait_seconds": 0.001747295,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.066893578,
+              "wait_seconds": 0.001099363,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.066892549,
+              "wait_seconds": 0.00150542,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.06586726,
+              "wait_seconds": 0.002524301,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.066508964,
+              "wait_seconds": 0.001883373,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.066580147,
+              "wait_seconds": 0.001833364,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.06732136,
+              "wait_seconds": 0.001081079,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.067324698,
+              "wait_seconds": 0.00107114,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.066012383,
+              "wait_seconds": 0.002384022,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.181162491,
+              "wait_seconds": 0.0014994,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.181690618,
+              "wait_seconds": 0.000688419,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.179886088,
+              "wait_seconds": 0.002315477,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.179249436,
+              "wait_seconds": 0.002955824,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 0.18125996,
+              "wait_seconds": 0.000948265,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.180537,
+              "wait_seconds": 0.001660421,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.179682106,
+              "wait_seconds": 0.002609745,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.180019513,
+              "wait_seconds": 0.002190441,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.068755284,
+              "wait_seconds": 0.001025811,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.067444667,
+              "wait_seconds": 0.003152847,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.066992342,
+              "wait_seconds": 0.002958015,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.067618683,
+              "wait_seconds": 0.002332091,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.069136202,
+              "wait_seconds": 0.000993505,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.066892445,
+              "wait_seconds": 0.003047392,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.068312213,
+              "wait_seconds": 0.001531824,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.067735165,
+              "wait_seconds": 0.002209947,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "t",
+      "frequency_hz": 4000,
+      "repeat": 1,
+      "passed": true,
+      "solver_sha256": "83e97dc16ad09521fe035c089bfb6ff4e2115d31319156910a9d10da5af64200",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:19:14.642398+00:00",
+      "wall_seconds": 45.42235252261162,
+      "peak_total_memory_gib": 7.133373260498047,
+      "peak_combined_rss_gib": 3.0948333740234375,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 45.40190897881985,
+          "peak_rss_gib": 3.0948333740234375,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 9.912890549,
+            "assembly_D": 0.392368826,
+            "assembly_T": 0.41353724,
+            "assembly_S": 0.664420466,
+            "assembly_rhs": 0.167599989,
+            "post_T": 2.149719456,
+            "post_boundary": 0.073473773,
+            "post_evaluation": 1.059848129
+          },
+          "matrix_vector_seconds": 20.466702575,
+          "precondition_seconds": 1.837759349,
+          "matvec_calls": 405,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.423073038,
+              "wait_seconds": 0.009829164,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.424266234,
+              "wait_seconds": 0.01077202,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.422317877,
+              "wait_seconds": 0.01296784,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.42130664,
+              "wait_seconds": 0.013813287,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.426175192,
+              "wait_seconds": 0.008212671,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.425177738,
+              "wait_seconds": 0.009785384,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.422034964,
+              "wait_seconds": 0.013146415,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.418873742,
+              "wait_seconds": 0.016284361,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 0.082364276,
+              "wait_seconds": 0.003967702,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 0.081796527,
+              "wait_seconds": 0.001774698,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 0.081240013,
+              "wait_seconds": 0.001849487,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 0.081389755,
+              "wait_seconds": 0.001972049,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 0.080728814,
+              "wait_seconds": 0.003803313,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 0.081318259,
+              "wait_seconds": 0.002418265,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 0.081472322,
+              "wait_seconds": 0.00194636,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 0.080760717,
+              "wait_seconds": 0.002444029,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 0.115527555,
+              "wait_seconds": 0.000433072,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 0.114609912,
+              "wait_seconds": 0.002093494,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 0.112884954,
+              "wait_seconds": 0.003787234,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 0.112375602,
+              "wait_seconds": 0.004257038,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 0.114772081,
+              "wait_seconds": 0.001389787,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 0.113399535,
+              "wait_seconds": 0.003359631,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 0.112412423,
+              "wait_seconds": 0.004167303,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 0.111159608,
+              "wait_seconds": 0.005500421,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 0.081060991,
+              "wait_seconds": 0.000611261,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 0.07978341,
+              "wait_seconds": 0.001508459,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 0.079915375,
+              "wait_seconds": 0.001748934,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 0.079474539,
+              "wait_seconds": 0.002109468,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 0.080098659,
+              "wait_seconds": 0.001503199,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 0.079527661,
+              "wait_seconds": 0.001744732,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 0.079936579,
+              "wait_seconds": 0.001632378,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 0.079304844,
+              "wait_seconds": 0.002361223,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.066608891,
+              "wait_seconds": 0.000408486,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.065682426,
+              "wait_seconds": 0.001298085,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.065610856,
+              "wait_seconds": 0.001350909,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.065114394,
+              "wait_seconds": 0.001861885,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.065398827,
+              "wait_seconds": 0.001675457,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.065433919,
+              "wait_seconds": 0.001546487,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.065568805,
+              "wait_seconds": 0.00139837,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.0644629,
+              "wait_seconds": 0.002512336,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.042440176,
+              "wait_seconds": 0.000966847,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.042709842,
+              "wait_seconds": 0.000555068,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.042315692,
+              "wait_seconds": 0.00094904,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.042622596,
+              "wait_seconds": 0.000635087,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.042754441,
+              "wait_seconds": 0.000261009,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.042343318,
+              "wait_seconds": 0.000914812,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.042461097,
+              "wait_seconds": 0.000804037,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.042466357,
+              "wait_seconds": 0.000800386,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.064109981,
+              "wait_seconds": 0.000144929,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.063351035,
+              "wait_seconds": 0.001124188,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.062469617,
+              "wait_seconds": 0.002002329,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.062468544,
+              "wait_seconds": 0.002001852,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.06369938,
+              "wait_seconds": 0.00082548,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.062857106,
+              "wait_seconds": 0.001623139,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.063103646,
+              "wait_seconds": 0.001380607,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.062872812,
+              "wait_seconds": 0.001606792,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.067350894,
+              "wait_seconds": 0.001677915,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.067745894,
+              "wait_seconds": 0.001078352,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.066070706,
+              "wait_seconds": 0.002793223,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.066520333,
+              "wait_seconds": 0.002348304,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.066388205,
+              "wait_seconds": 0.002455175,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.067297041,
+              "wait_seconds": 0.001563549,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.067685097,
+              "wait_seconds": 0.001165897,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.066162169,
+              "wait_seconds": 0.002696082,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.182643533,
+              "wait_seconds": 0.000846639,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.180456743,
+              "wait_seconds": 0.003714696,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.178597152,
+              "wait_seconds": 0.005005479,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.17861782,
+              "wait_seconds": 0.004979223,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 0.180412844,
+              "wait_seconds": 0.003162265,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.179170385,
+              "wait_seconds": 0.004619211,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.178106919,
+              "wait_seconds": 0.005635247,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.177832842,
+              "wait_seconds": 0.005765691,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.06822969,
+              "wait_seconds": 0.000562876,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.066884145,
+              "wait_seconds": 0.001997337,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.065387145,
+              "wait_seconds": 0.003252476,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.066752315,
+              "wait_seconds": 0.001924694,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.067993164,
+              "wait_seconds": 0.000884384,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.065838069,
+              "wait_seconds": 0.002616346,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.067106158,
+              "wait_seconds": 0.001530886,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.066299349,
+              "wait_seconds": 0.002352193,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "t",
+      "frequency_hz": 4000,
+      "repeat": 2,
+      "passed": true,
+      "solver_sha256": "83e97dc16ad09521fe035c089bfb6ff4e2115d31319156910a9d10da5af64200",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:20:00.077771+00:00",
+      "wall_seconds": 46.61851306259632,
+      "peak_total_memory_gib": 7.137176513671875,
+      "peak_combined_rss_gib": 3.0949363708496094,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 46.5987631380558,
+          "peak_rss_gib": 3.0949363708496094,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.425820724,
+            "assembly_D": 0.42906028,
+            "assembly_T": 0.467375692,
+            "assembly_S": 0.673475947,
+            "assembly_rhs": 0.203538736,
+            "post_T": 2.146786911,
+            "post_boundary": 0.073120592,
+            "post_evaluation": 1.098974177
+          },
+          "matrix_vector_seconds": 20.811171179,
+          "precondition_seconds": 1.904172245,
+          "matvec_calls": 405,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.425683305,
+              "wait_seconds": 0.006984383,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.424781114,
+              "wait_seconds": 0.009377792,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.423578396,
+              "wait_seconds": 0.011429369,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.420665801,
+              "wait_seconds": 0.013921678,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.424944386,
+              "wait_seconds": 0.009080112,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.425169572,
+              "wait_seconds": 0.008888826,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.42809999,
+              "wait_seconds": 0.006742194,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.425258607,
+              "wait_seconds": 0.009256512,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 0.081771076,
+              "wait_seconds": 0.003683701,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 0.082293913,
+              "wait_seconds": 0.001841769,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 0.08115831,
+              "wait_seconds": 0.001792237,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 0.080728352,
+              "wait_seconds": 0.002799988,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 0.080535457,
+              "wait_seconds": 0.003555521,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 0.081332237,
+              "wait_seconds": 0.003021806,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 0.081521332,
+              "wait_seconds": 0.001702651,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 0.081091523,
+              "wait_seconds": 0.00255388,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 0.116506696,
+              "wait_seconds": 0.001093969,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 0.115778878,
+              "wait_seconds": 0.001731962,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 0.114448816,
+              "wait_seconds": 0.003093973,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 0.113794938,
+              "wait_seconds": 0.003650233,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 0.11611627,
+              "wait_seconds": 0.001260862,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 0.115055233,
+              "wait_seconds": 0.001972929,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 0.114095315,
+              "wait_seconds": 0.003345236,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 0.113027617,
+              "wait_seconds": 0.004356951,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 0.081611708,
+              "wait_seconds": 0.000953808,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 0.080861852,
+              "wait_seconds": 0.001420081,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 0.080134839,
+              "wait_seconds": 0.002402619,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 0.080369174,
+              "wait_seconds": 0.002123311,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 0.080856174,
+              "wait_seconds": 0.001539841,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 0.080564484,
+              "wait_seconds": 0.001975566,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 0.080134854,
+              "wait_seconds": 0.002398565,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 0.080504715,
+              "wait_seconds": 0.001991004,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.067474797,
+              "wait_seconds": 0.000572801,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.065952122,
+              "wait_seconds": 0.002178475,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.065665349,
+              "wait_seconds": 0.002574936,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.065698057,
+              "wait_seconds": 0.002549797,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.065947279,
+              "wait_seconds": 0.002324432,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.066206634,
+              "wait_seconds": 0.002018452,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.065795884,
+              "wait_seconds": 0.002457261,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.064772561,
+              "wait_seconds": 0.003462344,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.043294147,
+              "wait_seconds": 0.001263335,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.043600291,
+              "wait_seconds": 0.000625476,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.043352336,
+              "wait_seconds": 0.000864357,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.043480292,
+              "wait_seconds": 0.000715777,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.043881387,
+              "wait_seconds": 0.000151679,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.043203831,
+              "wait_seconds": 0.001003653,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.043207616,
+              "wait_seconds": 0.000988051,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.043424159,
+              "wait_seconds": 0.000785112,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.065007314,
+              "wait_seconds": 0.00011383,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.064467728,
+              "wait_seconds": 0.00103192,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.063811272,
+              "wait_seconds": 0.001701042,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.063841447,
+              "wait_seconds": 0.001671612,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.064613417,
+              "wait_seconds": 0.000983089,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.064001054,
+              "wait_seconds": 0.001521245,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.064437866,
+              "wait_seconds": 0.001098946,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.064105913,
+              "wait_seconds": 0.001417309,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.067865565,
+              "wait_seconds": 0.000824377,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.068040296,
+              "wait_seconds": 0.000578269,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.067090496,
+              "wait_seconds": 0.001552656,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.06664826,
+              "wait_seconds": 0.001989961,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.066535622,
+              "wait_seconds": 0.002087608,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.067147776,
+              "wait_seconds": 0.001492992,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.067552418,
+              "wait_seconds": 0.001071945,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.066131398,
+              "wait_seconds": 0.002499685,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.184535116,
+              "wait_seconds": 0.001050711,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.18468751,
+              "wait_seconds": 0.001378477,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.183829919,
+              "wait_seconds": 0.001761779,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.183934182,
+              "wait_seconds": 0.001641735,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 0.184658423,
+              "wait_seconds": 0.000791937,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.184302777,
+              "wait_seconds": 0.001161292,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.183243513,
+              "wait_seconds": 0.002437025,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.183549404,
+              "wait_seconds": 0.001919448,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.069283664,
+              "wait_seconds": 0.001002342,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.068306431,
+              "wait_seconds": 0.001762256,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.067403644,
+              "wait_seconds": 0.002776414,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.06844154,
+              "wait_seconds": 0.001897961,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.069668561,
+              "wait_seconds": 0.000792786,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.067165405,
+              "wait_seconds": 0.003136769,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.068664625,
+              "wait_seconds": 0.001440033,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.068158001,
+              "wait_seconds": 0.002163678,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "post",
+      "frequency_hz": 4000,
+      "repeat": 2,
+      "passed": true,
+      "solver_sha256": "8438c026894fd29ce7673f98c7c58a70b2a037be759d2072b73c7f138184651a",
+      "input_sha256": "1628db1f6824f1edec6194fb6a3aa28711fa4675a867754110f3cd1fb405fc2b",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:20:46.710057+00:00",
+      "wall_seconds": 44.00737337768078,
+      "peak_total_memory_gib": 7.145252227783203,
+      "peak_combined_rss_gib": 3.0948944091796875,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 43.98751164972782,
+          "peak_rss_gib": 3.0948944091796875,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 201,
+          "residual": "2.66821e-10",
+          "fields_sha256": {
+            "pEvalGrid": "aa9255bdf3f7634b2e4ac5b3a90b7b4763e5b974d3dec92ed677127e549a2fe0",
+            "pBoundary": "d4f60401dc87c7163b4da095ebf53797170cfe68b143e74c2eae1f25ec325c28",
+            "vBoundary": "dca2a5bcc59e32b1cac4fdfe552ae7ca079b3374ce94507d2bc63b346767a3b5"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.858144426,
+            "assembly_D": 0.417597318,
+            "assembly_T": 0.441330968,
+            "assembly_S": 0.665395451,
+            "assembly_rhs": 0.203874658,
+            "post_T": 0.362564691,
+            "post_boundary": 0.092603376,
+            "post_evaluation": 1.020509492
+          },
+          "matrix_vector_seconds": 20.761651462,
+          "precondition_seconds": 1.910896129,
+          "matvec_calls": 405,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.41966787,
+              "wait_seconds": 0.00658977,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.416972697,
+              "wait_seconds": 0.011111766,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.415132195,
+              "wait_seconds": 0.013622597,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.414134473,
+              "wait_seconds": 0.014403597,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.418155596,
+              "wait_seconds": 0.009641811,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.417358071,
+              "wait_seconds": 0.011153907,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.420283794,
+              "wait_seconds": 0.00829193,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.417769819,
+              "wait_seconds": 0.010727182,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 0.080869362,
+              "wait_seconds": 0.004365891,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 0.081256285,
+              "wait_seconds": 0.001159132,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 0.080491379,
+              "wait_seconds": 0.001319006,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 0.080339611,
+              "wait_seconds": 0.001684144,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 0.080594003,
+              "wait_seconds": 0.002632827,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 0.080734745,
+              "wait_seconds": 0.001530617,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 0.080890536,
+              "wait_seconds": 0.001258835,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 0.08070229,
+              "wait_seconds": 0.001441717,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 0.116791874,
+              "wait_seconds": 0.000823617,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 0.11592488,
+              "wait_seconds": 0.002369612,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 0.114721939,
+              "wait_seconds": 0.003653347,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 0.113380849,
+              "wait_seconds": 0.004992917,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 0.116130814,
+              "wait_seconds": 0.001520753,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 0.114977285,
+              "wait_seconds": 0.003188953,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 0.113278672,
+              "wait_seconds": 0.004989788,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 0.112320974,
+              "wait_seconds": 0.005959764,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 0.082242921,
+              "wait_seconds": 0.001571953,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 0.081982672,
+              "wait_seconds": 0.001430392,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 0.081713438,
+              "wait_seconds": 0.001948625,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 0.081898823,
+              "wait_seconds": 0.001767963,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 0.082522765,
+              "wait_seconds": 0.001134276,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 0.081378281,
+              "wait_seconds": 0.002274409,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 0.081155747,
+              "wait_seconds": 0.002444997,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 0.081331998,
+              "wait_seconds": 0.002343312,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.065359667,
+              "wait_seconds": 0.000210941,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.064571336,
+              "wait_seconds": 0.001301169,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.064501479,
+              "wait_seconds": 0.00135003,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.064150125,
+              "wait_seconds": 0.001709089,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.064670324,
+              "wait_seconds": 0.001445994,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.064697355,
+              "wait_seconds": 0.00117673,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.064619124,
+              "wait_seconds": 0.001249641,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.063380957,
+              "wait_seconds": 0.002466097,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.042608529,
+              "wait_seconds": 0.001079991,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.042980611,
+              "wait_seconds": 0.000533268,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.042647734,
+              "wait_seconds": 0.000890508,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.042409956,
+              "wait_seconds": 0.001126185,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.043063015,
+              "wait_seconds": 0.000186816,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.042565927,
+              "wait_seconds": 0.000948995,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.042542085,
+              "wait_seconds": 0.000977531,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.042404115,
+              "wait_seconds": 0.001134887,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.064705223,
+              "wait_seconds": 0.000498399,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.064167619,
+              "wait_seconds": 0.001204669,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.063674673,
+              "wait_seconds": 0.001693457,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.064016148,
+              "wait_seconds": 0.001348957,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.064476311,
+              "wait_seconds": 0.001114801,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.063329369,
+              "wait_seconds": 0.002033308,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.063259438,
+              "wait_seconds": 0.002106607,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.063454747,
+              "wait_seconds": 0.001907945,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.066969424,
+              "wait_seconds": 0.000730336,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.067329124,
+              "wait_seconds": 0.000287235,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.066332102,
+              "wait_seconds": 0.001334965,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.06583038,
+              "wait_seconds": 0.001832753,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.06557411,
+              "wait_seconds": 0.002208158,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.066485658,
+              "wait_seconds": 0.001197025,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.066191912,
+              "wait_seconds": 0.001479477,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.064894572,
+              "wait_seconds": 0.002769634,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.181793004,
+              "wait_seconds": 0.001990899,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.182767987,
+              "wait_seconds": 0.001302376,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.180663243,
+              "wait_seconds": 0.002963379,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.181394324,
+              "wait_seconds": 0.002129123,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 0.182382852,
+              "wait_seconds": 0.000853702,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.18173793,
+              "wait_seconds": 0.001777172,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.179463804,
+              "wait_seconds": 0.004048139,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.180106595,
+              "wait_seconds": 0.003422618,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.068824276,
+              "wait_seconds": 0.0008104,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.06791693,
+              "wait_seconds": 0.002349392,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.066932455,
+              "wait_seconds": 0.00292252,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.067546695,
+              "wait_seconds": 0.00243403,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.069118306,
+              "wait_seconds": 0.000901952,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.066739932,
+              "wait_seconds": 0.003120556,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.067827031,
+              "wait_seconds": 0.001982704,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.067688048,
+              "wait_seconds": 0.002112672,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "t",
+      "frequency_hz": 24000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "83e97dc16ad09521fe035c089bfb6ff4e2115d31319156910a9d10da5af64200",
+      "input_sha256": "c851333edc0764c0fa41b2956b5c3f5d01143c3710729d7f65ad8b687b9744c9",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:21:30.737199+00:00",
+      "wall_seconds": 742.8064840734005,
+      "peak_total_memory_gib": 28.408977508544922,
+      "peak_combined_rss_gib": 24.31084442138672,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 742.7854350656271,
+          "peak_rss_gib": 24.31084442138672,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 501,
+          "residual": "5.77474e-10",
+          "fields_sha256": {
+            "pEvalGrid": "323f89aa90cfd079ff4323b3b999ee61089e3014a922c1adafba092db3b851e9",
+            "pBoundary": "7c2f07ec7543e7f7d2d853d6e86b028fc99665899fcdc198dd1f497e8d6e4d73",
+            "vBoundary": "079836b1561b94c2b5292a250ec7cd991085e870e374979196805edf5f629620"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 10.621042031,
+            "assembly_D": 20.764759746,
+            "assembly_T": 7.322534863,
+            "assembly_S": 10.267672117,
+            "assembly_rhs": 3.005964744,
+            "post_T": 59.416840079,
+            "post_boundary": 0.081462228,
+            "post_evaluation": 124.23471159
+          },
+          "matrix_vector_seconds": 476.569699047,
+          "precondition_seconds": 10.596823579,
+          "matvec_calls": 1005,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.403186336,
+              "wait_seconds": 0.124823079,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.518645748,
+              "wait_seconds": 0.006866708,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.507589459,
+              "wait_seconds": 0.017974466,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.513592809,
+              "wait_seconds": 0.012195989,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.517840028,
+              "wait_seconds": 0.007285923,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.517263085,
+              "wait_seconds": 0.007804886,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.517122179,
+              "wait_seconds": 0.008270711,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.512581393,
+              "wait_seconds": 0.013445169,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 1.822434947,
+              "wait_seconds": 0.557901233,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 2.348659113,
+              "wait_seconds": 0.031418428,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 2.171489254,
+              "wait_seconds": 0.208968624,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 2.350715742,
+              "wait_seconds": 0.029451564,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 2.358984217,
+              "wait_seconds": 0.021746799,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 2.355861261,
+              "wait_seconds": 0.024797678,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 2.353090987,
+              "wait_seconds": 0.027071655,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 2.366603136,
+              "wait_seconds": 0.012473449,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 3.088324547,
+              "wait_seconds": 1.139649197,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 3.56097506,
+              "wait_seconds": 0.666867808,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 3.367878258,
+              "wait_seconds": 0.859866694,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 3.530632436,
+              "wait_seconds": 0.697354659,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 3.527481109,
+              "wait_seconds": 0.700724825,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 3.521599099,
+              "wait_seconds": 0.706621274,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 3.500810653,
+              "wait_seconds": 0.727567255,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 3.408637866,
+              "wait_seconds": 0.820517659,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 2.081417918,
+              "wait_seconds": 0.806007028,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 2.383138448,
+              "wait_seconds": 0.50470686,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 2.272651851,
+              "wait_seconds": 0.615140274,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 2.360383168,
+              "wait_seconds": 0.527419269,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 2.451848134,
+              "wait_seconds": 0.434728712,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 2.502354607,
+              "wait_seconds": 0.384823859,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 2.497913495,
+              "wait_seconds": 0.389480367,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 2.515253752,
+              "wait_seconds": 0.371898934,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.80923,
+              "wait_seconds": 0.121065304,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.91856733,
+              "wait_seconds": 0.011344716,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.854114324,
+              "wait_seconds": 0.075945437,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.918389544,
+              "wait_seconds": 0.011122823,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.906306684,
+              "wait_seconds": 0.024334341,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.887361243,
+              "wait_seconds": 0.042790487,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.8894566,
+              "wait_seconds": 0.040417671,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.882424399,
+              "wait_seconds": 0.047581255,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.468539789,
+              "wait_seconds": 0.109334782,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.567739293,
+              "wait_seconds": 0.010262713,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.531019166,
+              "wait_seconds": 0.04712896,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.563267842,
+              "wait_seconds": 0.015394405,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.573918164,
+              "wait_seconds": 0.002748013,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.560549587,
+              "wait_seconds": 0.017748758,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.555595383,
+              "wait_seconds": 0.022789523,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.555786625,
+              "wait_seconds": 0.022711471,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.658574849,
+              "wait_seconds": 0.153183982,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.801351935,
+              "wait_seconds": 0.010789722,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.740694463,
+              "wait_seconds": 0.07078132,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.803159148,
+              "wait_seconds": 0.008531719,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.810899928,
+              "wait_seconds": 0.000124186,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.798725218,
+              "wait_seconds": 0.012975454,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.804840922,
+              "wait_seconds": 0.007034332,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.80093506,
+              "wait_seconds": 0.010810688,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.294257686,
+              "wait_seconds": 0.083503038,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.373988897,
+              "wait_seconds": 0.002122611,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.340861127,
+              "wait_seconds": 0.036949411,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.364961073,
+              "wait_seconds": 0.012980029,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.35910964,
+              "wait_seconds": 0.021178439,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.365860611,
+              "wait_seconds": 0.011769831,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.369634852,
+              "wait_seconds": 0.007481337,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.359582439,
+              "wait_seconds": 0.018258482,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.792504638,
+              "wait_seconds": 0.251138777,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.988962069,
+              "wait_seconds": 0.056200489,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.913332075,
+              "wait_seconds": 0.130419612,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.969249323,
+              "wait_seconds": 0.074056119,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 1.040061101,
+              "wait_seconds": 0.001220882,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.976324201,
+              "wait_seconds": 0.067518547,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.968662813,
+              "wait_seconds": 0.075399205,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.982185692,
+              "wait_seconds": 0.061445013,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.324203163,
+              "wait_seconds": 0.039343774,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.356526971,
+              "wait_seconds": 0.0068679,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.337563798,
+              "wait_seconds": 0.025718823,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.359108165,
+              "wait_seconds": 0.003940552,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.361873403,
+              "wait_seconds": 0.002399698,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.3565249,
+              "wait_seconds": 0.006675124,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.360095739,
+              "wait_seconds": 0.000844255,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.357602566,
+              "wait_seconds": 0.005549312,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "post",
+      "frequency_hz": 24000,
+      "repeat": 0,
+      "passed": true,
+      "solver_sha256": "8438c026894fd29ce7673f98c7c58a70b2a037be759d2072b73c7f138184651a",
+      "input_sha256": "c851333edc0764c0fa41b2956b5c3f5d01143c3710729d7f65ad8b687b9744c9",
+      "processes": 1,
+      "threads": 8,
+      "copies": 1,
+      "memory_limit_gib": 112,
+      "started_utc": "2026-10-12T09:33:53.556816+00:00",
+      "wall_seconds": 682.2344668507576,
+      "peak_total_memory_gib": 28.413375854492188,
+      "peak_combined_rss_gib": 24.31092071533203,
+      "jobs": [
+        {
+          "job": 0,
+          "wall_seconds": 682.2138898819685,
+          "peak_rss_gib": 24.31092071533203,
+          "cpu_affinity": [
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103
+          ],
+          "iterations": 501,
+          "residual": "5.77474e-10",
+          "fields_sha256": {
+            "pEvalGrid": "323f89aa90cfd079ff4323b3b999ee61089e3014a922c1adafba092db3b851e9",
+            "pBoundary": "7c2f07ec7543e7f7d2d853d6e86b028fc99665899fcdc198dd1f497e8d6e4d73",
+            "vBoundary": "079836b1561b94c2b5292a250ec7cd991085e870e374979196805edf5f629620"
+          },
+          "fields_byte_identical": true,
+          "regions_seconds": {
+            "assembly_N": 11.194801351,
+            "assembly_D": 21.180310288,
+            "assembly_T": 7.452876146,
+            "assembly_S": 9.920246018,
+            "assembly_rhs": 3.042489196,
+            "post_T": 8.277761426,
+            "post_boundary": 0.103044408,
+            "post_evaluation": 119.165278528
+          },
+          "matrix_vector_seconds": 472.717630898,
+          "precondition_seconds": 10.500766758,
+          "matvec_calls": 1005,
+          "row_profile": [
+            {
+              "stage": 3,
+              "thread": 0,
+              "work_seconds": 0.395468563,
+              "wait_seconds": 0.116187021,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 1,
+              "work_seconds": 0.495330855,
+              "wait_seconds": 0.013838589,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 2,
+              "work_seconds": 0.492307201,
+              "wait_seconds": 0.017402187,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 3,
+              "work_seconds": 0.502077878,
+              "wait_seconds": 0.007742316,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 4,
+              "work_seconds": 0.505417347,
+              "wait_seconds": 0.003154144,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 5,
+              "work_seconds": 0.505664095,
+              "wait_seconds": 0.002330422,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 6,
+              "work_seconds": 0.488374904,
+              "wait_seconds": 0.020828828,
+              "samples": 24
+            },
+            {
+              "stage": 3,
+              "thread": 7,
+              "work_seconds": 0.49839054,
+              "wait_seconds": 0.011308774,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 0,
+              "work_seconds": 1.809949577,
+              "wait_seconds": 0.522675619,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 1,
+              "work_seconds": 1.978902057,
+              "wait_seconds": 0.353738919,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 2,
+              "work_seconds": 2.051509142,
+              "wait_seconds": 0.280606106,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 3,
+              "work_seconds": 2.284638897,
+              "wait_seconds": 0.047650591,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 4,
+              "work_seconds": 2.310300529,
+              "wait_seconds": 0.0230712,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 5,
+              "work_seconds": 2.302337781,
+              "wait_seconds": 0.031728491,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 6,
+              "work_seconds": 1.938733563,
+              "wait_seconds": 0.393895462,
+              "samples": 24
+            },
+            {
+              "stage": 4,
+              "thread": 7,
+              "work_seconds": 2.309106499,
+              "wait_seconds": 0.021171898,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 0,
+              "work_seconds": 3.040038988,
+              "wait_seconds": 0.429493532,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 1,
+              "work_seconds": 3.10017781,
+              "wait_seconds": 0.368977934,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 2,
+              "work_seconds": 3.166126519,
+              "wait_seconds": 0.303452224,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 3,
+              "work_seconds": 3.4013623,
+              "wait_seconds": 0.067522511,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 4,
+              "work_seconds": 3.401909471,
+              "wait_seconds": 0.067277014,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 5,
+              "work_seconds": 3.397850394,
+              "wait_seconds": 0.071899533,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 6,
+              "work_seconds": 3.006323665,
+              "wait_seconds": 0.463076875,
+              "samples": 24
+            },
+            {
+              "stage": 5,
+              "thread": 7,
+              "work_seconds": 3.33577925,
+              "wait_seconds": 0.135872468,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 0,
+              "work_seconds": 2.009883881,
+              "wait_seconds": 1.200210154,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 1,
+              "work_seconds": 2.219211653,
+              "wait_seconds": 0.990879774,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 2,
+              "work_seconds": 2.26666823,
+              "wait_seconds": 0.943121597,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 3,
+              "work_seconds": 2.466884255,
+              "wait_seconds": 0.743676171,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 4,
+              "work_seconds": 2.480738416,
+              "wait_seconds": 0.729434699,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 5,
+              "work_seconds": 2.464434177,
+              "wait_seconds": 0.74508892,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 6,
+              "work_seconds": 2.144974977,
+              "wait_seconds": 1.06488736,
+              "samples": 24
+            },
+            {
+              "stage": 6,
+              "thread": 7,
+              "work_seconds": 2.459552839,
+              "wait_seconds": 0.750254586,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 0,
+              "work_seconds": 0.899118334,
+              "wait_seconds": 0.217760324,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 1,
+              "work_seconds": 0.907220677,
+              "wait_seconds": 0.210081354,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 2,
+              "work_seconds": 0.910592318,
+              "wait_seconds": 0.20686084,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 3,
+              "work_seconds": 0.951867685,
+              "wait_seconds": 0.165277258,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 4,
+              "work_seconds": 0.988434047,
+              "wait_seconds": 0.127681658,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 5,
+              "work_seconds": 0.97955288,
+              "wait_seconds": 0.137776196,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 6,
+              "work_seconds": 0.960741371,
+              "wait_seconds": 0.156614959,
+              "samples": 24
+            },
+            {
+              "stage": 7,
+              "thread": 7,
+              "work_seconds": 0.966354713,
+              "wait_seconds": 0.150672048,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 0,
+              "work_seconds": 0.518251255,
+              "wait_seconds": 0.099508718,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 1,
+              "work_seconds": 0.534695312,
+              "wait_seconds": 0.083173454,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 2,
+              "work_seconds": 0.544665411,
+              "wait_seconds": 0.073178515,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 3,
+              "work_seconds": 0.586464375,
+              "wait_seconds": 0.031627178,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 4,
+              "work_seconds": 0.596058056,
+              "wait_seconds": 0.021261692,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 5,
+              "work_seconds": 0.584307179,
+              "wait_seconds": 0.033425137,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 6,
+              "work_seconds": 0.494420916,
+              "wait_seconds": 0.123165622,
+              "samples": 24
+            },
+            {
+              "stage": 8,
+              "thread": 7,
+              "work_seconds": 0.567374676,
+              "wait_seconds": 0.050705314,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 0,
+              "work_seconds": 0.673320547,
+              "wait_seconds": 0.165413946,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 1,
+              "work_seconds": 0.719879061,
+              "wait_seconds": 0.118528232,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 2,
+              "work_seconds": 0.739849105,
+              "wait_seconds": 0.098182395,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 3,
+              "work_seconds": 0.827643469,
+              "wait_seconds": 0.009927914,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 4,
+              "work_seconds": 0.831731707,
+              "wait_seconds": 0.007762805,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 5,
+              "work_seconds": 0.822921053,
+              "wait_seconds": 0.015230432,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 6,
+              "work_seconds": 0.699054316,
+              "wait_seconds": 0.139473587,
+              "samples": 24
+            },
+            {
+              "stage": 9,
+              "thread": 7,
+              "work_seconds": 0.814331725,
+              "wait_seconds": 0.023842275,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 0,
+              "work_seconds": 0.296151608,
+              "wait_seconds": 0.06900987,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 1,
+              "work_seconds": 0.318435878,
+              "wait_seconds": 0.046214595,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 2,
+              "work_seconds": 0.323359564,
+              "wait_seconds": 0.042147249,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 3,
+              "work_seconds": 0.354719535,
+              "wait_seconds": 0.011296779,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 4,
+              "work_seconds": 0.350865692,
+              "wait_seconds": 0.015170544,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 5,
+              "work_seconds": 0.358418211,
+              "wait_seconds": 0.005548805,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 6,
+              "work_seconds": 0.30908744,
+              "wait_seconds": 0.056352794,
+              "samples": 24
+            },
+            {
+              "stage": 10,
+              "thread": 7,
+              "work_seconds": 0.348565832,
+              "wait_seconds": 0.016751483,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 0,
+              "work_seconds": 0.811691776,
+              "wait_seconds": 0.236446753,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 1,
+              "work_seconds": 0.857935488,
+              "wait_seconds": 0.190974921,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 2,
+              "work_seconds": 0.895422071,
+              "wait_seconds": 0.152865231,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 3,
+              "work_seconds": 0.968177661,
+              "wait_seconds": 0.079941615,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 4,
+              "work_seconds": 1.045377523,
+              "wait_seconds": 0.00019367,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 5,
+              "work_seconds": 0.979144886,
+              "wait_seconds": 0.070740387,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 6,
+              "work_seconds": 0.824243769,
+              "wait_seconds": 0.223563656,
+              "samples": 24
+            },
+            {
+              "stage": 11,
+              "thread": 7,
+              "work_seconds": 0.969424039,
+              "wait_seconds": 0.07899031,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 0,
+              "work_seconds": 0.328273997,
+              "wait_seconds": 0.048477069,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 1,
+              "work_seconds": 0.332520023,
+              "wait_seconds": 0.04393594,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 2,
+              "work_seconds": 0.335981563,
+              "wait_seconds": 0.040393233,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 3,
+              "work_seconds": 0.369150758,
+              "wait_seconds": 0.006577104,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 4,
+              "work_seconds": 0.370786995,
+              "wait_seconds": 0.007978991,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 5,
+              "work_seconds": 0.36536774,
+              "wait_seconds": 0.010858983,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 6,
+              "work_seconds": 0.335910827,
+              "wait_seconds": 0.040696084,
+              "samples": 24
+            },
+            {
+              "stage": 12,
+              "thread": 7,
+              "work_seconds": 0.364939913,
+              "wait_seconds": 0.011030272,
+              "samples": 24
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "reference_commit": "501d6aa8a3fdd619e3932d68c7910c08c7f1dd31",
+  "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0",
+  "compiler_flags": [
+    "-std=c++11",
+    "-O2",
+    "-DNDEBUG",
+    "-fopenmp",
+    "-DMRADM_ENABLE_OMP",
+    "-DNUMCALC_EVALUATION_VELOCITY=0"
+  ],
+  "validation": {
+    "passed": true,
+    "reference_commit": "e45d0436a6fbeca3db13828cbae23ca109225be3",
+    "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0",
+    "source_sha256": {
+      "NC_3dFunctions.cpp": "1b58d18c8ec33988aade95f996c5d38c7a538d2cc7d7cc4250635c40567d297b",
+      "NC_Addresses.cpp": "733788dc1d02b8e38279cbe33d2f5ef55a5f2bce0cbce090efef57d8252942ce",
+      "NC_CommonFunctions.cpp": "d9c78dc74b3a461459528ea18fcd28c0f94804b25f1a61021766e18711585aa3",
+      "NC_EquationSystem.cpp": "262f1f73fd7f2b74193c77f2db6d9d5f11af834ef568cf4e3ac4de4870bee088",
+      "NC_Input.cpp": "89d57beb8ca95fa1484464d0e0f6e5e9f24709352eb198300f485fbcea7e22e4",
+      "NC_Main.cpp": "25917723ad3f42988e17545731a110035e4bab4208b5a31a57bcfb32233596c8",
+      "NC_PostProcessing.cpp": "d2a81c6a9c061b2838d4067843cffeccb85e6aab894601660e2809cf6868ddcc"
+    },
+    "ilu": {
+      "passed": true,
+      "cases": [
+        {
+          "size": 7,
+          "method": 0,
+          "degree": 0
+        },
+        {
+          "size": 7,
+          "method": 0,
+          "degree": 1
+        },
+        {
+          "size": 7,
+          "method": 0,
+          "degree": 2
+        },
+        {
+          "size": 7,
+          "method": 0,
+          "degree": 3
+        },
+        {
+          "size": 7,
+          "method": 1,
+          "degree": 0
+        },
+        {
+          "size": 7,
+          "method": 1,
+          "degree": 1
+        },
+        {
+          "size": 7,
+          "method": 1,
+          "degree": 2
+        },
+        {
+          "size": 7,
+          "method": 1,
+          "degree": 3
+        },
+        {
+          "size": 7,
+          "method": 3,
+          "degree": 0
+        },
+        {
+          "size": 7,
+          "method": 3,
+          "degree": 1
+        },
+        {
+          "size": 7,
+          "method": 3,
+          "degree": 2
+        },
+        {
+          "size": 7,
+          "method": 3,
+          "degree": 3
+        },
+        {
+          "size": 31,
+          "method": 0,
+          "degree": 0
+        },
+        {
+          "size": 31,
+          "method": 0,
+          "degree": 1
+        },
+        {
+          "size": 31,
+          "method": 0,
+          "degree": 2
+        },
+        {
+          "size": 31,
+          "method": 0,
+          "degree": 3
+        },
+        {
+          "size": 31,
+          "method": 1,
+          "degree": 0
+        },
+        {
+          "size": 31,
+          "method": 1,
+          "degree": 1
+        },
+        {
+          "size": 31,
+          "method": 1,
+          "degree": 2
+        },
+        {
+          "size": 31,
+          "method": 1,
+          "degree": 3
+        },
+        {
+          "size": 31,
+          "method": 3,
+          "degree": 0
+        },
+        {
+          "size": 31,
+          "method": 3,
+          "degree": 1
+        },
+        {
+          "size": 31,
+          "method": 3,
+          "degree": 2
+        },
+        {
+          "size": 31,
+          "method": 3,
+          "degree": 3
+        },
+        {
+          "size": 97,
+          "method": 0,
+          "degree": 0
+        },
+        {
+          "size": 97,
+          "method": 0,
+          "degree": 1
+        },
+        {
+          "size": 97,
+          "method": 0,
+          "degree": 2
+        },
+        {
+          "size": 97,
+          "method": 0,
+          "degree": 3
+        },
+        {
+          "size": 97,
+          "method": 1,
+          "degree": 0
+        },
+        {
+          "size": 97,
+          "method": 1,
+          "degree": 1
+        },
+        {
+          "size": 97,
+          "method": 1,
+          "degree": 2
+        },
+        {
+          "size": 97,
+          "method": 1,
+          "degree": 3
+        },
+        {
+          "size": 97,
+          "method": 3,
+          "degree": 0
+        },
+        {
+          "size": 97,
+          "method": 3,
+          "degree": 1
+        },
+        {
+          "size": 97,
+          "method": 3,
+          "degree": 2
+        },
+        {
+          "size": 97,
+          "method": 3,
+          "degree": 3
+        },
+        {
+          "size": 257,
+          "method": 0,
+          "degree": 0
+        },
+        {
+          "size": 257,
+          "method": 0,
+          "degree": 1
+        },
+        {
+          "size": 257,
+          "method": 0,
+          "degree": 2
+        },
+        {
+          "size": 257,
+          "method": 0,
+          "degree": 3
+        },
+        {
+          "size": 257,
+          "method": 1,
+          "degree": 0
+        },
+        {
+          "size": 257,
+          "method": 1,
+          "degree": 1
+        },
+        {
+          "size": 257,
+          "method": 1,
+          "degree": 2
+        },
+        {
+          "size": 257,
+          "method": 1,
+          "degree": 3
+        },
+        {
+          "size": 257,
+          "method": 3,
+          "degree": 0
+        },
+        {
+          "size": 257,
+          "method": 3,
+          "degree": 1
+        },
+        {
+          "size": 257,
+          "method": 3,
+          "degree": 2
+        },
+        {
+          "size": 257,
+          "method": 3,
+          "degree": 3
+        }
+      ],
+      "output_sha256": "999d85a3d4f207b3a0cd68d6f020272654b3476cbae6f729c3f4194cc0f30d07"
+    },
+    "spheres": [
+      {
+        "case": "m0-r0.12-rigid",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-rigid",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-rigid",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-rigid",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-positive",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-positive",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-positive",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-positive",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-negative",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-negative",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-negative",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r0.12-negative",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-rigid",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-rigid",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-rigid",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-rigid",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-positive",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-positive",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-positive",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-positive",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-negative",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-negative",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-negative",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m0-r1.5-negative",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": null
+      },
+      {
+        "case": "m1-r0.12-rigid",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-rigid",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-rigid",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-rigid",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-positive",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-positive",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-positive",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-positive",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-negative",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-negative",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-negative",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r0.12-negative",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m1-r1.5-rigid",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-rigid",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-rigid",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-rigid",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-positive",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-positive",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-positive",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-positive",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-negative",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-negative",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-negative",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m1-r1.5-negative",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r0.12-rigid",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-rigid",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-rigid",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-rigid",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-positive",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-positive",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-positive",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-positive",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-negative",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-negative",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-negative",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r0.12-negative",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 6
+      },
+      {
+        "case": "m4-r1.5-rigid",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-rigid",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-rigid",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-rigid",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-positive",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-positive",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-positive",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-positive",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-negative",
+        "mode": "pressure",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-negative",
+        "mode": "pressure",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-negative",
+        "mode": "velocity",
+        "threads": 1,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      },
+      {
+        "case": "m4-r1.5-negative",
+        "mode": "velocity",
+        "threads": 8,
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ],
+        "near_pairs": 0
+      }
+    ],
+    "extended": [
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-False",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mixed-adaptive-True",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-False",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "mirror-adaptive-True",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-False",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "pressure",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "pressure",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "velocity",
+        "threads": 1,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      },
+      {
+        "case": "multi-adaptive-True",
+        "mode": "velocity",
+        "threads": 8,
+        "frequencies": [
+          1000,
+          4000,
+          1000
+        ],
+        "fields_byte_identical": [
+          "pEvalGrid",
+          "pBoundary",
+          "vBoundary",
+          "vEvalGrid"
+        ]
+      }
+    ],
+    "pressure_only_cleanup": true
+  }
+}

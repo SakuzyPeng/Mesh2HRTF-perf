@@ -81,8 +81,8 @@ Vector<double> Vmagdbph_v_3d(3);
 Vector<Complex> Zvelopoi_3d(NDIM);
 Complex Zpotpoi_3d;
 const int GaupFMBOrde = 2;
-int npFMGp;
-double csipFMgau[GaupFMBOrde*GaupFMBOrde], etapFMgau[GaupFMBOrde*GaupFMBOrde], weipFMgau[GaupFMBOrde*GaupFMBOrde];
+thread_local int npFMGp;
+thread_local double csipFMgau[GaupFMBOrde*GaupFMBOrde], etapFMgau[GaupFMBOrde*GaupFMBOrde], weipFMgau[GaupFMBOrde*GaupFMBOrde];
 Complex *zT_vc;
 static bool IfTvc = false;
 
@@ -232,7 +232,19 @@ void NC_ComputeTvecMLFMM
 	ofstream& NCout
  )
 {
-    int i, j, inod0 = 0, k, ibg, jel, iveloj, ifadmij, inodj, ilv;
+    // compute the T-vectors
+    for(int ilv=0; ilv<numClusterLevels_ && ilv<1; ilv++)
+    {
+        // defines
+        ElCluster* clusArray = clulevarry[ilv].ClastArLv;
+
+        // initialize
+        for(int i=0; i<clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv; i++)
+            clulevarry[ilv].zwkT[i].set(0.0, 0.0);
+
+#pragma omp parallel if(omp_get_max_threads()>1)
+        {
+    int j, inod0 = 0, k, jel, iveloj, ifadmij, inodj;
     Vector<double> center_i(NDIM);
     Vector<int> jdofaddre(2);
     Vector<double> centerj(NDIM), norvecj(NDIM*(NNODPE + 1));
@@ -244,25 +256,17 @@ void NC_ComputeTvecMLFMM
     bool mir_cl;
     Vector<bool> rfdi_cl(NDIM);
     
-    ElCluster *clusArray;
+
     
     
     // contribution of the element to the T-vector
     Vector<Complex> zTele(clulevarry[0].nPoinSpheLv);
     
-    // compute the T-vectors
-    for(ilv=0; ilv<numClusterLevels_ && ilv<1; ilv++)
-    {
-        // defines
-        clusArray = clulevarry[ilv].ClastArLv;
-        
-        // initialize
-        for(i=0; i<clulevarry[ilv].nPoinSpheLv*clulevarry[ilv].nClustSLv; i++)
-            clulevarry[ilv].zwkT[i].set(0.0, 0.0);
-        
-        ibg = 0;
-        for(i=0; i<clulevarry[ilv].nClustSLv; i++)
+#pragma omp for schedule(dynamic,1)
+        for(int i=0; i<clulevarry[ilv].nClustSLv; i++)
         {
+            const int ibg = i*clulevarry[ilv].nPoinSpheLv;
+            inod0 = 0;
             // cluster parameters
             nrf_cl = clusArray[i].nuref;
             rfa_cl = clusArray[i].rffac;
@@ -312,8 +316,8 @@ void NC_ComputeTvecMLFMM
                 for(k=0; k<clulevarry[ilv].nPoinSpheLv; k++) 
                     clulevarry[ilv].zwkT[ibg + k] += zTele[k];
             } // end of loop J
-            ibg += clulevarry[ilv].nPoinSpheLv;
         } // end of loop I
+        } // end of parallel region
     } // end of loop ILV
 }
 
