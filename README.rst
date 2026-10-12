@@ -17,10 +17,9 @@ Rebuild with ``EVALUATION_VELOCITY=1`` when evaluation velocity is required.
 The accepted optimizations include parallel D/T assembly, parallel
 postprocessing, and a coarsest-level matrix-vector layout. In three paired
 eight-thread runs per frequency against the first performance release
-(``9b386dc``), median wall time changed from 51.03 s to
-44.00 s at 4 kHz and 915.66 s to
-627.50 s at 24 kHz. Pressure and boundary output bytes
-were identical. See `measurements, build options, and limitations
+(``9b386dc``), median wall time changed from 51.03 s to 44.00 s at 4 kHz and
+from 915.66 s to 627.50 s at 24 kHz. Pressure and boundary output bytes were
+identical. See `measurements, build options, and limitations
 <docs/performance.md>`_ and the `reproducible checks
 <tests/performance/README.md>`_. Whole-band throughput has not yet been measured.
 
@@ -64,11 +63,13 @@ Complete Documentation
 Releases and Development
 ========================
 
-Releases are available at https://github.com/Any2HRTF/Mesh2HRTF/releases.
+This fork's ``master`` branch contains the performance changes described above
+on top of Mesh2HRTF v1.3.0. Issues specific to these changes belong in
+`this repository <https://github.com/SakuzyPeng/Mesh2HRTF-perf>`_.
 
-The ``master`` branch contains the latest stable code basis and is available for cloning, forking, or downloads.
-
-The ``develop`` branch contains the latest stable developer version. Other branches track the more recent development, which might be unstable. If you would like to contribute to Mesh2HRTF please check `here <https://github.com/Any2HRTF/Mesh2HRTF/blob/develop/CONTRIBUTING.rst>`_.
+Upstream Mesh2HRTF releases are available at https://github.com/Any2HRTF/Mesh2HRTF/releases.
+Upstream development happens on its ``develop`` branch; if you would like to
+contribute to Mesh2HRTF itself, please check `here <https://github.com/Any2HRTF/Mesh2HRTF/blob/develop/CONTRIBUTING.rst>`_.
 
 
 References
