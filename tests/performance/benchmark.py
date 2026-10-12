@@ -55,6 +55,15 @@ def interrupted(signum, frame):
     raise InterruptedError(f"Benchmark interrupted by signal {signum}")
 
 
+def environment(threads, malloc_arenas=None):
+    env = dict(os.environ, OMP_NUM_THREADS=str(threads), OMP_DYNAMIC="FALSE",
+               OMP_MAX_ACTIVE_LEVELS="1", OMP_PROC_BIND="spread", OMP_PLACES="cores",
+               OMP_WAIT_POLICY="PASSIVE")
+    if malloc_arenas is not None:
+        env["MALLOC_ARENA_MAX"] = str(malloc_arenas)
+    return env
+
+
 def run_batch(args):
     work = args.work_dir.resolve()
     work.mkdir(parents=True, exist_ok=False)
@@ -78,6 +87,7 @@ def run_batch(args):
               "input_sha256": sha(template / "NumCalc/source_1/NC.inp"),
               "processes": args.processes, "threads": args.threads, "copies": count,
               "memory_limit_gib": args.memory_limit_gib,
+              "malloc_arena_max": environment(args.threads, getattr(args, "malloc_arenas", None)).get("MALLOC_ARENA_MAX"),
               "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat()}
     last_status = 0.0
     old_handler = signal.signal(signal.SIGTERM, interrupted)
@@ -98,9 +108,7 @@ def run_batch(args):
                 cwd = folder / "NumCalc/source_1"
                 assert not (cwd / "be.out").exists(), "Template must contain inputs only"
                 team_cpus = cpus[slot*args.threads:(slot+1)*args.threads]
-                env = dict(os.environ, OMP_NUM_THREADS=str(args.threads), OMP_DYNAMIC="FALSE",
-                           OMP_MAX_ACTIVE_LEVELS="1", OMP_PROC_BIND="spread", OMP_PLACES="cores",
-                           OMP_WAIT_POLICY="PASSIVE")
+                env = environment(args.threads, getattr(args, "malloc_arenas", None))
                 handle = (folder / "stdout.log").open("w")
                 command = ["taskset", "-c", ",".join(map(str, team_cpus)), str(solver),
                            "-istart", "1", "-iend", "1", "-nitermax", "1000"]
@@ -194,9 +202,12 @@ def main():
     parser.add_argument("--memory-limit-gib", type=float, default=112)
     parser.add_argument("--expected-rss-gib", type=float, required=True)
     parser.add_argument("--timeout", type=float, default=7200)
+    parser.add_argument("--malloc-arenas", type=int, help="Explicit glibc MALLOC_ARENA_MAX for this experiment")
     args = parser.parse_args()
     if min(args.processes, args.threads, args.copies, args.expected_rss_gib, args.timeout) <= 0:
         parser.error("Counts, memory reservation, and timeout must be positive")
+    if args.malloc_arenas is not None and args.malloc_arenas <= 0:
+        parser.error("--malloc-arenas must be positive")
     print(json.dumps(run_batch(args), indent=2), flush=True)
 
 

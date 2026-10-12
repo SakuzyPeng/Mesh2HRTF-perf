@@ -48,3 +48,12 @@ Linux `taskset`; it never changes the production campaign state.
 These are correctness checks, not speed benchmarks. They do not establish
 convergence of a particular head mesh or guarantee identical output across
 different compilers, CPUs, or floating-point options.
+
+`--malloc-arenas N` optionally sets `MALLOC_ARENA_MAX` only in each solver child.
+It preserves the parent environment and defaults to no override. This is a
+glibc-specific experiment option; report it separately from the thread count.
+Run the lightweight resource/environment guard tests with:
+
+```sh
+python3 -m unittest discover -s tests/performance -p test_benchmark.py
+```

@@ -213,3 +213,47 @@ Against the preceding D + T assembly version:
 The 24 kHz post-T region fell from 59.42 s to 8.28 s. Field bytes and convergence
 records remained identical. These are stage measurements, with final repeated
 validation still required. See [the post-T record](../benchmarks/parallel-post-t-2026-10-12.json).
+
+
+## Process/thread throughput and allocator configuration
+
+This comparison uses commit `1e086b2`, a fixed budget of 32 allowed CPUs, disjoint
+CPU sets for simultaneous processes, and four independent copies of each input.
+These are single batch measurements, not four independent repetitions of each
+batch. All field bytes, iteration counts, and residuals matched the reference.
+
+| Configuration | Four 4 kHz solves | Four 24 kHz solves | 24 kHz peak combined RSS |
+| --- | ---: | ---: | ---: |
+| 1 process × 32 threads | 487.11 s | 1660.01 s | 24.31 GiB |
+| 2 processes × 16 threads | 135.68 s | 1237.19 s | 48.62 GiB |
+| 4 processes × 8 threads | 65.75 s | 1147.22 s | 97.24 GiB |
+
+For these inputs and the default allocator configuration, **4 × 8** wins in
+both bands. The high-frequency batch stayed below the 112 GiB total-memory
+ceiling. This is a recommendation among the tested configurations on this host;
+it is not a whole-band throughput measurement or a result for later SpMV variants.
+
+The slow 32-thread low-frequency result was concentrated in near assembly:
+the first case spent 101.39 s there, although its matrix-vector work took only
+9.80 s. Workers had distinct CPU affinity, and sampling found many futex waits
+and substantial system CPU time.
+
+A bounded follow-up changed only the solver child's `MALLOC_ARENA_MAX` to 32.
+With the same executable, 32 threads, and four 4 kHz cases, the batch fell from
+**487.11 s to 113.08 s**. Each solve took approximately 28.1 s and near assembly
+6.8 s. Field bytes and convergence were unchanged, and peak RSS remained about
+3.10 GiB. The default 4 × 8 configuration was still faster for this workload.
+The allocator override was not benchmarked at 24 kHz in this experiment.
+
+This result is consistent with an allocator/affinity interaction: glibc 2.35's
+[arena-limit calculation](https://github.com/bminor/glibc/blob/glibc-2.35/malloc/arena.c)
+uses an [affinity-aware CPU count](https://github.com/bminor/glibc/blob/glibc-2.35/sysdeps/unix/sysv/linux/getsysstats.c),
+while OpenMP binds individual workers to one CPU here. The exact arena count
+was not measured. [glibc documents the explicit arena limit](https://sourceware.org/glibc/manual/latest/html_node/Memory-Allocation-Tunables.html).
+For an explicit 32-thread run on this tested glibc host, the validated override
+is `OMP_NUM_THREADS=32 MALLOC_ARENA_MAX=32`; no global environment or solver
+allocator policy is changed by this fork.
+
+The benchmark helper exposes `--malloc-arenas` for isolated comparisons and
+records the requested value. Five resource/environment guard tests passed.
+Full data is in [the throughput record](../benchmarks/throughput-2026-10-12.json).

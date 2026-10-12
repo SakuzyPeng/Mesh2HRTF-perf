@@ -12,6 +12,12 @@ import benchmark
 
 
 class BenchmarkGuards(unittest.TestCase):
+    def test_allocator_override_is_child_local(self):
+        with patch.dict(benchmark.os.environ, {"MALLOC_ARENA_MAX": "2"}):
+            self.assertEqual(benchmark.environment(8)["MALLOC_ARENA_MAX"], "2")
+            self.assertEqual(benchmark.environment(32, 32)["MALLOC_ARENA_MAX"], "32")
+            self.assertEqual(benchmark.os.environ["MALLOC_ARENA_MAX"], "2")
+
     def args(self, root, **changes):
         values = dict(work_dir=root / "run", solver=root / "NumCalc",
                       processes=1, threads=8, copies=1, pause_control=None,
