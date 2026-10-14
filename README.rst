@@ -21,7 +21,27 @@ eight-thread runs per frequency against the first performance release
 from 915.66 s to 627.50 s at 24 kHz. Pressure and boundary output bytes were
 identical. See `measurements, build options, and limitations
 <docs/performance.md>`_ and the `reproducible checks
-<tests/performance/README.md>`_. Whole-band throughput has not yet been measured.
+<tests/performance/README.md>`_. These timings use an already optimized release
+as their baseline; they do not establish a whole-band speedup over upstream.
+
+**Correctness against unmodified upstream:** A separate check on 2026-10-14
+compared this repository's solver directly with Mesh2HRTF v1.3.0, commit
+``e45d0436a6fbeca3db13828cbae23ca109225be3``, on Linux x86-64 with GCC 11.4.0.
+The synthetic model had 2,048 triangles, asymmetric geometry, one driven face,
+complex skin RLC admittance, and multiple evaluation distances. All nine
+comparisons at 1, 4, and 12 kHz (one and eight threads, with an additional
+eight-thread repeat) produced byte-identical ``pEvalGrid``, ``pBoundary``, and
+``vBoundary`` files. Iteration counts and reported residuals also matched. The
+checks exercised two FMM levels and both near- and far-field evaluation paths.
+The `validation record and source hashes
+<benchmarks/upstream-parity-2026-10-14.json>`_ identify the exact inputs and builds.
+This is evidence for the tested inputs, not a proof for all meshes or frequencies.
+
+**Platform scope:** In a separate macOS ARM64/GCC 15.2.0 check, the 1 kHz
+single-thread case produced identical field files and the same 18 iterations,
+but the reported residuals were ``1.32022e-10`` and ``1.32020e-10`` (an absolute
+difference of approximately ``2e-15``). The strict residual check stopped that
+run before the remaining cases. Cross-platform bit identity is not claimed.
 
 The original Mesh2HRTF overview and references follow.
 

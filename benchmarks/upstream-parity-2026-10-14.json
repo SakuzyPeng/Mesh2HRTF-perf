@@ -1,0 +1,664 @@
+{
+  "date_utc": "2026-10-14",
+  "purpose": "Direct output-preservation regression against unmodified upstream, separate from timings against the first performance release.",
+  "upstream": {
+    "commit": "e45d0436a6fbeca3db13828cbae23ca109225be3",
+    "binary_sha256": "dbb50350ecdc375350303dd18d695d1d5e9e316206673014be6863b1df21e442",
+    "source_sha256": {
+      "NC_3dFunctions.cpp": "1b58d18c8ec33988aade95f996c5d38c7a538d2cc7d7cc4250635c40567d297b",
+      "NC_Addresses.cpp": "733788dc1d02b8e38279cbe33d2f5ef55a5f2bce0cbce090efef57d8252942ce",
+      "NC_Arrays.h": "fc1ef839a60218de4c7d9778ba18c1bcb3697113191efbe5e9b0ba9e76f26119",
+      "NC_CommonFunctions.cpp": "d8d8fafb5e000c9ec17c0d22042fc8de812990f8a2ef58c2c91173858698c5b6",
+      "NC_ConstantsVariables.h": "20eed9ad6f6a49ae17135fa685db3103b2308b6ffd62aa29809fa4818f205690",
+      "NC_EquationSystem.cpp": "f0761cd8a226ede9da714d48e600f5fea208ed31157db8b816b022ee1cbdc24e",
+      "NC_Input.cpp": "89d57beb8ca95fa1484464d0e0f6e5e9f24709352eb198300f485fbcea7e22e4",
+      "NC_IntegrationConstants.h": "afe9d7566a717e5eac216e607ef5c1e0209a323feb65333a889863de2642a44d",
+      "NC_Macros.h": "79d37d7f4283b2debaed788bd94bd9219bd70e3d39a4119973b1cd807c94a170",
+      "NC_Main.cpp": "25917723ad3f42988e17545731a110035e4bab4208b5a31a57bcfb32233596c8",
+      "NC_PostProcessing.cpp": "7b12f2b65468cf7ce198563a416f084533facf846d54c2132fd48136b6c44ada",
+      "NC_TypeDefinition.h": "359a76723972f89df5d66513599774c83b8d19e77c49374417abceef060057b1"
+    }
+  },
+  "candidate": {
+    "commit": "741dd3c551c30739796d563ae905d413a4d47157",
+    "binary_sha256": "482875b10a44afa06928002944b4e3f372aaef299ad4d990392d2830b67400c4",
+    "source_sha256": {
+      "NC_3dFunctions.cpp": "1b58d18c8ec33988aade95f996c5d38c7a538d2cc7d7cc4250635c40567d297b",
+      "NC_ConstantsVariables.h": "20eed9ad6f6a49ae17135fa685db3103b2308b6ffd62aa29809fa4818f205690",
+      "NC_PostProcessing.cpp": "d2a81c6a9c061b2838d4067843cffeccb85e6aab894601660e2809cf6868ddcc",
+      "NC_IntegrationConstants.h": "afe9d7566a717e5eac216e607ef5c1e0209a323feb65333a889863de2642a44d",
+      "NC_Macros.h": "79d37d7f4283b2debaed788bd94bd9219bd70e3d39a4119973b1cd807c94a170",
+      "NC_EquationSystem.cpp": "262f1f73fd7f2b74193c77f2db6d9d5f11af834ef568cf4e3ac4de4870bee088",
+      "NC_Arrays.h": "fc1ef839a60218de4c7d9778ba18c1bcb3697113191efbe5e9b0ba9e76f26119",
+      "NC_Addresses.cpp": "733788dc1d02b8e38279cbe33d2f5ef55a5f2bce0cbce090efef57d8252942ce",
+      "NC_Input.cpp": "89d57beb8ca95fa1484464d0e0f6e5e9f24709352eb198300f485fbcea7e22e4",
+      "NC_TypeDefinition.h": "359a76723972f89df5d66513599774c83b8d19e77c49374417abceef060057b1",
+      "NC_CommonFunctions.cpp": "608f5064c952f2972937da17b612c0b8dec9a40b0907bcb78a2d08b68152bfde",
+      "NC_Main.cpp": "25917723ad3f42988e17545731a110035e4bab4208b5a31a57bcfb32233596c8"
+    },
+    "checkpoint_io_extensions": false
+  },
+  "environment": {
+    "platform": "Linux-5.15.0-94-generic-x86_64-with-glibc2.35",
+    "architecture": "x86_64",
+    "compiler": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0",
+    "optimization_flags": [
+      "-O2",
+      "-DNDEBUG"
+    ],
+    "fast_math": false
+  },
+  "model": {
+    "kind": "Synthetic asymmetric sheared ellipsoid",
+    "boundary_triangles": 2048,
+    "vertices": 1026,
+    "single_driven_face": 1700,
+    "velocity_m_per_s": 0.1,
+    "recipe": {
+      "generator": "tests/performance/sphere.py:sphere_mesh(4)",
+      "axis_scales_m": [
+        0.095,
+        0.075,
+        0.105
+      ],
+      "radial_warp": "1 + 0.08*x + 0.05*y*z + 0.04*x*x*z, evaluated on the unit sphere before axis scaling",
+      "shears_in_order": [
+        "x += 0.12*z",
+        "y += 0.05*x"
+      ],
+      "face_permutation": "numpy.random.default_rng(20261014).permutation(number_of_faces)",
+      "input_generator_numpy": "2.3.5",
+      "source_selection": "argmax(face_center_y - 0.2*face_center_x)"
+    },
+    "material": {
+      "type": "Complex skin RLC on all faces except the velocity source",
+      "R_Ns_per_m": 9.0,
+      "L_Ns2_per_m": 0.00053,
+      "C_m_per_N": 5.3e-06,
+      "reference_area_m2": 0.00015,
+      "air_density_kg_per_m3": 1.1839,
+      "speed_of_sound_m_per_s": 343.18,
+      "normalized_admittance": "rho*c/conjugate((R + i*omega*L + 1/(i*omega*C))/area)"
+    }
+  },
+  "evaluation_grid": {
+    "direction_generator": "tests/performance/sphere.py:sphere_mesh(2)",
+    "radii_m": [
+      0.12,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.75,
+      1.0,
+      1.3,
+      1.5,
+      1.6
+    ],
+    "clipped_radii_m": [
+      0.2,
+      0.3
+    ],
+    "clipped_min_elevation_degrees": -35,
+    "evaluation_points": 634
+  },
+  "frequencies_hz": [
+    1000,
+    4000,
+    12000
+  ],
+  "candidate_configurations": [
+    {
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "threads": 8,
+      "repeat": 0
+    },
+    {
+      "threads": 8,
+      "repeat": 1
+    }
+  ],
+  "input_files_sha256": {
+    "f12000/NC.inp": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+    "f04000/NC.inp": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+    "f01000/NC.inp": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+    "f12000/ObjectMeshes/Elements.txt": "c242c224867fcadd134d3658323ea000dd06e5a444a33cf4a4cb35d7a3c35c57",
+    "f12000/ObjectMeshes/Nodes.txt": "41adc90bfaf007a8cf2afb94008498fb67e9191326987c996eb3ce78dc8330e2",
+    "f12000/EvaluationGrids/Elements.txt": "f68f5afb7be284beac0108dd062058a7261ab9841fe14c05690f536ee8fff2f9",
+    "f12000/EvaluationGrids/Nodes.txt": "b16bca864014d5e68a79aeb306603f7bd4e97d9bddb9f03e50ae0a7af7ac08ed",
+    "f04000/ObjectMeshes/Elements.txt": "c242c224867fcadd134d3658323ea000dd06e5a444a33cf4a4cb35d7a3c35c57",
+    "f04000/ObjectMeshes/Nodes.txt": "41adc90bfaf007a8cf2afb94008498fb67e9191326987c996eb3ce78dc8330e2",
+    "f04000/EvaluationGrids/Elements.txt": "f68f5afb7be284beac0108dd062058a7261ab9841fe14c05690f536ee8fff2f9",
+    "f04000/EvaluationGrids/Nodes.txt": "b16bca864014d5e68a79aeb306603f7bd4e97d9bddb9f03e50ae0a7af7ac08ed",
+    "f01000/ObjectMeshes/Elements.txt": "c242c224867fcadd134d3658323ea000dd06e5a444a33cf4a4cb35d7a3c35c57",
+    "f01000/ObjectMeshes/Nodes.txt": "41adc90bfaf007a8cf2afb94008498fb67e9191326987c996eb3ce78dc8330e2",
+    "f01000/EvaluationGrids/Elements.txt": "f68f5afb7be284beac0108dd062058a7261ab9841fe14c05690f536ee8fff2f9",
+    "f01000/EvaluationGrids/Nodes.txt": "b16bca864014d5e68a79aeb306603f7bd4e97d9bddb9f03e50ae0a7af7ac08ed"
+  },
+  "passed": true,
+  "field_bytes_passed": true,
+  "iterations_passed": true,
+  "residual_reports_passed": true,
+  "input_hashes_identical": true,
+  "maximum_fmm_levels": 2,
+  "near_and_far_pairs_observed": true,
+  "comparisons": [
+    {
+      "frequency_hz": 1000,
+      "configuration": "candidate_1",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+        "iterations": 18,
+        "residual": 1.32021e-10,
+        "residual_text": "1.32021e-10",
+        "fields_sha256": {
+          "pEvalGrid": "c3a14f7bd398d8db57632ca0eb9f54c4e0f3e1e47a2c66a075e2cb9e09767f38",
+          "pBoundary": "96b38e12c23a4a99b222d3f69619fce0f33b95bbad10d1f857abfc8f9b131bc9",
+          "vBoundary": "7ee069501a08cc10f3bc2393636b37d63c6526a782975075e270dd34f69fdb5e"
+        },
+        "fmm_levels": 1,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+        "iterations": 18,
+        "residual": 1.32021e-10,
+        "residual_text": "1.32021e-10",
+        "fields_sha256": {
+          "pEvalGrid": "c3a14f7bd398d8db57632ca0eb9f54c4e0f3e1e47a2c66a075e2cb9e09767f38",
+          "pBoundary": "96b38e12c23a4a99b222d3f69619fce0f33b95bbad10d1f857abfc8f9b131bc9",
+          "vBoundary": "7ee069501a08cc10f3bc2393636b37d63c6526a782975075e270dd34f69fdb5e"
+        },
+        "fmm_levels": 1,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 1
+      }
+    },
+    {
+      "frequency_hz": 1000,
+      "configuration": "candidate_8",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+        "iterations": 18,
+        "residual": 1.32021e-10,
+        "residual_text": "1.32021e-10",
+        "fields_sha256": {
+          "pEvalGrid": "c3a14f7bd398d8db57632ca0eb9f54c4e0f3e1e47a2c66a075e2cb9e09767f38",
+          "pBoundary": "96b38e12c23a4a99b222d3f69619fce0f33b95bbad10d1f857abfc8f9b131bc9",
+          "vBoundary": "7ee069501a08cc10f3bc2393636b37d63c6526a782975075e270dd34f69fdb5e"
+        },
+        "fmm_levels": 1,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+        "iterations": 18,
+        "residual": 1.32021e-10,
+        "residual_text": "1.32021e-10",
+        "fields_sha256": {
+          "pEvalGrid": "c3a14f7bd398d8db57632ca0eb9f54c4e0f3e1e47a2c66a075e2cb9e09767f38",
+          "pBoundary": "96b38e12c23a4a99b222d3f69619fce0f33b95bbad10d1f857abfc8f9b131bc9",
+          "vBoundary": "7ee069501a08cc10f3bc2393636b37d63c6526a782975075e270dd34f69fdb5e"
+        },
+        "fmm_levels": 1,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 8
+      }
+    },
+    {
+      "frequency_hz": 1000,
+      "configuration": "candidate_8_repeat",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+        "iterations": 18,
+        "residual": 1.32021e-10,
+        "residual_text": "1.32021e-10",
+        "fields_sha256": {
+          "pEvalGrid": "c3a14f7bd398d8db57632ca0eb9f54c4e0f3e1e47a2c66a075e2cb9e09767f38",
+          "pBoundary": "96b38e12c23a4a99b222d3f69619fce0f33b95bbad10d1f857abfc8f9b131bc9",
+          "vBoundary": "7ee069501a08cc10f3bc2393636b37d63c6526a782975075e270dd34f69fdb5e"
+        },
+        "fmm_levels": 1,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "02f6676a9be931432ea3e09f47d9e17e8f3d8f8a8df3b5f688d897ca2760834c",
+        "iterations": 18,
+        "residual": 1.32021e-10,
+        "residual_text": "1.32021e-10",
+        "fields_sha256": {
+          "pEvalGrid": "c3a14f7bd398d8db57632ca0eb9f54c4e0f3e1e47a2c66a075e2cb9e09767f38",
+          "pBoundary": "96b38e12c23a4a99b222d3f69619fce0f33b95bbad10d1f857abfc8f9b131bc9",
+          "vBoundary": "7ee069501a08cc10f3bc2393636b37d63c6526a782975075e270dd34f69fdb5e"
+        },
+        "fmm_levels": 1,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 8
+      }
+    },
+    {
+      "frequency_hz": 4000,
+      "configuration": "candidate_1",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+        "iterations": 11,
+        "residual": 5.8253e-10,
+        "residual_text": "5.8253e-10",
+        "fields_sha256": {
+          "pEvalGrid": "4f118a392416e820ac8044b540ffaffbf6114a5902442d8ea3f091c55f28bb4a",
+          "pBoundary": "988ab7a4bffdecb0236937d355be1926f38898ae090e5859059c08b5c0e7e37b",
+          "vBoundary": "d19ba94ccb9a386b6b69ffbf9477db353e77f009035d1cc91732af86fece5532"
+        },
+        "fmm_levels": 2,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+        "iterations": 11,
+        "residual": 5.8253e-10,
+        "residual_text": "5.8253e-10",
+        "fields_sha256": {
+          "pEvalGrid": "4f118a392416e820ac8044b540ffaffbf6114a5902442d8ea3f091c55f28bb4a",
+          "pBoundary": "988ab7a4bffdecb0236937d355be1926f38898ae090e5859059c08b5c0e7e37b",
+          "vBoundary": "d19ba94ccb9a386b6b69ffbf9477db353e77f009035d1cc91732af86fece5532"
+        },
+        "fmm_levels": 2,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 1
+      }
+    },
+    {
+      "frequency_hz": 4000,
+      "configuration": "candidate_8",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+        "iterations": 11,
+        "residual": 5.8253e-10,
+        "residual_text": "5.8253e-10",
+        "fields_sha256": {
+          "pEvalGrid": "4f118a392416e820ac8044b540ffaffbf6114a5902442d8ea3f091c55f28bb4a",
+          "pBoundary": "988ab7a4bffdecb0236937d355be1926f38898ae090e5859059c08b5c0e7e37b",
+          "vBoundary": "d19ba94ccb9a386b6b69ffbf9477db353e77f009035d1cc91732af86fece5532"
+        },
+        "fmm_levels": 2,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+        "iterations": 11,
+        "residual": 5.8253e-10,
+        "residual_text": "5.8253e-10",
+        "fields_sha256": {
+          "pEvalGrid": "4f118a392416e820ac8044b540ffaffbf6114a5902442d8ea3f091c55f28bb4a",
+          "pBoundary": "988ab7a4bffdecb0236937d355be1926f38898ae090e5859059c08b5c0e7e37b",
+          "vBoundary": "d19ba94ccb9a386b6b69ffbf9477db353e77f009035d1cc91732af86fece5532"
+        },
+        "fmm_levels": 2,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 8
+      }
+    },
+    {
+      "frequency_hz": 4000,
+      "configuration": "candidate_8_repeat",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+        "iterations": 11,
+        "residual": 5.8253e-10,
+        "residual_text": "5.8253e-10",
+        "fields_sha256": {
+          "pEvalGrid": "4f118a392416e820ac8044b540ffaffbf6114a5902442d8ea3f091c55f28bb4a",
+          "pBoundary": "988ab7a4bffdecb0236937d355be1926f38898ae090e5859059c08b5c0e7e37b",
+          "vBoundary": "d19ba94ccb9a386b6b69ffbf9477db353e77f009035d1cc91732af86fece5532"
+        },
+        "fmm_levels": 2,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "6027ec8e2946f1e61d990faa5b1266821f53ea2eef5706ce0b627272754d9d71",
+        "iterations": 11,
+        "residual": 5.8253e-10,
+        "residual_text": "5.8253e-10",
+        "fields_sha256": {
+          "pEvalGrid": "4f118a392416e820ac8044b540ffaffbf6114a5902442d8ea3f091c55f28bb4a",
+          "pBoundary": "988ab7a4bffdecb0236937d355be1926f38898ae090e5859059c08b5c0e7e37b",
+          "vBoundary": "d19ba94ccb9a386b6b69ffbf9477db353e77f009035d1cc91732af86fece5532"
+        },
+        "fmm_levels": 2,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 8
+      }
+    },
+    {
+      "frequency_hz": 12000,
+      "configuration": "candidate_1",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+        "iterations": 10,
+        "residual": 1.17985e-10,
+        "residual_text": "1.17985e-10",
+        "fields_sha256": {
+          "pEvalGrid": "850f4c55403ff6178efe6fe4fec1b8897e3b5d3b18893f060d401194e1587faf",
+          "pBoundary": "e453a5d89c820a47093bbe467b00de7c0420931a122f4bb76d2a4dd6dd610cf7",
+          "vBoundary": "2d10bea0e1aed7b70131f5d2e54373ae0a771de3234ca33b768f36c701acdca3"
+        },
+        "fmm_levels": 2,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+        "iterations": 10,
+        "residual": 1.17985e-10,
+        "residual_text": "1.17985e-10",
+        "fields_sha256": {
+          "pEvalGrid": "850f4c55403ff6178efe6fe4fec1b8897e3b5d3b18893f060d401194e1587faf",
+          "pBoundary": "e453a5d89c820a47093bbe467b00de7c0420931a122f4bb76d2a4dd6dd610cf7",
+          "vBoundary": "2d10bea0e1aed7b70131f5d2e54373ae0a771de3234ca33b768f36c701acdca3"
+        },
+        "fmm_levels": 2,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 1
+      }
+    },
+    {
+      "frequency_hz": 12000,
+      "configuration": "candidate_8",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+        "iterations": 10,
+        "residual": 1.17985e-10,
+        "residual_text": "1.17985e-10",
+        "fields_sha256": {
+          "pEvalGrid": "850f4c55403ff6178efe6fe4fec1b8897e3b5d3b18893f060d401194e1587faf",
+          "pBoundary": "e453a5d89c820a47093bbe467b00de7c0420931a122f4bb76d2a4dd6dd610cf7",
+          "vBoundary": "2d10bea0e1aed7b70131f5d2e54373ae0a771de3234ca33b768f36c701acdca3"
+        },
+        "fmm_levels": 2,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+        "iterations": 10,
+        "residual": 1.17985e-10,
+        "residual_text": "1.17985e-10",
+        "fields_sha256": {
+          "pEvalGrid": "850f4c55403ff6178efe6fe4fec1b8897e3b5d3b18893f060d401194e1587faf",
+          "pBoundary": "e453a5d89c820a47093bbe467b00de7c0420931a122f4bb76d2a4dd6dd610cf7",
+          "vBoundary": "2d10bea0e1aed7b70131f5d2e54373ae0a771de3234ca33b768f36c701acdca3"
+        },
+        "fmm_levels": 2,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 8
+      }
+    },
+    {
+      "frequency_hz": 12000,
+      "configuration": "candidate_8_repeat",
+      "fields": {
+        "pEvalGrid": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "pBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        },
+        "vBoundary": {
+          "byte_identical": true,
+          "relative_complex_l2": 0.0,
+          "max_absolute_difference": 0.0
+        }
+      },
+      "iterations_identical": true,
+      "residual_text_identical": true,
+      "residual_absolute_difference": 0.0,
+      "upstream": {
+        "input_sha256": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+        "iterations": 10,
+        "residual": 1.17985e-10,
+        "residual_text": "1.17985e-10",
+        "fields_sha256": {
+          "pEvalGrid": "850f4c55403ff6178efe6fe4fec1b8897e3b5d3b18893f060d401194e1587faf",
+          "pBoundary": "e453a5d89c820a47093bbe467b00de7c0420931a122f4bb76d2a4dd6dd610cf7",
+          "vBoundary": "2d10bea0e1aed7b70131f5d2e54373ae0a771de3234ca33b768f36c701acdca3"
+        },
+        "fmm_levels": 2,
+        "near_pairs": null,
+        "far_pairs": null,
+        "threads": 1
+      },
+      "candidate": {
+        "input_sha256": "3042c4785e78e331030d988a9cfb9dbaef945cb3c6544aaa229df6acf9b2a236",
+        "iterations": 10,
+        "residual": 1.17985e-10,
+        "residual_text": "1.17985e-10",
+        "fields_sha256": {
+          "pEvalGrid": "850f4c55403ff6178efe6fe4fec1b8897e3b5d3b18893f060d401194e1587faf",
+          "pBoundary": "e453a5d89c820a47093bbe467b00de7c0420931a122f4bb76d2a4dd6dd610cf7",
+          "vBoundary": "2d10bea0e1aed7b70131f5d2e54373ae0a771de3234ca33b768f36c701acdca3"
+        },
+        "fmm_levels": 2,
+        "near_pairs": 57,
+        "far_pairs": 27839,
+        "threads": 8
+      }
+    }
+  ],
+  "test_execution_seconds": 33.94627366960049,
+  "timing_scope": "Duration of the small regression run; not a matched performance benchmark or whole-band timing claim.",
+  "source_report_sha256": "9bb9108347e9f78daef5793cb8c0970128c409676555545bdb0b1b1b61426112",
+  "macos_observation": {
+    "architecture": "arm64",
+    "compiler": "Homebrew GCC 15.2.0_1",
+    "frequency_hz": 1000,
+    "threads": 1,
+    "ilu_48_cases_passed": true,
+    "field_bytes_identical": {
+      "pEvalGrid": true,
+      "pBoundary": true,
+      "vBoundary": true
+    },
+    "upstream_iterations": 18,
+    "candidate_iterations": 18,
+    "upstream_reported_residual": 1.32022e-10,
+    "candidate_reported_residual": 1.3202e-10,
+    "residual_absolute_difference_approx": 2e-15,
+    "strict_residual_equality_passed": false,
+    "remaining_frequency_and_thread_cases_executed": false,
+    "scope": "Field files matched. The strict residual check failed, so this is not reported as a complete macOS pass. No claim of bit identity across platforms."
+  },
+  "limitations": [
+    "Targeted synthetic inputs only; not a proof for all meshes, materials, frequencies, compilers, or CPUs.",
+    "Default pressure-only candidate output; vEvalGrid is not part of this comparison.",
+    "No physical-accuracy, mesh-convergence, or complete full-band upstream comparison claim."
+  ]
+}
